@@ -176,7 +176,6 @@ Para cada item, inclua:
 
 ---
 
-*Review gerado por Claude Code via `glab` em <data>*
 ```
 
 ## Observações importantes
