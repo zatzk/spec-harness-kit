@@ -78,6 +78,13 @@ done
 
 # Native Antigravity CLI Plugin Installation (for tools/skills/templates)
 echo "--- Setting up Antigravity CLI (Native Plugin) ---"
+
+# ALWAYS ensure the manual configuration symlink is created/updated,
+# as global agent prompts load detailed instructions from this path.
+mkdir -p "$HOME/.gemini/config/plugins"
+ln -sfn "$REPO_ROOT" "$HOME/.gemini/config/plugins/spec-harness-kit"
+echo "  Staged/updated manual symlink at ~/.gemini/config/plugins/spec-harness-kit"
+
 if command -v agy >/dev/null 2>&1; then
     echo "Found Antigravity CLI ('agy'). Installing plugin locally..."
     agy plugin install "$REPO_ROOT"
@@ -87,9 +94,7 @@ if command -v agy >/dev/null 2>&1; then
 else
     echo "Antigravity CLI ('agy') command not found."
     echo "If you have installed 'agy', please make sure it is in your PATH."
-    echo "Staging symlink manually at ~/.gemini/config/plugins/spec-harness-kit for future use..."
-    mkdir -p "$HOME/.gemini/config/plugins"
-    ln -sfn "$REPO_ROOT" "$HOME/.gemini/config/plugins/spec-harness-kit"
+    echo "Using staging symlink for future use."
 fi
 
 echo ""
