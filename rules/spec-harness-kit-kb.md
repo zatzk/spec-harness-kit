@@ -1,8 +1,8 @@
-# AIOX Knowledge Base
+# SPEC-HARNESS-KIT Knowledge Base
 
 ## Overview
 
-AIOX-Method is a framework that combines AI agents with Agile development methodologies. The v4 system introduces a modular architecture with improved dependency management, bundle optimization, and support for both web and IDE environments.
+SPEC-HARNESS-KIT-Method is a framework that combines AI agents with Agile development methodologies. The v4 system introduces a modular architecture with improved dependency management, bundle optimization, and support for both web and IDE environments.
 
 ### Key Features
 
@@ -12,7 +12,7 @@ AIOX-Method is a framework that combines AI agents with Agile development method
 - **Reusable Resources**: Portable templates, tasks, and checklists
 - **Slash Command Integration**: Quick agent switching and control
 
-### When to Use AIOX
+### When to Use SPEC-HARNESS-KIT
 
 - **New Projects (Greenfield)**: Complete end-to-end development
 - **Existing Projects (Brownfield)**: Feature additions and enhancements
@@ -20,11 +20,11 @@ AIOX-Method is a framework that combines AI agents with Agile development method
 - **Quality Assurance**: Structured testing and validation
 - **Documentation**: Professional PRDs, architecture docs, user stories
 
-## How AIOX Works
+## How SPEC-HARNESS-KIT Works
 
 ### The Core Method
 
-AIOX transforms you into a "Vibe CEO" - directing a team of specialized AI agents through structured workflows. Here's how:
+SPEC-HARNESS-KIT transforms you into a "Vibe CEO" - directing a team of specialized AI agents through structured workflows. Here's how:
 
 1. **You Direct, AI Executes**: You provide vision and decisions; agents handle implementation details
 2. **Specialized Agents**: Each agent masters one role (PM, Developer, Architect, etc.)
@@ -86,7 +86,7 @@ AIOX transforms you into a "Vibe CEO" - directing a team of specialized AI agent
 
 ```bash
 # Interactive installation (recommended)
-npx aiox-core install
+npx spec-harness-kit-core install
 ```
 
 **Installation Steps**:
@@ -97,15 +97,15 @@ npx aiox-core install
   - **Claude Code**: Anthropic's official IDE
   - **GitHub Copilot**: VS Code extension with AI peer programming assistant
 
-**Note for VS Code Users**: AIOX-Method assumes when you mention "VS Code" that you're using it with an AI-powered extension like GitHub Copilot. Standard VS Code without AI capabilities cannot run AIOX agents.
+**Note for VS Code Users**: SPEC-HARNESS-KIT-Method assumes when you mention "VS Code" that you're using it with an AI-powered extension like GitHub Copilot. Standard VS Code without AI capabilities cannot run SPEC-HARNESS-KIT agents.
 
 **Verify Installation**:
 
-- `.aiox-core/` folder created with all agents
+- `.spec-harness-kit-core/` folder created with all agents
 - IDE-specific integration files created
 - All agent commands/rules/modes available
 
-**Remember**: At its core, AIOX-Method is about mastering and harnessing prompt engineering. Any IDE with AI agent support can use AIOX - the framework provides the structured prompts and workflows that make AI development effective
+**Remember**: At its core, SPEC-HARNESS-KIT-Method is about mastering and harnessing prompt engineering. Any IDE with AI agent support can use SPEC-HARNESS-KIT - the framework provides the structured prompts and workflows that make AI development effective
 
 ### Environment Selection Guide
 
@@ -149,23 +149,23 @@ npx aiox-core install
 - **Why it matters**: Dev agents are kept lean to maximize coding context
 - **The principle**: "Dev agents code, planning agents plan" - mixing breaks this optimization
 
-**About aiox-master and aiox-orchestrator**:
+**About spec-harness-kit-master and spec-harness-kit-orchestrator**:
 
-- **aiox-master**: CAN do any task without switching agents, BUT...
+- **spec-harness-kit-master**: CAN do any task without switching agents, BUT...
 - **Still use specialized agents for planning**: PM, Architect, and UX Expert have tuned personas that produce better results
 - **Why specialization matters**: Each agent's personality and focus creates higher quality outputs
-- **If using aiox-master/orchestrator**: Fine for planning phases, but...
+- **If using spec-harness-kit-master/orchestrator**: Fine for planning phases, but...
 
 **CRITICAL RULE for Development**:
 
-- **ALWAYS use SM agent for story creation** - Never use aiox-master or aiox-orchestrator
-- **ALWAYS use Dev agent for implementation** - Never use aiox-master or aiox-orchestrator
+- **ALWAYS use SM agent for story creation** - Never use spec-harness-kit-master or spec-harness-kit-orchestrator
+- **ALWAYS use Dev agent for implementation** - Never use spec-harness-kit-master or spec-harness-kit-orchestrator
 - **Why this matters**: SM and Dev agents are specifically optimized for the development workflow
-- **No exceptions**: Even if using aiox-master for everything else, switch to SM → Dev for implementation
+- **No exceptions**: Even if using spec-harness-kit-master for everything else, switch to SM → Dev for implementation
 
 **Best Practice for IDE-Only**:
 
-1. Use PM/Architect/UX agents for planning (better than aiox-master)
+1. Use PM/Architect/UX agents for planning (better than spec-harness-kit-master)
 2. Create documents directly in project
 3. Shard immediately after creation
 4. **MUST switch to SM agent** for story creation
@@ -174,11 +174,11 @@ npx aiox-core install
 
 ## Core Configuration (core-config.yaml)
 
-**New in V4**: The `aiox-core/core-config.yaml` file is a critical innovation that enables AIOX to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
+**New in V4**: The `spec-harness-kit-core/core-config.yaml` file is a critical innovation that enables SPEC-HARNESS-KIT to work seamlessly with any project structure, providing maximum flexibility and backwards compatibility.
 
 ### What is core-config.yaml?
 
-This configuration file acts as a map for AIOX agents, telling them exactly where to find your project documents and how they're structured. It enables:
+This configuration file acts as a map for SPEC-HARNESS-KIT agents, telling them exactly where to find your project documents and how they're structured. It enables:
 
 - **Version Flexibility**: Work with V3, V4, or custom document structures
 - **Custom Locations**: Define where your documents and shards live
@@ -210,7 +210,7 @@ This configuration file acts as a map for AIOX agents, telling them exactly wher
 
 1. **No Forced Migrations**: Keep your existing document structure
 2. **Gradual Adoption**: Start with V3 and migrate to V4 at your pace
-3. **Custom Workflows**: Configure AIOX to match your team's process
+3. **Custom Workflows**: Configure SPEC-HARNESS-KIT to match your team's process
 4. **Intelligent Agents**: Agents automatically adapt to your configuration
 
 ### Common Configurations
@@ -283,8 +283,8 @@ You are the "Vibe CEO" - thinking like a CEO with unlimited resources and a sing
 
 | Agent               | Role             | Primary Functions                     | When to Use                       |
 | ------------------- | ---------------- | ------------------------------------- | --------------------------------- |
-| `aiox-orchestrator` | Team Coordinator | Multi-agent workflows, role switching | Complex multi-role tasks          |
-| `aiox-master`       | Universal Expert | All capabilities without switching    | Single-session comprehensive work |
+| `spec-harness-kit-orchestrator` | Team Coordinator | Multi-agent workflows, role switching | Complex multi-role tasks          |
+| `spec-harness-kit-master`       | Universal Expert | All capabilities without switching    | Single-session comprehensive work |
 
 ### Agent Interaction Commands
 
@@ -292,8 +292,8 @@ You are the "Vibe CEO" - thinking like a CEO with unlimited resources and a sing
 
 **Agent Loading by IDE**:
 
-- **Claude Code**: `/agent-name` (e.g., `/aiox-master`)
-- **Cursor**: `@agent-name` (e.g., `@aiox-master`)
+- **Claude Code**: `/agent-name` (e.g., `/spec-harness-kit-master`)
+- **Cursor**: `@agent-name` (e.g., `@spec-harness-kit-master`)
 - **GitHub Copilot**: Open the Chat view (`⌃⌘I` on Mac, `Ctrl+Alt+I` on Windows/Linux) and select **Agent** from the chat mode selector.
 
 **Chat Management Guidelines**:
@@ -345,24 +345,24 @@ You are the "Vibe CEO" - thinking like a CEO with unlimited resources and a sing
 
 ### System Overview
 
-The AIOX-Method is built around a modular architecture centered on the `aiox-core` directory, which serves as the brain of the entire system. This design enables the framework to operate effectively in both IDE environments (like Cursor, VS Code) and web-based AI interfaces (like ChatGPT, Gemini).
+The SPEC-HARNESS-KIT-Method is built around a modular architecture centered on the `spec-harness-kit-core` directory, which serves as the brain of the entire system. This design enables the framework to operate effectively in both IDE environments (like Cursor, VS Code) and web-based AI interfaces (like ChatGPT, Gemini).
 
 ### Key Architectural Components
 
-#### 1. Agents (`aiox-core/agents/`)
+#### 1. Agents (`spec-harness-kit-core/agents/`)
 
 - **Purpose**: Each markdown file defines a specialized AI agent for a specific Agile role (PM, Dev, Architect, etc.)
 - **Structure**: Contains YAML headers specifying the agent's persona, capabilities, and dependencies
 - **Dependencies**: Lists of tasks, templates, checklists, and data files the agent can use
 - **Startup Instructions**: Can load project-specific documentation for immediate context
 
-#### 2. Agent Teams (`aiox-core/agent-teams/`)
+#### 2. Agent Teams (`spec-harness-kit-core/agent-teams/`)
 
 - **Purpose**: Define collections of agents bundled together for specific purposes
 - **Examples**: `team-all.yaml` (comprehensive bundle), `team-fullstack.yaml` (full-stack development)
 - **Usage**: Creates pre-packaged contexts for web UI environments
 
-#### 3. Workflows (`aiox-core/workflows/`)
+#### 3. Workflows (`spec-harness-kit-core/workflows/`)
 
 - **Purpose**: YAML files defining prescribed sequences of steps for specific project types
 - **Types**: Greenfield (new projects) and Brownfield (existing projects) for UI, service, and fullstack development
@@ -370,10 +370,10 @@ The AIOX-Method is built around a modular architecture centered on the `aiox-cor
 
 #### 4. Reusable Resources
 
-- **Templates** (`aiox-core/templates/`): Markdown templates for PRDs, architecture specs, user stories
-- **Tasks** (`aiox-core/tasks/`): Instructions for specific repeatable actions like "shard-doc" or "create-next-story"
-- **Checklists** (`aiox-core/checklists/`): Quality assurance checklists for validation and review
-- **Data** (`aiox-core/data/`): Core knowledge base and technical preferences
+- **Templates** (`spec-harness-kit-core/templates/`): Markdown templates for PRDs, architecture specs, user stories
+- **Tasks** (`spec-harness-kit-core/tasks/`): Instructions for specific repeatable actions like "shard-doc" or "create-next-story"
+- **Checklists** (`spec-harness-kit-core/checklists/`): Quality assurance checklists for validation and review
+- **Data** (`spec-harness-kit-core/data/`): Core knowledge base and technical preferences
 
 ### Dual Environment Architecture
 
@@ -393,9 +393,9 @@ The AIOX-Method is built around a modular architecture centered on the `aiox-cor
 
 ### Template Processing System
 
-AIOX employs a sophisticated template system with three key components:
+SPEC-HARNESS-KIT employs a sophisticated template system with three key components:
 
-1. **Template Format** (`utils/aiox-doc-template.md`): Defines markup language for variable substitution and AI processing directives from yaml templates
+1. **Template Format** (`utils/spec-harness-kit-doc-template.md`): Defines markup language for variable substitution and AI processing directives from yaml templates
 2. **Document Creation** (`tasks/create-doc.md`): Orchestrates template selection and user interaction to transform yaml spec to final markdown output
 3. **Advanced Elicitation** (`tasks/advanced-elicitation.md`): Provides interactive refinement through structured brainstorming
 
@@ -417,7 +417,7 @@ The `web-builder.js` tool creates web-ready bundles by:
 3. Concatenating content into single text files with clear separators
 4. Outputting ready-to-upload bundles for web AI interfaces
 
-This architecture enables seamless operation across environments while maintaining the rich, interconnected agent ecosystem that makes AIOX powerful.
+This architecture enables seamless operation across environments while maintaining the rich, interconnected agent ecosystem that makes SPEC-HARNESS-KIT powerful.
 
 ## Complete Development Workflow
 
@@ -472,7 +472,7 @@ that can handle [specific requirements]."
    - Documents created by PM/Architect (in Web or IDE) MUST be sharded for development
    - Two methods to shard:
      a) **Manual**: Drag `shard-doc` task + document file into chat
-     b) **Agent**: Ask `@aiox-master` or `@po` to shard documents
+     b) **Agent**: Ask `@spec-harness-kit-master` or `@po` to shard documents
    - Shards `docs/prd.md` → `docs/prd/` folder
    - Shards `docs/architecture.md` → `docs/architecture/` folder
    - **WARNING**: Do NOT shard in Web UI - copying many small files is painful!
@@ -661,7 +661,7 @@ Use the `shard-doc` task or `@kayvan/markdown-tree-parser` tool for automatic sh
 
 ### Overview
 
-AIOX integrates with ClickUp for project management and story tracking. When creating stories using the `create-next-story` task, agents must follow a specific workflow to correctly interact with the ClickUp MCP server.
+SPEC-HARNESS-KIT integrates with ClickUp for project management and story tracking. When creating stories using the `create-next-story` task, agents must follow a specific workflow to correctly interact with the ClickUp MCP server.
 
 ### Critical Workflow Pattern
 
@@ -675,7 +675,7 @@ const hierarchy = await clickup.get_workspace_hierarchy();
 // Extract the numeric list_id from response:
 {
   "spaces": [{
-    "name": "AIOX Project",
+    "name": "SPEC-HARNESS-KIT Project",
     "lists": [{
       "name": "Backlog",
       "id": "901317181013"  // ← This is what you need
@@ -755,9 +755,9 @@ custom_fields:
 4. Store returned `task_id` in story frontmatter
 
 **Where to find examples:**
-- Complete workflow: `aiox-core/tools/mcp/clickup.yaml` (story_creation_workflow section)
-- Task instructions: `aiox-core/tasks/create-next-story.md` (sections 5.1 and 5.3)
-- Validators: `aiox-core/tools/mcp/clickup.yaml` (executable_knowledge section)
+- Complete workflow: `spec-harness-kit-core/tools/mcp/clickup.yaml` (story_creation_workflow section)
+- Task instructions: `spec-harness-kit-core/tasks/create-next-story.md` (sections 5.1 and 5.3)
+- Validators: `spec-harness-kit-core/tools/mcp/clickup.yaml` (executable_knowledge section)
 
 **Response Handling:**
 ```yaml
@@ -804,7 +804,7 @@ clickup:
 
 ### Performance Optimization
 
-- Use specific agents vs. `aiox-master` for focused tasks
+- Use specific agents vs. `spec-harness-kit-master` for focused tasks
 - Choose appropriate team size for project needs
 - Leverage technical preferences for consistency
 - Regular context management and cache clearing
@@ -812,12 +812,12 @@ clickup:
 ## Success Tips
 
 - **Use Gemini for big picture planning** - The team-fullstack bundle provides collaborative expertise
-- **Use aiox-master for document organization** - Sharding creates manageable chunks
+- **Use spec-harness-kit-master for document organization** - Sharding creates manageable chunks
 - **Follow the SM → Dev cycle religiously** - This ensures systematic progress
 - **Keep conversations focused** - One agent, one task per conversation
 - **Review everything** - Always review and approve before marking complete
 
-## Contributing to AIOX-Method
+## Contributing to SPEC-HARNESS-KIT-Method
 
 ### Quick Contribution Guidelines
 
@@ -849,7 +849,7 @@ For full details, see `CONTRIBUTING.md`. Key points:
 
 ### What Are Squads?
 
-Squads extend AIOX-Method beyond traditional software development into ANY domain. They provide specialized agent teams, templates, and workflows while keeping the core framework lean and focused on development.
+Squads extend SPEC-HARNESS-KIT-Method beyond traditional software development into ANY domain. They provide specialized agent teams, templates, and workflows while keeping the core framework lean and focused on development.
 
 ### Why Use Squads?
 
@@ -889,7 +889,7 @@ Squads extend AIOX-Method beyond traditional software development into ANY domai
 3. **Install via CLI**:
 
    ```bash
-   npx aiox-core install
+   npx spec-harness-kit-core install
    # Select "Install squad" option
    ```
 

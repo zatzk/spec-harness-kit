@@ -1,11 +1,11 @@
-# Synkra AIOX Development Rules for AntiGravity
+# SPEC-HARNESS-KIT Development Rules for AntiGravity
 
-You are working with Synkra AIOX, an AI-Orchestrated System for Full Stack Development.
+You are working with SPEC-HARNESS-KIT, an AI-Orchestrated System for Full Stack Development.
 
 ## Core Development Rules
 
 ### Agent Integration
-- Recognize AIOX agent activations: @dev, @qa, @architect, @pm, @po, @sm, @analyst
+- Recognize SPEC-HARNESS-KIT agent activations: @dev, @qa, @architect, @pm, @po, @sm, @analyst
 - Agent commands use * prefix: *help, *create-story, *task, *exit
 - Follow agent-specific workflows and patterns
 
@@ -27,10 +27,10 @@ You are working with Synkra AIOX, an AI-Orchestrated System for Full Stack Devel
 - Verify type checking: `npm run typecheck`
 - Add tests for new features
 
-## AIOX Framework Structure
+## SPEC-HARNESS-KIT Framework Structure
 
 ```
-aiox-core/
+spec-harness-kit-core/
 ├── agents/       # Agent persona definitions
 ├── tasks/        # Executable task workflows
 ├── workflows/    # Multi-step workflows
@@ -112,4 +112,4 @@ async function operation() {
 ```
 
 ---
-*Synkra AIOX AntiGravity Configuration v1.0*
+*SPEC-HARNESS-KIT AntiGravity Configuration v1.0*

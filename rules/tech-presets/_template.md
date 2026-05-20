@@ -229,9 +229,9 @@ describe('[Component/Service]', () => {
 
 ---
 
-## Integration with AIOX
+## Integration with SPEC-HARNESS-KIT
 
-> Como este preset se integra com o workflow AIOX.
+> Como este preset se integra com o workflow SPEC-HARNESS-KIT.
 
 ### Recommended Workflow
 
@@ -239,7 +239,7 @@ describe('[Component/Service]', () => {
 2. **Development Phase:** Use `@dev` following these patterns
 3. **QA Phase:** Use `@qa` with the testing strategy defined
 
-### Related AIOX Templates
+### Related SPEC-HARNESS-KIT Templates
 
 - `architecture-tmpl.yaml` - Use for architecture docs
 - `front-end-architecture-tmpl.yaml` - Use for frontend specifics
@@ -254,4 +254,4 @@ describe('[Component/Service]', () => {
 
 ---
 
-_AIOX Tech Preset - Created with Synkra AIOX Framework_
+_SPEC-HARNESS-KIT Tech Preset - Created with SPEC-HARNESS-KIT Framework_

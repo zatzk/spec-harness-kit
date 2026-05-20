@@ -474,7 +474,7 @@ func (h *Handler) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 
 ---
 
-## Integration with AIOX
+## Integration with SPEC-HARNESS-KIT
 
 ### Recommended Workflow
 
@@ -482,7 +482,7 @@ func (h *Handler) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 2. `@dev` implementa features por pacote (`domain/app/infra/http`)
 3. `@qa` valida regras de dominio e testes de integracao
 
-### AIOX Commands
+### SPEC-HARNESS-KIT Commands
 
 ```bash
 @dev "Follow the go preset patterns for this service"
@@ -512,4 +512,4 @@ func (h *Handler) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 
 ---
 
-_AIOX Tech Preset - Synkra AIOX Framework_
+_SPEC-HARNESS-KIT Tech Preset - SPEC-HARNESS-KIT Framework_

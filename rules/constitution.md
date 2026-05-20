@@ -1,8 +1,8 @@
-# Synkra AIOX Constitution
+# SPEC-HARNESS-KIT Constitution
 
 > **Version:** 1.0.0 | **Ratified:** 2025-01-30 | **Last Amended:** 2025-01-30
 
-Este documento define os princípios fundamentais e inegociáveis do Synkra AIOX. Todos os agentes, tasks, e workflows DEVEM respeitar estes princípios. Violações são bloqueadas automaticamente via gates.
+Este documento define os princípios fundamentais e inegociáveis do SPEC-HARNESS-KIT. Todos os agentes, tasks, e workflows DEVEM respeitar estes princípios. Violações são bloqueadas automaticamente via gates.
 
 ---
 
@@ -162,10 +162,10 @@ import { useStore } from '../../../stores/feature/store'
 
 - **Princípios derivados de:** `.claude/CLAUDE.md`
 - **Inspirado por:** GitHub Spec-Kit Constitution System
-- **Gates implementados em:** `.aiox-core/development/tasks/`
-- **Checklists relacionados:** `.aiox-core/product/checklists/`
+- **Gates implementados em:** `.spec-harness-kit-core/development/tasks/`
+- **Checklists relacionados:** `.spec-harness-kit-core/product/checklists/`
 
 ---
 
-*Synkra AIOX Constitution v1.0.0*
+*SPEC-HARNESS-KIT Constitution v1.0.0*
 *CLI First | Agent-Driven | Quality First*

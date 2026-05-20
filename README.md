@@ -1,17 +1,17 @@
-# AIOX Global Agents 🤖🚀
+# SPEC-HARNESS-KIT Global Agents 🤖🚀
 
 A unified, centralized harness for specialized AI agents. This repository allows you to maintain a single "source of truth" for your AI engineering workforce and use them globally across multiple AI CLIs without polluting your individual project codebases.
 
-## 🌟 Why AIOX Global?
+## 🌟 Why SPEC-HARNESS-KIT Global?
 
-- **Zero Pollution:** Your projects stay clean. No more \`.agent/\` or \`.aiox-core/\` folders in every repo.
+- **Zero Pollution:** Your projects stay clean. No more \`.agent/\` or \`.spec-harness-kit-core/\` folders in every repo.
 - **Multi-CLI Support:** Write an agent once and use it in Gemini CLI, Claude, Antigravity, Codex, or OpenCode.
 - **Portability:** Clone this repo on any machine, run the setup, and your entire workforce is ready to go.
 - **Collaborative Brain:** Centralized rules and skills ensure consistency across all your projects.
 
 ## 🛠 Supported CLIs
 
-AIOX Global is designed to work seamlessly with:
+SPEC-HARNESS-KIT Global is designed to work seamlessly with:
 - **Gemini CLI** (\`~/.gemini/\`)
 - **Claude CLI** (\`~/.claude/\`)
 - **Antigravity CLI** (\`~/.antigravity/\`)
@@ -24,12 +24,12 @@ AIOX Global is designed to work seamlessly with:
 
 1. **Clone the repository:**
    \`\`\`bash
-   git clone https://github.com/YOUR_USERNAME/aiox-global-agents.git ~/Projects/aiox-global-agents
+   git clone https://github.com/YOUR_USERNAME/spec-harness-kit.git ~/Projects/spec-harness-kit
    \`\`\`
 
 2. **Run the installation script:**
    \`\`\`bash
-   ~/Projects/aiox-global-agents/scripts/install.sh
+   ~/Projects/spec-harness-kit/scripts/install.sh
    \`\`\`
 
 3. **Reload your CLI:**
@@ -43,7 +43,7 @@ Call these agents using the \`@\` prefix in your favorite CLI.
 
 | Agent | Description |
 | :--- | :--- |
-| **@aiox-master** | **Master Orchestrator:** Specialized in high-level system orchestration and multi-agent coordination. |
+| **@spec-harness-kit-master** | **Master Orchestrator:** Specialized in high-level system orchestration and multi-agent coordination. |
 | **@squad-creator** | **Squad Architect:** Analyzes complex tasks to assemble the perfect team of specialized agents. |
 | **@architect** | **System Architect:** Expert in software architecture, design patterns, and tech stack selection. |
 | **@dev** | **Senior Developer:** Core implementation specialist focused on clean code and logic. |
@@ -62,7 +62,7 @@ Call these agents using the \`@\` prefix in your favorite CLI.
 
 - \`agents/\`: Agnostic Markdown files with standard YAML frontmatter for all agents.
 - \`rules/\`: Global rules, constitution, and technical presets (Next.js, React, Rust, Go, etc.).
-- \`skills/\`: Specialized AIOX capabilities (React components, Shadcn UI, Remotion, etc.).
+- \`skills/\`: Specialized SPEC-HARNESS-KIT capabilities (React components, Shadcn UI, Remotion, etc.).
 - \`scripts/\`: Automation for wiring the repo to your local system.
 
 ## 🧠 Architecture Note
@@ -73,4 +73,4 @@ To ensure maximum compatibility across different CLI discovery mechanisms:
 
 ---
 
-*Built with ❤️ by AIOX Master Orchestrator.*
+*Built with ❤️ by SPEC-HARNESS-KIT Master Orchestrator.*

@@ -1,0 +1,6 @@
+{
+  "name": "spec-harness-kit",
+  "version": "1.0.0",
+  "description": "Unified, centralized harness for specialized Spec-Harness-Kit agents, rules, and skills",
+  "author": "SPEC-HARNESS-KIT"
+}

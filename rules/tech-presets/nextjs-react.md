@@ -861,7 +861,7 @@ export { [feature]Service } from './services/[feature].service'
 
 ---
 
-## Integration with AIOX
+## Integration with SPEC-HARNESS-KIT
 
 ### Recommended Workflow
 
@@ -877,13 +877,13 @@ export { [feature]Service } from './services/[feature].service'
    - Use `@qa` with the testing strategy defined
    - Ensure coverage goals are met
 
-### Related AIOX Templates
+### Related SPEC-HARNESS-KIT Templates
 
 - `fullstack-architecture-tmpl.yaml` - Main architecture document
 - `front-end-architecture-tmpl.yaml` - Frontend specifics
 - `story-tmpl.yaml` - User story format
 
-### AIOX Commands
+### SPEC-HARNESS-KIT Commands
 
 ```bash
 # Create architecture doc using this preset
@@ -928,4 +928,4 @@ When integrating with existing feature:
 
 ---
 
-_AIOX Tech Preset - Synkra AIOX Framework_
+_SPEC-HARNESS-KIT Tech Preset - SPEC-HARNESS-KIT Framework_

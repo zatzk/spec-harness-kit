@@ -458,7 +458,7 @@ public class OrdersController {
 
 ---
 
-## Integration with AIOX
+## Integration with SPEC-HARNESS-KIT
 
 ### Recommended Workflow
 
@@ -466,7 +466,7 @@ public class OrdersController {
 2. `@dev` implementa por camadas (`domain`, `application`, `infrastructure`)
 3. `@qa` valida transacoes, contratos e regressao
 
-### AIOX Commands
+### SPEC-HARNESS-KIT Commands
 
 ```bash
 @dev "Follow the java preset patterns for this service"
@@ -496,4 +496,4 @@ public class OrdersController {
 
 ---
 
-_AIOX Tech Preset - Synkra AIOX Framework_
+_SPEC-HARNESS-KIT Tech Preset - SPEC-HARNESS-KIT Framework_

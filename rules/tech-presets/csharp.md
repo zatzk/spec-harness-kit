@@ -427,7 +427,7 @@ app.MapPost("/orders", async (PlaceOrderRequest request, PlaceOrderHandler handl
 
 ---
 
-## Integration with AIOX
+## Integration with SPEC-HARNESS-KIT
 
 ### Recommended Workflow
 
@@ -435,7 +435,7 @@ app.MapPost("/orders", async (PlaceOrderRequest request, PlaceOrderHandler handl
 2. `@dev` implementa handlers e adapters por feature
 3. `@qa` valida integridade async e cobertura de regras de negocio
 
-### AIOX Commands
+### SPEC-HARNESS-KIT Commands
 
 ```bash
 @dev "Follow the csharp preset patterns for this service"
@@ -465,4 +465,4 @@ app.MapPost("/orders", async (PlaceOrderRequest request, PlaceOrderHandler handl
 
 ---
 
-_AIOX Tech Preset - Synkra AIOX Framework_
+_SPEC-HARNESS-KIT Tech Preset - SPEC-HARNESS-KIT Framework_
