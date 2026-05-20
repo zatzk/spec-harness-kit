@@ -43,7 +43,7 @@ Call these agents using the \`@\` prefix in your favorite CLI.
 
 | Agent | Description |
 | :--- | :--- |
-| **@spec-harness-kit-master** | **Master Orchestrator:** Specialized in high-level system orchestration and multi-agent coordination. |
+| **@spec-master** | **Master Orchestrator:** Specialized in high-level system orchestration and multi-agent coordination. |
 | **@squad-creator** | **Squad Architect:** Analyzes complex tasks to assemble the perfect team of specialized agents. |
 | **@architect** | **System Architect:** Expert in software architecture, design patterns, and tech stack selection. |
 | **@dev** | **Senior Developer:** Core implementation specialist focused on clean code and logic. |

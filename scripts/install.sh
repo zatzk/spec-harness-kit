@@ -30,6 +30,7 @@ copy_agents() {
     # Clean up any obsolete aiox/synkra files in the target directory
     rm -f "$target_dir"/aiox-*
     rm -f "$target_dir"/synkra-*
+    rm -f "$target_dir"/spec-harness-kit-master*
 
     # Copy Agents
     for agent_file in "$REPO_ROOT/agents"/*.md; do

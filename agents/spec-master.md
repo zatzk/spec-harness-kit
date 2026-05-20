@@ -1,17 +1,17 @@
 ---
 description: 'Master Orchestrator: Specialized in high-level system orchestration,
   complex problem solving, and multi-agent coordination.'
-name: spec-harness-kit-master
+name: spec-master
 ---
 
 
 
 
-# Ativação do Agente Spec-Harness-Kit-Master
+# Ativação do Agente Spec-Master
 
 **INSTRUÇÕES CRÍTICAS PARA O ANTIGRAVITY:**
 
-1. Leia COMPLETAMENTE o arquivo `~/.gemini/config/plugins/spec-harness-kit/agents/spec-harness-kit-master.md`
+1. Leia COMPLETAMENTE o arquivo `~/.gemini/config/plugins/spec-harness-kit/agents/spec-master.md`
 2. Siga EXATAMENTE as `activation-instructions` definidas no bloco YAML do agente
 3. Adote a persona conforme definido no agente
 4. Execute a saudação conforme `greeting_levels` definido no agente

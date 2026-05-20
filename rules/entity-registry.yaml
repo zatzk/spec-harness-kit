@@ -39,7 +39,7 @@ entities:
         - elicitation
         - advanced-elicitation
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - analyst
       dependencies: []
       externalDeps: []
@@ -145,7 +145,7 @@ entities:
         - framework
         - 'task:'
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - framework-analyzer
         - usage-analytics
@@ -783,7 +783,7 @@ entities:
         - course
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - pm
         - po
         - sm
@@ -814,7 +814,7 @@ entities:
         - 'task:'
         - squad
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps: []
@@ -870,7 +870,7 @@ entities:
         - task
         - creates
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - analyst
         - architect
         - data-engineer
@@ -904,7 +904,7 @@ entities:
         - dynamically
         - during
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - analyst
         - architect
         - data-engineer
@@ -938,7 +938,7 @@ entities:
         - story
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - sm
       dependencies:
         - po-master-checklist
@@ -1038,7 +1038,7 @@ entities:
         - validation
         - (follow-up
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - component-generator.js
       externalDeps: []
@@ -1067,7 +1067,7 @@ entities:
         - validation
         - (follow-up
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - component-generator.js
       externalDeps: []
@@ -1622,7 +1622,7 @@ entities:
         - validation
         - (follow-up
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - usage-tracker
         - component-search
@@ -1888,7 +1888,7 @@ entities:
         - validation
         - (follow-up
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - analyst
         - architect
       dependencies: []
@@ -1928,7 +1928,7 @@ entities:
         - devops
         - analyst
         - pm
-        - spec-harness-kit-master
+        - spec-master
       externalDeps:
         - coderabbit
       plannedDeps:
@@ -1956,7 +1956,7 @@ entities:
         - executes
         - existing
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - architect
         - data-engineer
         - dev
@@ -2125,7 +2125,7 @@ entities:
       dependencies: []
       externalDeps: []
       plannedDeps:
-        - spec-harness-kit-master-checklist
+        - spec-master-checklist
         - execute-task.js
       lifecycle: production
       adaptability:
@@ -2443,9 +2443,9 @@ entities:
         - 'task:'
         - commands
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
-        - spec-harness-kit-master
+        - spec-master
         - dev
       externalDeps: []
       plannedDeps: []
@@ -2515,7 +2515,7 @@ entities:
         - self
         - improve-self
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - capability-analyzer
         - improvement-validator
@@ -2553,7 +2553,7 @@ entities:
         - maintains
         - documentation
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps:
@@ -2634,7 +2634,7 @@ entities:
         - interactive
         - facilitation
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps:
@@ -2780,7 +2780,7 @@ entities:
         - agent
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - change-checklist
       externalDeps: []
@@ -2807,7 +2807,7 @@ entities:
         - modify
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - change-checklist
       externalDeps: []
@@ -2834,7 +2834,7 @@ entities:
         - workflow
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - change-checklist
       externalDeps: []
@@ -3345,7 +3345,7 @@ entities:
         - panorama
       usedBy: []
       dependencies:
-        - spec-harness-kit-master
+        - spec-master
         - po
         - sm
       externalDeps: []
@@ -3369,7 +3369,7 @@ entities:
         - developer
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - dependency-impact-analyzer
         - change-checklist
@@ -4119,11 +4119,11 @@ entities:
         - task
       usedBy:
         - run-workflow
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - workflow-state-manager.js
         - workflow-validator.js
-        - spec-harness-kit-master
+        - spec-master
       externalDeps: []
       plannedDeps: []
       lifecycle: production
@@ -4145,10 +4145,10 @@ entities:
         - workflow
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - run-workflow-engine
-        - spec-harness-kit-master
+        - spec-master
       externalDeps: []
       plannedDeps:
         - '-state.yaml'
@@ -4423,7 +4423,7 @@ entities:
         - processing
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - pm
         - po
       dependencies: []
@@ -4957,10 +4957,10 @@ entities:
         - intel
         - 'task:'
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - registry-syncer
-        - spec-harness-kit-master
+        - spec-master
       externalDeps: []
       plannedDeps: []
       lifecycle: production
@@ -5083,7 +5083,7 @@ entities:
         - operation
         - built-in
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - backup-manager.js
       externalDeps: []
@@ -5131,7 +5131,7 @@ entities:
         - update
         - manifest
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - change-checklist
       externalDeps: []
@@ -5159,7 +5159,7 @@ entities:
         - tree
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps: []
@@ -5342,7 +5342,7 @@ entities:
         - workflow
         - task
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies:
         - workflow-validator.js
       externalDeps: []
@@ -5596,7 +5596,7 @@ entities:
         - spec-harness-kit
       usedBy:
         - squad-creator-extend
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps: []
@@ -5638,7 +5638,7 @@ entities:
         - architecture
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - architect
       dependencies: []
       externalDeps: []
@@ -5681,7 +5681,7 @@ entities:
         - architecture
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - architect
       dependencies: []
       externalDeps: []
@@ -5703,7 +5703,7 @@ entities:
         - prd
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - pm
       dependencies: []
       externalDeps: []
@@ -5790,7 +5790,7 @@ entities:
         - analysis
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - analyst
       dependencies: []
       externalDeps: []
@@ -5886,7 +5886,7 @@ entities:
         - architecture
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - architect
       dependencies: []
       externalDeps: []
@@ -5909,7 +5909,7 @@ entities:
         - spec
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - ux-design-expert
       dependencies: []
       externalDeps: []
@@ -5931,7 +5931,7 @@ entities:
         - architecture
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - architect
       dependencies: []
       externalDeps: []
@@ -6063,7 +6063,7 @@ entities:
         - research
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - analyst
       dependencies: []
       externalDeps: []
@@ -6265,7 +6265,7 @@ entities:
         - prd
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - pm
       dependencies: []
       externalDeps: []
@@ -6287,7 +6287,7 @@ entities:
         - brief
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - analyst
       dependencies: []
       externalDeps: []
@@ -6438,7 +6438,7 @@ entities:
         - story
         - tmpl
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - po
         - qa
         - sm
@@ -6491,7 +6491,7 @@ entities:
         - template
         - '{{task_title}}'
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps: []
@@ -6535,7 +6535,7 @@ entities:
         - yamllint
         - disable
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps: []
@@ -6598,7 +6598,7 @@ entities:
         - data-engineer
         - ux-design-expert
         - devops
-        - spec-harness-kit-master
+        - spec-master
       externalDeps: []
       plannedDeps: []
       lifecycle: experimental
@@ -6633,7 +6633,7 @@ entities:
         - devops
         - data-engineer
         - ux-design-expert
-        - spec-harness-kit-master
+        - spec-master
       externalDeps: []
       plannedDeps: []
       lifecycle: experimental
@@ -12806,15 +12806,15 @@ entities:
       checksum: sha256:dd025894f8f0d3bd22a147dbc0debef8b83e96f3c59483653404b3cd5a01d5aa
       lastVerified: '2026-04-24T22:44:22.461Z'
   agents:
-    spec-harness-kit-master:
-      path: .spec-harness-kit-core/development/agents/spec-harness-kit-master.md
+    spec-master:
+      path: .spec-harness-kit-core/development/agents/spec-master.md
       layer: L2
       type: agent
       purpose: '''Show all available commands with descriptions'''
       keywords:
         - spec-harness-kit
         - master
-        - spec-harness-kit-master
+        - spec-master
       usedBy:
         - environment-bootstrap
         - ids-governor
@@ -16109,7 +16109,7 @@ entities:
         - validate
         - agents
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
       dependencies: []
       externalDeps: []
       plannedDeps: []
@@ -17075,7 +17075,7 @@ entities:
         - solution
         - validation
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - architect
       dependencies: []
       externalDeps: []
@@ -17107,7 +17107,7 @@ entities:
         - propose-modification
         - qa-review-proposal
         - update-manifest
-        - spec-harness-kit-master
+        - spec-master
         - pm
         - po
       dependencies: []
@@ -17260,7 +17260,7 @@ entities:
         - (pm)
         - requirements
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - pm
       dependencies: []
       externalDeps: []
@@ -17296,7 +17296,7 @@ entities:
         - qa-trace-requirements
         - sm-create-next-story
         - validate-next-story
-        - spec-harness-kit-master
+        - spec-master
         - po
       dependencies: []
       externalDeps: []
@@ -17390,7 +17390,7 @@ entities:
         - done
         - (dod)
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - dev
       dependencies: []
       externalDeps: []
@@ -17412,7 +17412,7 @@ entities:
         - draft
         - checklist
       usedBy:
-        - spec-harness-kit-master
+        - spec-master
         - sm
       dependencies:
         - dev
