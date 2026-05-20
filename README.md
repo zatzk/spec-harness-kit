@@ -5,18 +5,17 @@ A unified, centralized harness for specialized AI agents. This repository allows
 ## 🌟 Why SPEC-HARNESS-KIT Global?
 
 - **Zero Pollution:** Your projects stay clean. No more \`.agent/\` or \`.spec-harness-kit-core/\` folders in every repo.
-- **Multi-CLI Support:** Write an agent once and use it in Gemini CLI, Claude, Antigravity, Codex, or OpenCode.
+- **Multi-CLI Support:** Write an agent once and use it in Claude, Antigravity, Codex, or OpenCode.
 - **Portability:** Clone this repo on any machine, run the setup, and your entire workforce is ready to go.
 - **Collaborative Brain:** Centralized rules and skills ensure consistency across all your projects.
 
 ## 🛠 Supported CLIs
 
 SPEC-HARNESS-KIT Global is designed to work seamlessly with:
-- **Gemini CLI** (\`~/.gemini/\`)
-- **Claude CLI** (\`~/.claude/\`)
-- **Antigravity CLI** (\`~/.antigravity/\`)
-- **Codex CLI** (\`~/.codex/\`)
-- **OpenCode CLI** (\`~/.config/opencode/\`)
+- **Claude CLI** (`~/.claude/`)
+- **Antigravity CLI** (`~/.antigravity/`)
+- **Codex CLI** (`~/.codex/`)
+- **OpenCode CLI** (`~/.config/opencode/`)
 
 ---
 
@@ -33,7 +32,7 @@ SPEC-HARNESS-KIT Global is designed to work seamlessly with:
    \`\`\`
 
 3. **Reload your CLI:**
-   - For Gemini CLI: Run \`/agents reload\` or restart the session.
+   - Restart your active CLI session to load the new agents.
 
 ---
 
@@ -68,7 +67,7 @@ Call these agents using the \`@\` prefix in your favorite CLI.
 ## 🧠 Architecture Note
 
 To ensure maximum compatibility across different CLI discovery mechanisms:
-- **Agents** are **COPIED** to the global config folders because some CLIs (like Gemini) do not follow symlinks for agent discovery.
+- **Agents** are **COPIED** to the global config folders because some CLIs do not follow symlinks for agent discovery.
 - **Rules & Skills** are **SYMLINKED**, allowing for live updates when you modify them in this repository.
 
 ---
