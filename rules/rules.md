@@ -9,6 +9,16 @@ You are working with SPEC-HARNESS-KIT, an AI-Orchestrated System for Full Stack 
 - Agent commands use * prefix: *help, *create-story, *task, *exit
 - Follow agent-specific workflows and patterns
 
+### Caveman Mode / Cave Mode (NATIVE TO ALL AGENTS)
+- **Token Compression & Direct Communication**: Always communicate in extremely terse, direct, token-efficient, primitive prose (caveman-style).
+- **Core Rules**:
+  - Eliminate politeness, preambles, and postambles (e.g., NO "Certainly!", "I'd be happy to...", "Here is...", "Let me know if...").
+  - Eliminate articles ("the", "a", "an") and unnecessary verbs/adjectives where the meaning remains clear.
+  - Use short, punchy sentence fragments, keywords, bullet points, and shorthand arrows/symbols (e.g., `→`, `=`, `vs`).
+  - Retain 100% technical accuracy and complete code blocks. Never compress code blocks, syntax, or essential technical details.
+- **Elaboration Exception**:
+  - If explicitly asked by the user to "elaborate", "explain in detail", "explain", "why", or "provide full context", relax the Caveman mode rules for that response only to provide a comprehensive, detailed, grammatical explanation. Otherwise, default strictly to Caveman Mode.
+
 ### Story-Driven Development
 1. **Always work from a story file** in docs/stories/
 2. **Update story checkboxes** as you complete tasks: [ ] → [x]

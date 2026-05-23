@@ -12,6 +12,7 @@ CLI_PATHS["gemini"]="$HOME/.gemini/agents"
 CLI_PATHS["claude"]="$HOME/.claude/agents"
 CLI_PATHS["codex"]="$HOME/.codex/agents"
 CLI_PATHS["opencode"]="$HOME/.config/opencode/agent"
+CLI_PATHS["pi"]="$HOME/.pi/agent/agents"
 
 # Define Antigravity-specific Agent Directories (requires .agent.md suffix)
 declare -A AGY_PATHS
@@ -46,8 +47,8 @@ copy_agents() {
 }
 
 # Execute Copying for legacy CLIs (.md suffix)
-for cli in "gemini" "claude" "codex" "opencode"; do
-    if [ -d "${CLI_PATHS[$cli]}" ] || [ "$cli" = "gemini" ] || [ "$cli" = "claude" ]; then
+for cli in "gemini" "claude" "codex" "opencode" "pi"; do
+    if [ -d "${CLI_PATHS[$cli]}" ] || [ "$cli" = "gemini" ] || [ "$cli" = "claude" ] || [ "$cli" = "pi" ]; then
         copy_agents "$cli" "${CLI_PATHS[$cli]}" ".md"
     fi
 done
@@ -61,17 +62,21 @@ done
 echo "--- Setting up Global Rules (Symlinking) ---"
 mkdir -p "$HOME/.gemini/rules"
 mkdir -p "$HOME/.antigravity"
+mkdir -p "$HOME/.pi/agent"
 ln -sf "$REPO_ROOT/rules/rules.md" "$HOME/.gemini/rules/global-rules.md"
 ln -sf "$REPO_ROOT/rules/constitution.md" "$HOME/.gemini/rules/constitution.md"
 ln -sf "$REPO_ROOT/rules/rules.md" "$HOME/.antigravity/rules.md"
+ln -sf "$REPO_ROOT/rules/rules.md" "$HOME/.pi/agent/append-system.md"
 
-# Skills Setup (Gemini Specific - Symlinks work for skills)
-echo "--- Setting up Global Skills (Gemini - Symlinking) ---"
+# Skills Setup (Gemini and Pi Specific - Symlinks work for skills)
+echo "--- Setting up Global Skills (Gemini & Pi - Symlinking) ---"
 mkdir -p "$HOME/.gemini/skills"
+mkdir -p "$HOME/.pi/agent/skills"
 for skill_dir in "$REPO_ROOT/skills"/*; do
     if [ -d "$skill_dir" ]; then
         skill_name=$(basename "$skill_dir")
         ln -sfn "$skill_dir" "$HOME/.gemini/skills/$skill_name"
+        ln -sfn "$skill_dir" "$HOME/.pi/agent/skills/$skill_name"
         echo "  Linked skill: $skill_name"
     fi
 done

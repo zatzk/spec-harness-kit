@@ -16,6 +16,7 @@ SPEC-HARNESS-KIT Global is designed to work seamlessly with:
 - **Antigravity CLI** (`~/.antigravity/`)
 - **Codex CLI** (`~/.codex/`)
 - **OpenCode CLI** (`~/.config/opencode/`)
+- **Pi Coding Agent** (`~/.pi/agent/`)
 
 ---
 
