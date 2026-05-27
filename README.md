@@ -22,24 +22,54 @@ SPEC-HARNESS-KIT Global is designed to work seamlessly with:
 
 ## 🚀 Installation
 
+### Option A: Global Installation (Recommended for open CLIs)
+
+Use this option to make the agents globally available across your system:
+
 1. **Clone the repository:**
-   \`\`\`bash
+   ```bash
    git clone https://github.com/YOUR_USERNAME/spec-harness-kit.git ~/Projects/spec-harness-kit
-   \`\`\`
+   ```
 
 2. **Run the installation script:**
-   \`\`\`bash
+   ```bash
    ~/Projects/spec-harness-kit/scripts/install.sh
-   \`\`\`
+   ```
 
 3. **Reload your CLI:**
    - Restart your active CLI session to load the new agents.
+
+### Option B: Project-Local Installation (Recommended for Sandboxed/IDE Workspaces)
+
+If Antigravity (IDE or CLI) cannot find your global configurations due to sandboxing or project context limitations, you can install the agents, rules, and skills directly inside your target project's `.agents/` folder:
+
+1. **Copy Mode (Self-contained)**
+   Copies all assets directly into the project, ensuring the setup is fully portable and doesn't rely on the clone location of `spec-harness-kit`:
+   ```bash
+   # From anywhere, pass the project path as an argument:
+   ~/Projects/spec-harness-kit/scripts/install-project.sh ~/Work/my-project
+
+   # Or cd to the project and run it (defaults to current directory):
+   cd ~/Work/my-project
+   ~/Projects/spec-harness-kit/scripts/install-project.sh
+   ```
+
+2. **Symlink Mode (Active Development)**
+   Creates symbolic links back to the source repository. Any updates you make to agents, rules, or skills in your local `spec-harness-kit` clone will be reflected in the project immediately:
+   ```bash
+   # From anywhere, pass the project path as an argument:
+   ~/Projects/spec-harness-kit/scripts/install-project.sh -s ~/Work/my-project
+
+   # Or cd to the project and run it (defaults to current directory):
+   cd ~/Work/my-project
+   ~/Projects/spec-harness-kit/scripts/install-project.sh -s
+   ```
 
 ---
 
 ## 👥 Agent Catalog
 
-Call these agents using the \`@\` prefix in your favorite CLI.
+Call these agents using the `@` prefix in your favorite CLI.
 
 | Agent | Description |
 | :--- | :--- |
