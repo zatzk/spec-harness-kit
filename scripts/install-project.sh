@@ -108,34 +108,50 @@ done
 # 2. Setup Rules
 echo -e "\n${BLUE}--- Setting up Local Rules ---${NC}"
 if $SYMLINK_MODE; then
-    # Link all contents of rules folder to avoid a single giant symlink directory if possible,
-    # or link the files directly so that it stays flexible.
     for rule_item in "$REPO_ROOT/rules"/*; do
         basename_item=$(basename "$rule_item")
         ln -sfn "$rule_item" "$RULES_DIR/$basename_item"
         echo "  Linked rule/preset: $basename_item"
     done
 else
-    # Copy rules recursively
     cp -r "$REPO_ROOT/rules"/* "$RULES_DIR/"
     echo "  Copied rules, tech-presets, and templates to .agents/rules/"
 fi
 
 # 3. Setup Skills
 echo -e "\n${BLUE}--- Setting up Local Skills ---${NC}"
+
+setup_skill() {
+    local src_dir=$1
+    local name=$2
+    if $SYMLINK_MODE; then
+        ln -sfn "$src_dir" "$SKILLS_DIR/$name"
+        echo "  Linked skill: $name"
+    else
+        cp -r "$src_dir" "$SKILLS_DIR/"
+        echo "  Copied skill: $name"
+    fi
+}
+
+# Process global skills (excluding projects directory)
 for skill_dir in "$REPO_ROOT/skills"/*; do
     if [ -d "$skill_dir" ]; then
         skill_name=$(basename "$skill_dir")
-        
-        if $SYMLINK_MODE; then
-            ln -sfn "$skill_dir" "$SKILLS_DIR/$skill_name"
-            echo "  Linked skill: $skill_name"
-        else
-            cp -r "$skill_dir" "$SKILLS_DIR/"
-            echo "  Copied skill: $skill_name"
+        if [ "$skill_name" != "projects" ]; then
+            setup_skill "$skill_dir" "$skill_name"
         fi
     fi
 done
+
+# Process project-specific skills
+if [ -d "$REPO_ROOT/skills/projects" ]; then
+    for skill_dir in "$REPO_ROOT/skills/projects"/*; do
+        if [ -d "$skill_dir" ]; then
+            skill_name=$(basename "$skill_dir")
+            setup_skill "$skill_dir" "$skill_name"
+        fi
+    done
+fi
 
 echo ""
 echo -e "${GREEN}===============================================${NC}"

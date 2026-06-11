@@ -1,407 +1,85 @@
-# Agent Config Requirements
+# Agent Configuration Requirements
 #
-# Defines which config sections and files each agent needs to load.
-# Part of Story 6.1.2.6: Framework Configuration System
-#
-# Performance Targets:
-# - critical: <30ms (spec-master)
-# - high: <50ms (dev, qa, devops, security, github-devops)
-# - medium: <75ms (po, sm, architect, data-engineer, db-sage)
-# - low: <100ms (pm, analyst, ux-design-expert, spec-harness-kit-developer, spec-harness-kit-orchestrator)
+# Defines the expected configuration files and performance guidelines for specialized agents.
+# Optimized for the agnostic structure.
+
+version: "2.0"
 
 agents:
-  # ======================================================================
-  # CRITICAL PRIORITY AGENTS (<30ms target)
-  # ======================================================================
-
   spec-master:
-    config_sections:
-      - dataLocation
-      - registry
-    files_loaded:
-      - path: .spec-harness-kit-core/data/spec-harness-kit-kb.md
-        lazy: true
-        condition: kb_command
-        size: 35KB
-    lazy_loading:
-      registry: false      # Always load (15KB, frequently used)
-      spec-harness-kit-kb: true        # Load only on *kb command
-    performance_target: <30ms
-
-  # ======================================================================
-  # HIGH PRIORITY AGENTS (<50ms target)
-  # ======================================================================
-
-  dev:
-    config_sections:
-      - devLoadAlwaysFiles
-      - devStoryLocation
-      - dataLocation
-    files_loaded:
-      - path: docs/framework/coding-standards.md
-        lazy: false
-        size: 25KB
-      - path: docs/framework/tech-stack.md
-        lazy: false
-        size: 30KB
-      - path: docs/framework/source-tree.md
-        lazy: false
-        size: 20KB
-      - path: .spec-harness-kit-core/data/technical-preferences.md
-        lazy: false
-        size: 15KB
-    lazy_loading:
-      framework_docs: false        # Always load
-      project_decisions: true      # Load when yolo mode or story development
-    performance_target: <50ms
-
-  qa:
-    config_sections:
-      - qaLocation
-      - dataLocation
-      - storyBacklog
-    files_loaded:
-      - path: .spec-harness-kit-core/data/technical-preferences.md
-        lazy: false
-        size: 15KB
-      - path: .spec-harness-kit-core/product/data/test-levels-framework.md
-        lazy: false
-        size: 8KB
-      - path: .spec-harness-kit-core/product/data/test-priorities-matrix.md
-        lazy: false
-        size: 6KB
-    lazy_loading:
-      test_frameworks: false    # Always load
-    performance_target: <50ms
-
-  devops:
-    config_sections:
-      - dataLocation
-      - cicdLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/data/technical-preferences.md
-        lazy: false
-        size: 15KB
-    lazy_loading: {}
-    performance_target: <50ms
-
-  github-devops:
-    config_sections:
-      - dataLocation
-      - githubLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/data/technical-preferences.md
-        lazy: false
-        size: 15KB
-    lazy_loading: {}
-    performance_target: <50ms
-
-  # ======================================================================
-  # MEDIUM PRIORITY AGENTS (<75ms target)
-  # ======================================================================
-
-  architect:
-    config_sections:
-      - architecture
-      - dataLocation
-      - templatesLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/data/technical-preferences.md
-        lazy: false
-        size: 15KB
-    lazy_loading:
-      architecture_templates: true  # Load when creating architecture
-    performance_target: <75ms
-
-  po:
-    config_sections:
-      - devStoryLocation
-      - prd
-      - storyBacklog
-      - templatesLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/product/data/elicitation-methods.md
-        lazy: false
-        size: 5KB
-    lazy_loading:
-      story_templates: true      # Load when creating stories
-      prd_templates: true        # Load when creating PRDs
-    performance_target: <75ms
-
-  sm:
-    config_sections:
-      - devStoryLocation
-      - storyBacklog
-      - dataLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/product/data/mode-selection-best-practices.md
-        lazy: false
-        size: 10KB
-      - path: .spec-harness-kit-core/data/workflow-patterns.yaml
-        lazy: false
-        size: 8KB
-      - path: docs/framework/coding-standards.md
-        lazy: false
-        size: 25KB
-    lazy_loading: {}
-    performance_target: <75ms
-
-  data-engineer:
-    config_sections:
-      - dataLocation
-      - etlLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/data/technical-preferences.md
-        lazy: false
-        size: 15KB
-    lazy_loading: {}
-    performance_target: <75ms
-
-  db-sage:
-    config_sections:
-      - dataLocation
-      - databaseLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/data/technical-preferences.md
-        lazy: false
-        size: 15KB
-    lazy_loading: {}
-    performance_target: <75ms
-
-  # ======================================================================
-  # LOW PRIORITY AGENTS (<100ms target)
-  # ======================================================================
-
-  pm:
-    config_sections:
-      - devStoryLocation
-      - storyBacklog
-    files_loaded:
-      - path: docs/framework/coding-standards.md
-        lazy: false
-        size: 25KB
-      - path: docs/framework/tech-stack.md
-        lazy: false
-        size: 30KB
-    lazy_loading: {}
-    performance_target: <100ms
-
-  analyst:
-    config_sections:
-      - dataLocation
-      - analyticsLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/product/data/brainstorming-techniques.md
-        lazy: false
-        size: 2KB
-      - path: docs/framework/tech-stack.md
-        lazy: false
-        size: 30KB
-      - path: docs/framework/source-tree.md
-        lazy: false
-        size: 20KB
-    lazy_loading: {}
-    performance_target: <100ms
-
-  ux-design-expert:
-    config_sections:
-      - dataLocation
-      - uxLocation
-    files_loaded:
-      - path: docs/framework/tech-stack.md
-        lazy: false
-        size: 30KB
-      - path: docs/framework/coding-standards.md
-        lazy: false
-        size: 25KB
-    lazy_loading: {}
-    performance_target: <100ms
-
-  spec-harness-kit-developer:
-    config_sections:
-      - dataLocation
-      - registry
-      - templatesLocation
-    files_loaded:
-      - path: .spec-harness-kit-core/data/spec-harness-kit-kb.md
-        lazy: true
-        condition: meta_operations
-        size: 35KB
-    lazy_loading:
-      spec-harness-kit_kb: true              # Load only for meta operations
-      agent_templates: true      # Load when creating agents
-    performance_target: <100ms
-
-  spec-harness-kit-orchestrator:
-    config_sections:
-      - dataLocation
-      - registry
-    files_loaded:
-      - path: .spec-harness-kit-core/data/workflow-patterns.yaml
-        lazy: false
-        size: 8KB
-    lazy_loading: {}
-    performance_target: <100ms
+    description: "Master Orchestrator: Specialized in high-level system orchestration and multi-agent coordination."
+    performance_target: "<30ms"
+    dependencies:
+      - rules/rules.md
+      - rules/constitution.md
 
   squad-creator:
-    config_sections:
-      - dataLocation
-      - squadsTemplateLocation
-    files_loaded: []
-    lazy_loading:
-      agent_registry: true         # Load when validating/creating squads
-      squad_manifest: true # Load when managing squads
-    performance_target: <150ms
+    description: "Squad Architect: Analyzes complex tasks to assemble the perfect team of specialized agents."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
 
-  # ======================================================================
-  # DEFAULT FALLBACK
-  # ======================================================================
+  architect:
+    description: "System Architect: Expert in software architecture, design patterns, and tech stack selection."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
+      - rules/technical-preferences.md
 
-  default:
-    config_sections:
-      - dataLocation
-    files_loaded: []
-    lazy_loading: {}
-    performance_target: <150ms
-
-# ======================================================================
-# GLOBAL LAZY LOADING STRATEGY
-# ======================================================================
-
-lazy_loading_strategy:
-  # Heavy sections that should be lazy loaded
-  heavy_sections:
-    pvMindContext:
-      size: 75KB
-      load_only_for: []
-      description: PVMind integration context (not used in SPEC-HARNESS-KIT-FullStack)
-      fallback: null
-
-    expansionPacks:
-      size: variable
-      load_only_when: pack requested by user
-      description: Optional squads
-      fallback: []
-
-    registry:
-      size: 15KB
-      load_only_for:
-        - spec-master
-        - spec-harness-kit-developer
-        - spec-harness-kit-orchestrator
-      description: Full registry of framework components
-      fallback: minimal registry (agent count only)
-
-  # Files commonly used across agents (cache these)
-  shared_files:
-    - path: .spec-harness-kit-core/data/technical-preferences.md
-      size: 15KB
-      used_by:
-        - dev
-        - qa
-        - devops
-        - github-devops
-        - architect
-        - data-engineer
-        - db-sage
-      cache_priority: high
-
-    - path: docs/framework/coding-standards.md
-      size: 25KB
-      used_by:
-        - dev
-        - pm
-        - ux-design-expert
-        - sm
-      cache_priority: high
-
-    - path: docs/framework/tech-stack.md
-      size: 30KB
-      used_by:
-        - dev
-        - pm
-        - ux-design-expert
-        - analyst
-      cache_priority: high
-
-    - path: docs/framework/source-tree.md
-      size: 20KB
-      used_by:
-        - dev
-        - analyst
-      cache_priority: medium
-
-# ======================================================================
-# PERFORMANCE BENCHMARKS (baseline before optimization)
-# ======================================================================
-
-performance_baseline:
   dev:
-    before_optimization:
-      load_time: 250ms
-      config_size: 125KB
-      sections: 6
-    after_optimization_target:
-      load_time: <50ms
-      config_size: 50KB
-      improvement: 60% reduction in size, 80% faster
-
-  spec-harness-kit_master:
-    before_optimization:
-      load_time: 150ms
-      config_size: 50KB
-      sections: 2
-    after_optimization_target:
-      load_time: <30ms
-      config_size: 15KB
-      improvement: 70% reduction in size, 80% faster
+    description: "Senior Developer: Core implementation specialist focused on clean code and logic."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
+      - rules/technical-preferences.md
 
   qa:
-    before_optimization:
-      load_time: 180ms
-      config_size: 45KB
-      sections: 3
-    after_optimization_target:
-      load_time: <50ms
-      config_size: 29KB
-      improvement: 35% reduction in size, 72% faster
+    description: "QA Engineer: Expert in quality assurance, comprehensive test strategy, and bug hunting."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
+      - rules/technical-preferences.md
 
-# ======================================================================
-# CACHE STRATEGY
-# ======================================================================
+  devops:
+    description: "DevOps Engineer: Expert in CI/CD, repository management, and deployment automation."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
+      - rules/technical-preferences.md
 
-cache_strategy:
-  ttl: 300000  # 5 minutes in milliseconds
+  ux-design-expert:
+    description: "UX/UI Designer: Expert in user experience design, atomic design systems, and prototyping."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
 
-  high_priority_files:
-    - .spec-harness-kit-core/data/technical-preferences.md
-    - docs/framework/coding-standards.md
-    - docs/framework/tech-stack.md
-    - docs/framework/source-tree.md
+  pm:
+    description: "Product Manager: Focused on product strategy, feature prioritization, and roadmap planning."
+    performance_target: "<75ms"
+    dependencies:
+      - rules/rules.md
 
-  cache_invalidation_triggers:
-    - file_modification
-    - config_reload_command
-    - ttl_expiration
+  po:
+    description: "Product Owner: Technical specialist in backlog management and acceptance criteria."
+    performance_target: "<75ms"
+    dependencies:
+      - rules/rules.md
 
-  expected_cache_hit_rate: ">70%"
+  analyst:
+    description: "Business Analyst: Specialized in requirements gathering and feasibility studies."
+    performance_target: "<75ms"
+    dependencies:
+      - rules/rules.md
 
-# ======================================================================
-# MIGRATION NOTES (Q2 2026)
-# ======================================================================
+  data-engineer:
+    description: "Data Engineer: Specialized in database schema design and migrations."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
+      - rules/technical-preferences.md
 
-migration_notes:
-  framework_docs:
-    current_location: docs/framework/
-    future_location: spec-harness-kit-core/docs/framework/  # In REPO 1
-    migration_phase: Q2 2026
-
-  backward_compatibility:
-    - Keep old paths working until Q3 2026
-    - Update all agent file paths in migration
-    - Automated migration script: .spec-harness-kit-core/scripts/migrate-framework-docs.sh
-
-# Auto-generated: 2025-01-16
-# Story: 6.1.2.6 - Framework Configuration System
-# Updated: 2026-02-06 - Story ACT-8: Enriched pm, ux-design-expert, analyst, sm, squad-creator
-# Version: 1.1
+  sm:
+    description: "Scrum Master: Facilitator for agile workflows and removing technical blockers."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md

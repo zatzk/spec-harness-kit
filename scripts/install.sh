@@ -28,7 +28,7 @@ copy_agents() {
     echo "--- Setting up $cli_name (Copying Agents to $target_dir) ---"
     mkdir -p "$target_dir"
 
-    # Clean up any obsolete aiox/synkra files in the target directory
+    # Clean up any obsolete files in the target directory
     rm -f "$target_dir"/aiox-*
     rm -f "$target_dir"/synkra-*
     rm -f "$target_dir"/spec-harness-kit-master*
@@ -72,23 +72,38 @@ ln -sf "$REPO_ROOT/rules/rules.md" "$HOME/.pi/agent/append-system.md"
 echo "--- Setting up Global Skills (Gemini & Pi - Symlinking) ---"
 mkdir -p "$HOME/.gemini/skills"
 mkdir -p "$HOME/.pi/agent/skills"
+
+# Helper function to link a skill
+link_skill() {
+    local src_dir=$1
+    local name=$2
+    ln -sfn "$src_dir" "$HOME/.gemini/skills/$name"
+    ln -sfn "$src_dir" "$HOME/.pi/agent/skills/$name"
+    echo "  Linked skill: $name"
+}
+
+# Link global skills (excluding projects directory)
 for skill_dir in "$REPO_ROOT/skills"/*; do
     if [ -d "$skill_dir" ]; then
         skill_name=$(basename "$skill_dir")
-        ln -sfn "$skill_dir" "$HOME/.gemini/skills/$skill_name"
-        ln -sfn "$skill_dir" "$HOME/.pi/agent/skills/$skill_name"
-        echo "  Linked skill: $skill_name"
+        if [ "$skill_name" != "projects" ]; then
+            link_skill "$skill_dir" "$skill_name"
+        fi
     fi
 done
 
+# Link project-specific skills
+if [ -d "$REPO_ROOT/skills/projects" ]; then
+    for skill_dir in "$REPO_ROOT/skills/projects"/*; do
+        if [ -d "$skill_dir" ]; then
+            skill_name=$(basename "$skill_dir")
+            link_skill "$skill_dir" "$skill_name"
+        fi
+    done
+fi
+
 # Native Antigravity CLI Plugin Installation (for tools/skills/templates)
 echo "--- Setting up Antigravity CLI (Native Plugin) ---"
-
-# ALWAYS ensure the manual configuration symlink is created/updated,
-# as global agent prompts load detailed instructions from this path.
-mkdir -p "$HOME/.gemini/config/plugins"
-ln -sfn "$REPO_ROOT" "$HOME/.gemini/config/plugins/spec-harness-kit"
-echo "  Staged/updated manual symlink at ~/.gemini/config/plugins/spec-harness-kit"
 
 if command -v agy >/dev/null 2>&1; then
     echo "Found Antigravity CLI ('agy'). Installing plugin locally..."
@@ -99,7 +114,6 @@ if command -v agy >/dev/null 2>&1; then
 else
     echo "Antigravity CLI ('agy') command not found."
     echo "If you have installed 'agy', please make sure it is in your PATH."
-    echo "Using staging symlink for future use."
 fi
 
 echo ""

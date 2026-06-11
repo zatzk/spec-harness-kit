@@ -1,6 +1,9 @@
 {
   "name": "spec-harness-kit",
-  "version": "1.0.0",
-  "description": "Unified, centralized harness for specialized Spec-Harness-Kit agents, rules, and skills",
-  "author": "SPEC-HARNESS-KIT"
+  "version": "2.0.0",
+  "description": "CLI-agnostic harness for specialized AI engineering agents, rules, and skills",
+  "author": "SPEC-HARNESS-KIT",
+  "engines": {
+    "supported_clis": ["antigravity", "claude", "codex", "opencode", "pi"]
+  }
 }
