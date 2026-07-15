@@ -68,6 +68,8 @@ Call these agents using the `@` prefix in your favorite CLI.
 | :--- | :--- | :--- |
 | **@spec-master** | **Master Orchestrator:** High-level coordinator, decomposes complex requests into phases. | Implementation Plans, task specs. |
 | **@squad-creator** | **Squad Architect:** Analyzes tasks to assemble specialized agent teams. | Squad Manifests, team protocols. |
+| **@wayfinder** | **Strategic Planner:** Strategic project mapping, fog-of-war deconstruction, and ticket planning. | Local Markdown Map files (`map.md`), decision tickets. |
+| **@researcher** | **Researcher:** Documentation harvesting, API fact-finding, and deep-dive exploration. | Structured Research Notes. |
 | **@architect** | **System Architect:** Designs tech stacks, interfaces, patterns, and boundaries. | Architecture Design Docs (Mermaid). |
 | **@dev** | **Senior Developer:** Implementation specialist, clean code, unit/integration tests. | Source files, test suites. |
 | **@qa** | **QA Engineer:** Exclusive authority for quality verdicts (PASS/FAIL), test strategies. | QA Review Reports, Bug logs. |
@@ -86,13 +88,27 @@ Call these agents using the `@` prefix in your favorite CLI.
 - `agents/`: Agnostic Markdown files with standard YAML frontmatter defining each agent's behavior (in English).
 - `rules/`: Global rules, constitutions, tech-presets, and templates.
 - `skills/`: Global, reusable capabilities:
-  - `design-md/`: Synthesizes semantic design systems into `DESIGN.md`.
-  - `enhance-prompt/`: Transforms vague UI ideas into Stitch-optimized prompts.
-  - `gitlab-mr-review/`: Automated code reviews for GitLab Merge Requests.
-  - `react-components/`: Converts visual HTML designs into modular React/Vite components.
-  - `remotion/`: Programmatic walkthrough video generation.
-  - `shadcn-ui/`: Expert component discovery, addition, and customization.
-  - `stitch-loop/`: Autonomous iteration loop for front-end building.
+  - **Mattpocock Engineering Skills**:
+    - `wayfinder/`: Chart strategic maps and decision tickets locally.
+    - `grill-me/` & `grill-with-docs/`: Elicit requirements via systematic interviews.
+    - `to-spec/` & `to-tickets/`: Synthesize functional specs and decompose into atomic tickets.
+    - `triage/`: Automatic prioritization and tagging of issues.
+    - `implement/` & `tdd/`: Test-driven feature implementation.
+    - `code-review/`: Spec-aware and design-aware code reviews.
+    - `diagnosing-bugs/`: Systematic bug root-cause analysis.
+    - `domain-modeling/` & `ubiquitous-language/`: Glossary and glossary-driven design.
+    - `research/`: AFK background investigation.
+    - `prototype/`: Fast throwaway implementation spike.
+    - `handoff/`: Inter-session context compaction.
+    - `wizard/`: Automatic setup wizard generation.
+  - **Custom Stitch & App Skills**:
+    - `design-md/`: Synthesizes semantic design systems into `DESIGN.md`.
+    - `enhance-prompt/`: Transforms vague UI ideas into Stitch-optimized prompts.
+    - `gitlab-mr-review/`: Automated code reviews for GitLab Merge Requests.
+    - `react-components/`: Converts visual HTML designs into modular React/Vite components.
+    - `remotion/`: Programmatic walkthrough video generation.
+    - `shadcn-ui/`: Expert component discovery, addition, and customization.
+    - `stitch-loop/`: Autonomous iteration loop for front-end building.
 - `skills/projects/`: Project-specific or custom capabilities:
   - `qa-saffira-backend/`: Mocks, async testing rules, and patterns for saffira/backend.
   - `qa-saffira-admin-backend/`: Vitest + Testcontainers configs for saffira-admin/backend.
