@@ -116,6 +116,19 @@ else
     echo "If you have installed 'agy', please make sure it is in your PATH."
 fi
 
+# Sync Antigravity IDE Plugin Config (keeps the local-install source in sync with the repo)
+echo ""
+echo "--- Syncing Antigravity IDE Plugin Config (~/.gemini/config/plugins/spec-harness-kit) ---"
+AGY_PLUGIN_DIR="$HOME/.gemini/config/plugins/spec-harness-kit"
+if [ -d "$AGY_PLUGIN_DIR" ]; then
+    # Sync agents
+    cp "$REPO_ROOT/agents/"*.md "$AGY_PLUGIN_DIR/agents/" 2>/dev/null && echo "  Synced agents"
+    # Sync skills
+    cp -r "$REPO_ROOT/skills/"* "$AGY_PLUGIN_DIR/skills/" 2>/dev/null && echo "  Synced skills"
+else
+    echo "  Plugin config dir not found at $AGY_PLUGIN_DIR, skipping sync."
+fi
+
 echo ""
 echo "Done! SPEC-HARNESS-KIT has been successfully installed globally."
 echo "Custom @-triggers (.agent.md) and legacy configurations are ready."
