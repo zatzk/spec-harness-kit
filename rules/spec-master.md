@@ -1,0 +1,1 @@
+../agents/spec-master.md

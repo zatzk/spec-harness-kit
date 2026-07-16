@@ -1,0 +1,1 @@
+../agents/wayfinder.md

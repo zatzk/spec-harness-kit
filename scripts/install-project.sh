@@ -72,35 +72,41 @@ fi
 AGENTS_DIR="$TARGET_DIR/.agents/agents"
 RULES_DIR="$TARGET_DIR/.agents/rules"
 SKILLS_DIR="$TARGET_DIR/.agents/skills"
+WORKFLOWS_DIR="$TARGET_DIR/.agents/workflows"
 
 # Create directories
 mkdir -p "$AGENTS_DIR"
 mkdir -p "$RULES_DIR"
 mkdir -p "$SKILLS_DIR"
+mkdir -p "$WORKFLOWS_DIR"
 
 # Clean up previous symlinks or files that might conflict
 echo -e "${BLUE}--- Cleaning up previous target configurations ---${NC}"
 rm -rf "$AGENTS_DIR"/*
 rm -rf "$RULES_DIR"/*
 rm -rf "$SKILLS_DIR"/*
+rm -rf "$WORKFLOWS_DIR"/*
 
-# 1. Setup Agents
-echo -e "\n${BLUE}--- Setting up Local Agents ---${NC}"
+# 1. Setup Agents (both as Agents and as Rules for @-mention triggers)
+echo -e "\n${BLUE}--- Setting up Local Agents & Rules ---${NC}"
 for agent_file in "$REPO_ROOT/agents"/*.md; do
     if [ -f "$agent_file" ]; then
         basename_no_ext=$(basename "$agent_file" .md)
         
         target_md="$AGENTS_DIR/${basename_no_ext}.md"
         target_agent_md="$AGENTS_DIR/${basename_no_ext}.agent.md"
+        target_rule_md="$RULES_DIR/${basename_no_ext}.md"
         
         if $SYMLINK_MODE; then
             ln -sf "$agent_file" "$target_md"
             ln -sf "$agent_file" "$target_agent_md"
-            echo "  Linked agent: ${basename_no_ext} (.md & .agent.md)"
+            ln -sf "$agent_file" "$target_rule_md"
+            echo "  Linked agent: ${basename_no_ext} (.md, .agent.md, and rule)"
         else
             cp "$agent_file" "$target_md"
             cp "$agent_file" "$target_agent_md"
-            echo "  Copied agent: ${basename_no_ext} (.md & .agent.md)"
+            cp "$agent_file" "$target_rule_md"
+            echo "  Copied agent: ${basename_no_ext} (.md, .agent.md, and rule)"
         fi
     fi
 done
@@ -118,18 +124,31 @@ else
     echo "  Copied rules, tech-presets, and templates to .agents/rules/"
 fi
 
-# 3. Setup Skills
-echo -e "\n${BLUE}--- Setting up Local Skills ---${NC}"
+# 3. Setup Skills (Legacy CLI) and Workflows (Antigravity 2.0 / IDE)
+echo -e "\n${BLUE}--- Setting up Local Skills & Workflows ---${NC}"
 
 setup_skill() {
     local src_dir=$1
     local name=$2
+    
+    # 3a. Legacy Skills setup
     if $SYMLINK_MODE; then
         ln -sfn "$src_dir" "$SKILLS_DIR/$name"
-        echo "  Linked skill: $name"
+        echo "  Linked legacy skill: $name"
     else
         cp -r "$src_dir" "$SKILLS_DIR/"
-        echo "  Copied skill: $name"
+        echo "  Copied legacy skill: $name"
+    fi
+
+    # 3b. Workflows setup (extract SKILL.md to .agents/workflows/<name>.md)
+    if [ -f "$src_dir/SKILL.md" ]; then
+        if $SYMLINK_MODE; then
+            ln -sf "$src_dir/SKILL.md" "$WORKFLOWS_DIR/${name}.md"
+            echo "  Linked workflow: ${name}.md"
+        else
+            cp "$src_dir/SKILL.md" "$WORKFLOWS_DIR/${name}.md"
+            echo "  Copied workflow: ${name}.md"
+        fi
     fi
 }
 
