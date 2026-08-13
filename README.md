@@ -74,7 +74,8 @@ Call these agents using the `@` prefix in your favorite CLI.
 | **@dev** | **Senior Developer:** Implementation specialist, clean code, unit/integration tests. | Source files, test suites. |
 | **@qa** | **QA Engineer:** Exclusive authority for quality verdicts (PASS/FAIL), test strategies. | QA Review Reports, Bug logs. |
 | **@devops** | **DevOps Engineer:** Exclusive authority for git pushes, CI/CD, and deployments. | CI/CD pipelines, container configs. |
-| **@ux-design-expert** | **UX/UI Designer:** Enforces atomic design systems, visual consistency, and micro-animations. | Design System Specs (`DESIGN.md`). |
+| **@ux** | **UX/UI Designer:** Enforces atomic design systems, visual consistency, and micro-animations. | Design System Specs (`DESIGN.md`). |
+| **@writer** | **Technical Writer:** Specialized in documentation, blog posts, changelogs, and content lifecycle. | Technical documentation, blog drafts, changelogs. |
 | **@pm** | **Product Manager:** Drives product strategy, feature roadmap, and user value definition. | Product Requirement Docs (PRDs). |
 | **@po** | **Product Owner:** Splits requirements into stories, backlog, and acceptance criteria. | Refined user stories, backlog grids. |
 | **@analyst** | **Business Analyst:** Requirements gathering, feasibility studies, and functional specs. | Functional specs (`spec.md`). |
@@ -104,7 +105,8 @@ Call these agents using the `@` prefix in your favorite CLI.
   - **Custom Stitch & App Skills**:
     - `design-md/`: Synthesizes semantic design systems into `DESIGN.md`.
     - `enhance-prompt/`: Transforms vague UI ideas into Stitch-optimized prompts.
-    - `gitlab-mr-review/`: Automated code reviews for GitLab Merge Requests.
+    - `gitlab-mr-review/`: Automated code reviews for GitLab Merge Requests (via `glab` CLI).
+    - `github-pr-review/`: Automated code reviews for GitHub Pull Requests (via `gh` CLI).
     - `react-components/`: Converts visual HTML designs into modular React/Vite components.
     - `remotion/`: Programmatic walkthrough video generation.
     - `shadcn-ui/`: Expert component discovery, addition, and customization.

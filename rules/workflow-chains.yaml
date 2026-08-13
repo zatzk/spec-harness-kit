@@ -137,7 +137,7 @@ workflows:
         output: SCHEMA.md + DB-AUDIT.md
         condition: Database exists in project
       - step: 3
-        agent: "@ux-design-expert"
+        agent: "@ux"
         command: "*audit-frontend"
         task: audit-codebase.md
         output: frontend-spec.md

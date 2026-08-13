@@ -91,7 +91,7 @@ tools:
   # ---------------------------------------------------------------------------
   browser:
     tier: 2
-    profiles: [dev, qa, ux-design-expert]
+    profiles: [dev, qa, ux]
     examples:
       - description: "Navigate to local development server"
         input:

@@ -88,18 +88,20 @@ Especificações não inventam - apenas derivam dos requisitos.
 
 ### V. Quality First (MUST)
 
-Qualidade não é negociável. Todo código passa por múltiplos gates antes de merge.
+Qualidade não é negociável. Todo código passa por múltiplos gates quantitativos antes de merge.
 
 **Regras:**
 - MUST: `npm run lint` passa sem erros
 - MUST: `npm run typecheck` passa sem erros
 - MUST: `npm test` passa sem falhas
 - MUST: `npm run build` completa com sucesso
+- MUST: Cobertura de testes atinge Line Coverage >= 95% e Branch Coverage >= 90%
+- MUST: Complexidade ciclomática máxima de 6, tamanho máximo de método de 15 linhas e tamanho de classe de 100 linhas (conforme presets)
+- MUST: Taxa de sobrevivência de mutações (Mutation Testing Kill Ratio) não pode diminuir em relação ao baseline do projeto (Ratchet de qualidade)
 - MUST: CodeRabbit não reporta issues CRITICAL
 - MUST: Story status é "Done" ou "Ready for Review"
-- SHOULD: Cobertura de testes não diminui
 
-**Gate:** `pre-push.md` - BLOCK se qualquer check falhar
+**Gate:** `pre-push.md` / `quality-gate` - BLOCK se qualquer check falhar
 
 ---
 

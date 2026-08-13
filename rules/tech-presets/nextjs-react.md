@@ -625,15 +625,16 @@ export default async function DashboardPage() {
 - [ ] Trivial getters/setters
 - [ ] CSS/styling
 
-### Coverage Goals
+### Coverage Goals & Quality Gates
 
 ```
-- Business logic (services/utils): 90%+
-- Hooks: 80%+
-- Components: 60%+
-- Overall: 70%+
+- Business logic (services/utils): 95%+ Line, 90%+ Branch
+- Hooks: 80%+ Line, 75%+ Branch
+- Components: 70%+ Line, 60%+ Branch
+- Overall: 80%+ Line, 75%+ Branch
+- Mutation Kill Ratio: >= project ratchet baseline (using Stryker Mutator)
 
-DO NOT pursue 100% - diminishing returns
+DO NOT allow coverage or mutation ratio to decrease against baseline thresholds.
 ```
 
 ### Test Template

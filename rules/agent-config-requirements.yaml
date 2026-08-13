@@ -47,11 +47,18 @@ agents:
       - rules/rules.md
       - rules/technical-preferences.md
 
-  ux-design-expert:
+  ux:
     description: "UX/UI Designer: Expert in user experience design, atomic design systems, and prototyping."
     performance_target: "<50ms"
     dependencies:
       - rules/rules.md
+
+  writer:
+    description: "Senior Writer: Specialized in technical documentation, blog posts, changelogs, and content lifecycle."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
+
 
   pm:
     description: "Product Manager: Focused on product strategy, feature prioritization, and roadmap planning."

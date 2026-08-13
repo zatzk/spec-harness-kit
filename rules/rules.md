@@ -32,10 +32,11 @@ You are working with SPEC-HARNESS-KIT, an AI-Orchestrated System for Full Stack 
 - Follow existing patterns in the codebase
 
 ### Testing Protocol
-- Run all tests before marking tasks complete
-- Ensure linting passes: `npm run lint`
-- Verify type checking: `npm run typecheck`
-- Add tests for new features
+- Run all tests and the project's quality gates command (e.g. `npm run quality` or `quality-gate.sh`) before marking tasks complete
+- Ensure linting passes without warnings, and type checks are error-free
+- Add unit/integration tests for all new functions, aiming for 95% line coverage and 90% branch coverage
+- Run mutation testing (e.g., Stryker, Mutant) to verify test suite quality and check that no mutants survive
+- **Report the final gate metrics table** in your response so regressions are visible and tracked under the ratchet policy
 
 ## SPEC-HARNESS-KIT Framework Structure
 
