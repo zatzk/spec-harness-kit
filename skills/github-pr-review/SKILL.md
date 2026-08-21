@@ -1,9 +1,9 @@
 ---
 name: github-pr-review
 description: >
-  Realiza code review de um Pull Request do GitHub. Recebe um link de PR como parâmetro,
-  busca o diff e a descrição via CLI do gh, analisa o código e gera um arquivo markdown
-  com Problemas Críticos, Pontos de Melhoria e O que Foi Bem Feito.
+  Realiza code review aprofundado de um Pull Request do GitHub. Recebe um link de PR como parâmetro,
+  busca o diff e a descrição via CLI do gh, aplica o Protocolo de Inspeção em 6 Camadas (DIP, failure-path tracing,
+  auditoria de testes e SOLID) e gera um relatório detalhado.
   Use quando o usuário pedir para revisar um PR, fazer code review de um pull request,
   ou usar /github-pr-review com um link do GitHub.
 argument-hint: <url-do-pr>
@@ -24,7 +24,7 @@ O argumento é o link completo do PR, ex: `https://github.com/owner/repo/pull/42
 ## O que fazer
 
 Analisar um Pull Request do GitHub usando a CLI `gh` e produzir um relatório de code review
-estruturado em formato markdown.
+de alta precisão seguindo o **Protocolo de Inspeção em 6 Camadas**.
 
 ## Pré-requisitos
 
@@ -54,124 +54,136 @@ gh pr view <id> --repo <repo> --json title,body,author,state,baseRefName,headRef
 gh pr diff <id> --repo <repo> --color=never
 ```
 
-Se o gh retornar erro de repo não encontrado, verifique a autenticação ou o link do repositório.
+Se o gh retornar erro de repo não encontrado ou diff muito grande (>300 arquivos), utilize o clone local ou a API do GitHub com paginação para inspecionar os arquivos relevantes.
 
-### 3. Analisar o conteúdo
+### 3. Aplicar o Protocolo de Inspeção em 6 Camadas
 
-Com os dados coletados, analise:
+Não faça uma análise superficial ou apenas no *happy path*. Aplique sistematicamente:
 
-**Da descrição do PR:**
-- Qual é o objetivo da mudança?
-- Há contexto de negócio ou decisões de design explicadas?
-- O que deveria ser testado está descrito?
+#### 🔬 Camada 1: Rastreamento Semântico e Caminhos de Falha (*Failure-Path Tracing*)
+- Inspecione cada bloco `try/catch`, interceptor ou chamada assíncrona/API externa:
+  - *O que é retornado no `catch` ou fallback em caso de erro/timeout?*
+  - *O tipo retornado quebra a assinatura declarada do método?* (Ex: retornar `string` com mensagem de erro em método tipado como `Promise<T[]>`).
+  - *Como o código consumidor a jusante reage a esse retorno de erro?* (Ex: iterar sobre caracteres de string achando que é array).
 
-**Do diff:**
-- Lógica incorreta ou com bugs óbvios
-- Violações de segurança (SQL injection, XSS, secrets hardcoded, dados sensíveis expostos)
-- Problemas de performance (N+1 queries, loops ineficientes, falta de índices)
-- Tratamento de erros ausente ou inadequado em boundaries do sistema
-- Código que viola contratos de tipos ou invariantes
-- Melhorias de legibilidade e manutenibilidade (nomes, estrutura, complexidade desnecessária)
-- Testes ausentes para lógica de negócio relevante
-- Padrões do projeto que não estão sendo seguidos
-- Pontos positivos: boas abstrações, código limpo, boas práticas aplicadas
+#### 🏛️ Camada 2: Inversão de Dependência (DIP) & Composition Root
+- Verifique acoplamentos rígidos: classes de serviço não devem instanciar diretamente suas dependências auxiliares (`new SubService(...)`) dentro de construtores ou métodos.
+- Todas as dependências devem ser injetadas via construtor e instanciadas em **Factories** ou módulos de injeção dedicados.
 
-### 4. Estruturar o relatório
+#### 🛡️ Camada 3: Auditoria da Suíte de Testes (*QA Test Audit*)
+- **Mocks Tautológicos:** Identifique se os testes apenas espelham os mocks sem validar regras reais (ex: repositórios usando `mockDeep` em vez de in-memory DB).
+- **Abuso de `as any` em Stubs:** Verifique se mocks de repositório usam casts permissivos que mascaram quebras de contrato de tipo.
+- **Testes E2E sem I/O real:** Testes classificados como E2E que utilizam stubs de rede manuais (`vi.fn()`) em vez de handshakes reais (ex: Socket.io real com backend de teste).
+- **Cobertura Baseada em Valor (*Value Coverage*):** Aponte lacunas em regras algorítmicas críticas, limiares numéricos e caminhos de fallback não cobertos por testes unitários dedicados.
 
-Organize os achados em três categorias:
+#### 📐 Camada 4: Tipagem Estrita & Regras do Harness Arquitetural
+- **Eliminação de `any`:** Substitua `any` por tipos explícitos, tuplas estritas ou `unknown` com narrowing.
+- **Regras de Estilo do Repositório:** Verifique se regras do harness foram violadas (ex: proibição de blocos JSDoc redundantes quando TypeScript já tipa parâmetros e retorno).
+- **Gestão de Recursos & Concorrência:** Cheque vazamento de memória em subscrições RxJS (`takeUntilDestroyed`), timeouts não cancelados, race conditions em filas e locks assíncronos.
 
-**Problemas Críticos** — qualquer coisa que *bloquearia* o merge:
-- Bugs que causariam comportamento errado em produção
-- Vulnerabilidades de segurança
-- Quebra de contrato de API ou regressões funcionais
-- Erros que causariam falhas em runtime
+#### 📊 Camada 5: Complexidade Ciclomática e Princípios SOLID
+- Produza a matriz estruturada avaliando cada arquivo modificado nos 5 princípios **S-O-L-I-D** e alertando sobre pontos de alta complexidade ciclomática.
 
-**Pontos de Melhoria** — não bloqueiam, mas deveriam ser endereçados:
-- Performance subótima
-- Código difícil de manter
-- Testes faltando para casos importantes
-- Padrões do projeto não seguidos
-- Alternativas de design mais adequadas
+#### 🟢 Camada 6: Pontos Fortes e Destaques Positivos
+- Reconheça boas abstrações, funções puras determinísticas, desacoplamento por portas e adaptadores e cobertura de testes de alto valor.
 
-**O que Foi Bem Feito** — reforço positivo genuíno:
-- Boas abstrações introduzidas
-- Código particularmente legível ou bem estruturado
-- Casos de borda bem tratados
-- Testes bem escritos
-- Refatorações limpas
+### 4. Gerar o Relatório Estruturado
 
-### 5. Gerar o arquivo de saída
+Gere o relatório seguindo rigorosamente a estrutura padrão abaixo.
 
-Salve o relatório em `~/Aton/saffira-docs/review-pr-<id>.md` com o formato abaixo.
-
-Se não houver nada em alguma categoria, escreva `> Nenhum item identificado.` na seção.
-
-Para cada item, inclua:
-- Uma linha de título em negrito descrevendo o problema/ponto
-- O arquivo e número de linha quando aplicável: `` `caminho/arquivo.ts:42` ``
-- Uma explicação objetiva do porquê é um problema ou ponto positivo
-- Para problemas críticos e melhorias: uma sugestão concreta de como resolver
-
-## Formato do arquivo de saída
+## Formato do arquivo de saída / Review
 
 ```markdown
 # Code Review — PR #<id>: <título do PR>
 
-**Repositório:** `<repo>`
-**Autor:** <autor>
-**Branch:** `<headRefName>` → `<baseRefName>`
-**Revisado em:** <data>
+### 1. Resumo do Pull Request
+
+> [!NOTE]
+> - **PR:** #<id> - <título>
+> - **Autor:** <autor>
+> - **Repositório:** `<repo>`
+> - **Branch:** `<headRefName>` → `<baseRefName>`
+> - **Objetivo Geral:** <resumo conciso do objetivo e arquitetura proposta>
 
 ---
 
-## Descrição do PR
+### 2. 🔴 Problemas Críticos Encontrados
 
-<descrição resumida do PR ou "Sem descrição." se vazia>
+> Itens que bloqueiam o merge (Bugs de runtime, Quebra de contratos de tipo, Violações graves de DIP, Falhas silenciosas).
 
----
+#### <Título do Problema Crítico>
 
-## Problemas Críticos
+No arquivo `caminho/arquivo.ts:linha`, <descrição precisa do problema>:
 
-> Itens que bloqueiam o merge.
+```typescript
+// Trecho de código problemático
+```
 
-### 1. <título do problema>
+**Impacto:**
+1. <Impacto técnico 1>
+2. <Impacto técnico 2>
 
-**Arquivo:** `caminho/arquivo.ts:42`
-
-<explicação objetiva do problema>
-
-**Sugestão:**
-<o que fazer para corrigir>
-
----
-
-## Pontos de Melhoria
-
-> Não bloqueiam, mas devem ser considerados.
-
-### 1. <título>
-
-**Arquivo:** `caminho/arquivo.ts:10`
-
-<explicação>
-
-**Sugestão:**
-<como melhorar>
+**Correção sugerida:**
+<Código corrigido com injeção/tipagem adequada>
 
 ---
 
-## O que Foi Bem Feito
+### 3. 🟡 Pontos de Melhoria
 
-- **<título>** (`arquivo.ts:5`): <por que é um ponto positivo>
-- **<título>**: <explicação>
+> Não bloqueiam imediatamente, mas devem ser considerados (Uso de `any`, violação de regras do harness/JSDoc, concorrência, lacunas de testes unitários).
+
+#### <Título do Ponto de Melhoria>
+
+No arquivo `caminho/arquivo.ts:linha`:
+- <explicação do ponto de melhoria>
+
+**Correção sugerida:**
+<como melhorar com exemplo de código>
 
 ---
+
+### 4. 🛡️ Relatório de Auditoria de QA (QA Test Audit)
+
+## 📊 Resumo Executivo da Auditoria
+> <Análise crítica sobre a fidelidade e valor dos testes>
+
+## 🔴 Pontos Críticos e Falsa Sensação de Segurança
+> [!CAUTION]
+> **[Arquivo: caminho/teste.spec.ts] - <Problema de Teste / Mock Tautológico>**
+> <Explicação detalhada de como o teste mascara falhas reais>
+
+## 🟡 Anti-patterns de Teste Identificados
+> [!WARNING]
+> **[Arquivo: caminho/teste.spec.ts] - <Anti-pattern>**
+> <Descrição do anti-pattern (ex: fake socket em teste E2E)>
+
+## 📊 Cobertura Baseada em Valor (Value Coverage Report)
+
+| Módulo | Criticidade do Módulo (1-5) | Tipos de Teste Existentes | Testa Isolamento de Inquilino? | Valor Real Gerado pelos Testes | Lacunas de Cobertura / Recomendações |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **<Nome do Módulo>** | 🔥 5/5 | Unitário Puro | Sim/Não/NA | **Alto / Médio / Baixo** | <Recomendações> |
+
+## ⚡ Lacunas de Cobertura de Alto Valor
+> [!TIP]
+> 1. **<Módulo>:** <Cenários de borda e matrizes de teste que devem ser adicionados>
+
+---
+
+### 5. 📊 Análise de Complexidade Ciclomática e Princípios SOLID
+
+| Arquivo | Complexidade Ciclomática (CC) | SOLID S | SOLID O | SOLID L | SOLID I | SOLID D | Diagnóstico |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| `caminho/arquivo.ts` | **<CC>** | ✅ | ✅ | ✅ | ✅ | ❌/✅ | <Diagnóstico objetivo> |
+
+---
+
+### 6. 🟢 Pontos Positivos
+
+- **<Boas práticas / Destaques>:** <Explicação do porquê agrega valor>
 ```
 
 ## Observações importantes
 
-- Foque em problemas reais: prefira zero falsos positivos a cobertura máxima
-- Contextualize pela descrição do PR: se o autor explicou uma decisão de design, não clique sem considerar o contexto
-- Seja específico: "linha 42 do arquivo X faz Y quando deveria fazer Z" é mais útil que "há um problema aqui"
-- Separe opinião de fato: use "considere" para preferências estilísticas, seja direto para bugs reais
-- Se o diff for muito grande (>1000 linhas), foque nos arquivos de lógica de negócio (services, controllers, domain) e mencione que arquivos de infraestrutura/config foram omitidos da análise detalhada
+- **Zero tolerância para superficialidade:** Não aprove um PR apenas porque a suíte de testes passou. Mocks e testes unitários fracos frequentemente mascaram quebras de tipo e bugs de runtime.
+- **Rastreie caminhos de exceção:** A maioria dos bugs críticos em produção ocorre em caminhos de fallback e blocos `catch`.
+- **Seja cirúrgico e construtivo:** Sempre forneça o trecho exato de código sugerido para correção.
