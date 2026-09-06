@@ -72,7 +72,8 @@ Call these agents using the `@` prefix in your favorite CLI.
 | **@researcher** | **Researcher:** Documentation harvesting, API fact-finding, and deep-dive exploration. | Structured Research Notes. |
 | **@architect** | **System Architect:** Designs tech stacks, interfaces, patterns, and boundaries. | Architecture Design Docs (Mermaid). |
 | **@dev** | **Senior Developer:** Implementation specialist, clean code, unit/integration tests. | Source files, test suites. |
-| **@qa** | **QA Engineer:** Exclusive authority for quality verdicts (PASS/FAIL), test strategies. | QA Review Reports, Bug logs. |
+| **@qa** | **QA Lead Orchestrator:** Exclusive authority for quality verdicts (PASS/FAIL), multi-tier pipeline. | Review-over-Review reports, QA Score. |
+| **@qa-scout** | **QA Scout / Scraper:** Low-token worker for diff scraping, PR comments, and domain AST parsing. | Inspection Manifest (YAML). |
 | **@devops** | **DevOps Engineer:** Exclusive authority for git pushes, CI/CD, and deployments. | CI/CD pipelines, container configs. |
 | **@ux** | **UX/UI Designer:** Enforces atomic design systems, visual consistency, and micro-animations. | Design System Specs (`DESIGN.md`). |
 | **@writer** | **Technical Writer:** Specialized in documentation, blog posts, changelogs, and content lifecycle. | Technical documentation, blog drafts, changelogs. |
@@ -88,13 +89,14 @@ Call these agents using the `@` prefix in your favorite CLI.
 
 - `agents/`: Agnostic Markdown files with standard YAML frontmatter defining each agent's behavior (in English).
 - `rules/`: Global rules, constitutions, tech-presets, and templates.
+- `plugs/`: **Workspace Plugs Ecosystem** for company and personal projects:
+  - `plugs/aton/`: Saffira & Aton Corporate plug (`saffira-ai-learn-core` submodule with specialist reviewers, harnesses, and MCPs).
+  - `plugs/personal/`: User-defined personal projects configuration and templates.
 - `skills/`: Global, reusable capabilities:
-  - **Mattpocock Engineering Skills**:
-    - `wayfinder/`: Chart strategic maps and decision tickets locally.
-    - `grill-me/` & `grill-with-docs/`: Elicit requirements via systematic interviews.
-    - `to-spec/` & `to-tickets/`: Synthesize functional specs and decompose into atomic tickets.
-    - `triage/`: Automatic prioritization and tagging of issues.
-    - `implement/` & `tdd/`: Test-driven feature implementation.
+  - **QA & Review Pipeline Skills**:
+    - `qa-pipeline/`: Multi-tier Review-over-Review QA pipeline (Scout -> Lead -> Domain Specialists).
+    - `github-pr-review/`: Automated code reviews for GitHub Pull Requests (via `gh` CLI).
+    - `gitlab-mr-review/`: Automated code reviews for GitLab Merge Requests (via `glab` CLI).
     - `code-review/`: Spec-aware and design-aware code reviews.
     - `diagnosing-bugs/`: Systematic bug root-cause analysis.
     - `domain-modeling/` & `ubiquitous-language/`: Glossary and glossary-driven design.

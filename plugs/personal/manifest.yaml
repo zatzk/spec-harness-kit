@@ -1,0 +1,20 @@
+id: personal
+name: "Personal Projects Ecosystem"
+description: "Padrões, regras e stacks para side-projects pessoais (Fullstack, Go, Node.js)"
+
+triggers:
+  keywords:
+    - personal
+    - side-project
+    - oss
+
+defaults:
+  model: "gemini-3.8-flash"
+  quality_score_threshold: 85
+
+global:
+  rules:
+    - rules/constitution.md
+    - rules/technical-preferences.md
+
+projects: {}

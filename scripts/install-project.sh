@@ -111,6 +111,27 @@ for agent_file in "$REPO_ROOT/agents"/*.md; do
     fi
 done
 
+# Setup Plug Agents
+if [ -d "$REPO_ROOT/plugs" ]; then
+    find "$REPO_ROOT/plugs" -path "*/agents/*.md" 2>/dev/null | while read -r agent_file; do
+        basename_no_ext=$(basename "$agent_file" .md)
+        target_md="$AGENTS_DIR/${basename_no_ext}.md"
+        target_agent_md="$AGENTS_DIR/${basename_no_ext}.agent.md"
+        target_rule_md="$RULES_DIR/${basename_no_ext}.md"
+        if $SYMLINK_MODE; then
+            ln -sf "$agent_file" "$target_md"
+            ln -sf "$agent_file" "$target_agent_md"
+            ln -sf "$agent_file" "$target_rule_md"
+            echo "  Linked plug agent: ${basename_no_ext} (.md, .agent.md, and rule)"
+        else
+            cp "$agent_file" "$target_md"
+            cp "$agent_file" "$target_agent_md"
+            cp "$agent_file" "$target_rule_md"
+            echo "  Copied plug agent: ${basename_no_ext} (.md, .agent.md, and rule)"
+        fi
+    done
+fi
+
 # 2. Setup Rules
 echo -e "\n${BLUE}--- Setting up Local Rules ---${NC}"
 if $SYMLINK_MODE; then
@@ -168,6 +189,20 @@ if [ -d "$REPO_ROOT/skills/projects" ]; then
         if [ -d "$skill_dir" ]; then
             skill_name=$(basename "$skill_dir")
             setup_skill "$skill_dir" "$skill_name"
+        fi
+    done
+fi
+
+# Process plug skills/workflows
+if [ -d "$REPO_ROOT/plugs" ]; then
+    find "$REPO_ROOT/plugs" -path "*/skills/*.md" 2>/dev/null | while read -r skill_file; do
+        skill_name=$(basename "$skill_file" .md)
+        if $SYMLINK_MODE; then
+            ln -sf "$skill_file" "$WORKFLOWS_DIR/${skill_name}.md"
+            echo "  Linked plug workflow: ${skill_name}.md"
+        else
+            cp "$skill_file" "$WORKFLOWS_DIR/${skill_name}.md"
+            echo "  Copied plug workflow: ${skill_name}.md"
         fi
     done
 fi

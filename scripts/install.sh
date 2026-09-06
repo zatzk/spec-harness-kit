@@ -44,6 +44,18 @@ copy_agents() {
         cp "$agent_file" "$target_path"
         echo "  Copied agent: $filename"
     done
+
+    # Copy Plug Agents
+    if [ -d "$REPO_ROOT/plugs" ]; then
+        find "$REPO_ROOT/plugs" -path "*/agents/*.md" 2>/dev/null | while read -r agent_file; do
+            basename_no_ext=$(basename "$agent_file" .md)
+            filename="${basename_no_ext}${suffix}"
+            target_path="$target_dir/$filename"
+            rm -f "$target_path"
+            cp "$agent_file" "$target_path"
+            echo "  Copied plug agent: $filename"
+        done
+    fi
 }
 
 # Execute Copying for legacy CLIs (.md suffix)
@@ -106,11 +118,15 @@ fi
 echo "--- Setting up Antigravity CLI (Native Plugin) ---"
 
 if command -v agy >/dev/null 2>&1; then
-    echo "Found Antigravity CLI ('agy'). Installing plugin locally..."
-    agy plugin install "$REPO_ROOT"
+    if [ -L "$HOME/.gemini/config/plugins/spec-harness-kit" ]; then
+        echo "Antigravity plugin already linked to $REPO_ROOT."
+    else
+        echo "Found Antigravity CLI ('agy'). Installing plugin locally..."
+        agy plugin install "$REPO_ROOT" || true
+    fi
     echo ""
     echo "Verifying registered plugins:"
-    agy plugin list
+    agy plugin list || true
 else
     echo "Antigravity CLI ('agy') command not found."
     echo "If you have installed 'agy', please make sure it is in your PATH."
@@ -123,6 +139,13 @@ AGY_PLUGIN_DIR="$HOME/.gemini/config/plugins/spec-harness-kit"
 if [ -d "$AGY_PLUGIN_DIR" ]; then
     # Sync agents
     cp "$REPO_ROOT/agents/"*.md "$AGY_PLUGIN_DIR/agents/" 2>/dev/null && echo "  Synced agents"
+    # Sync plug agents
+    if [ -d "$REPO_ROOT/plugs" ]; then
+        find "$REPO_ROOT/plugs" -path "*/agents/*.md" 2>/dev/null | while read -r agent_file; do
+            cp "$agent_file" "$AGY_PLUGIN_DIR/agents/" 2>/dev/null
+        done
+        echo "  Synced plug agents"
+    fi
     # Sync skills
     cp -r "$REPO_ROOT/skills/"* "$AGY_PLUGIN_DIR/skills/" 2>/dev/null && echo "  Synced skills"
 else

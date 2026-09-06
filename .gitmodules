@@ -1,0 +1,3 @@
+[submodule "plugs/aton"]
+	path = plugs/aton
+	url = git@github.com:aton-engenharia/saffira-ai-learn-core.git
