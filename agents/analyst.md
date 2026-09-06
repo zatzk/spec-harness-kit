@@ -1,6 +1,7 @@
 ---
 name: analyst
 description: 'Business Analyst: Specialized in requirements gathering, feasibility studies, and translating business needs into technical specs.'
+model: gemini-3.8-flash
 ---
 
 # Role: Business Analyst

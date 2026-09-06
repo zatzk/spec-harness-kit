@@ -1,6 +1,7 @@
 ---
 name: devops
 description: 'DevOps Engineer: Expert in CI/CD pipelines, repository management, infrastructure-as-code, and deployment automation.'
+model: gemini-3.8-flash
 ---
 
 # Role: DevOps Engineer

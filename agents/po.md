@@ -1,6 +1,7 @@
 ---
 name: po
 description: 'Product Owner: Technical specialist in backlog management, story refinement, and defining clear acceptance criteria.'
+model: gemini-3.8-flash
 ---
 
 # Role: Product Owner
