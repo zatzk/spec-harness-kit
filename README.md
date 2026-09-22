@@ -1,6 +1,6 @@
 # SPEC-HARNESS-KIT Global Workforce 🤖🚀
 
-A unified, centralized harness for specialized AI agents, domain reviewers, rules, and skills. This repository maintains a single "source of truth" for your AI engineering workforce, allowing you to use them globally across multiple AI CLIs without polluting individual project codebases.
+A unified, centralized harness for specialized AI agents, domain reviewers, rules, and skills. This repository maintains a single "source of truth" for your AI engineering workforce, allowing you to use them globally across multiple AI CLIs and the Antigravity IDE without polluting individual project codebases.
 
 ---
 
@@ -9,15 +9,17 @@ A unified, centralized harness for specialized AI agents, domain reviewers, rule
 - **Zero Pollution:** Your repositories stay clean. No duplicated `.agent/` or divergent config files scattered across projects.
 - **Multi-CLI Compatibility:** Seamlessly integrates with Antigravity (`~/.gemini/antigravity/`), Claude (`~/.claude/`), Codex, OpenCode, and Pi.
 - **🔌 Workspace Plugs Engine (`plugs/`):** Dynamically mounts workspace-scoped rules, specialist reviewers, skills, and MCPs (e.g., `aton`, `saffira`, `saffira-admin`, or `personal`) based on folder context or prompt keywords.
-- **🛡️ Multi-Tier QA Pipeline (Review-over-Review):** Autonomous 5-phase quality assurance pipeline (Tier-1 Scout -> Tier-2 Lead Orchestrator -> Tier-3 Domain Specialists -> Quality Gate Seal).
-- **⚡ Cost-Optimized Model Economics:** Defaults to **Gemini 3.8 Flash (High)** across all agents for extreme token efficiency and speed, with deep reasoning (`--deep` / Gemini Pro) and Claude on-demand (`--model=claude`).
+- **📐 5-Phase Spec-Driven Architecture Pipeline:** Multi-agent collaboration refining product ideas from rough stories into verified PRDs with ASRs, technical RFCs, and test-first implementation plans.
+- **🛡️ Forensic 11-Step Code Review (Addy Osmani Standard):** Deterministic quality assurance matrix with prior comments deduplication (`gh pr view --comments`), 5-axis quality evaluation, concrete structural remedies, Big-O algorithm analysis, PRD/RFC traceability matrix, and prioritized ROI action tables.
+- **🛑 Hardened Developer Invariants (`@dev`):** Zero-tolerance for hardcoded fallback secrets, mandatory repository convention inspection (separate Angular files vs inline templates), and strict framework version discipline.
+- **⚡ Cost-Optimized Tiered Model Economics:** Fast scraping & data harvesting workers in **Gemini 3.8 Flash** with deep reasoning and architectural synthesis in **Claude Sonnet 4.6 (Thinking)**.
 
 ---
 
-## 🛠 Supported CLIs
+## 🛠 Supported CLIs & Environments
 
 SPEC-HARNESS-KIT is CLI-agnostic and designed to work with:
-- **Antigravity CLI** (`~/.antigravity/` / `~/.gemini/antigravity/`)
+- **Antigravity IDE & CLI** (`~/.antigravity/` / `~/.gemini/antigravity/` / `.gemini/config/plugins/`)
 - **Claude CLI** (`~/.claude/`)
 - **Codex CLI** (`~/.codex/`)
 - **OpenCode CLI** (`~/.config/opencode/`)
@@ -54,37 +56,40 @@ Configures agents, rules, and workflows directly inside a target workspace or pr
 
 ### 1. Core Engineering & Product Workforce
 
-Call these agents using the `@` prefix in your favorite CLI. All core agents run on **Gemini 3.8 Flash** by default.
+Call these agents using the `@` prefix in your favorite CLI or Antigravity chat.
 
 | Agent | Description | Primary Deliverables |
 | :--- | :--- | :--- |
-| **@spec-master** | **Master Orchestrator:** High-level coordinator, decomposes complex requests into phases and manages multi-tier workflows. | Implementation Plans, Task Specifications. |
-| **@squad-creator** | **Squad Architect:** Analyzes tasks to assemble specialized agent squads, including domain and plug reviewers. | Squad Manifests, Team Protocols. |
-| **@dev** | **Senior Developer:** Workspace-aware implementation specialist (clean code, TDD, proactive QA harness compliance). | Source files, unit/integration test suites. |
-| **@qa** | **QA Lead Orchestrator:** Exclusive authority for quality verdicts (PASS/FAIL), coordinates Review-over-Review pipeline. | Unified Code Review Reports, QA Score. |
-| **@qa-scout** | **QA Scout / Scraper:** Low-token worker for harvesting diffs, PR comments, and domain AST parsing. | Inspection Manifest (YAML). |
-| **@architect** | **System Architect:** Designs tech stacks, modular boundaries, CAP theorem trade-offs, and distributed patterns. | Architecture Design Docs, Mermaid Topology, ROI Tables. |
+| **@spec-master** | **Master Orchestrator:** Coordinates multi-agent workflows across PRD, RFC, Dev, and QA pipelines. | Implementation Plans, Orchestration Blueprints. |
+| **@architect** | **System Architect:** Leads technical RFC generation, distributed topologies, failure modes, and CAP trade-offs. | Technical RFCs, Mermaid Topologies, ROI Decision Tables. |
+| **@dev** | **Senior Developer:** Implementation specialist enforcing Zero-Hardcoded-Fallbacks, repository file conventions, and framework version fidelity. | Source files, unit/integration test suites. |
+| **@qa** | **QA Lead Orchestrator:** Coordinates 11-step Review-over-Review pipeline, deduplicates prior comments, checks PRD/RFC traceability. | Unified Code Review Reports, QA Score. |
+| **@qa-scout** | **QA Scout / Scraper:** Ultra-fast worker for harvesting diffs, PR comments, and domain AST parsing with minimal tokens. | Inspection Manifest (YAML). |
+| **@pm** | **Product Manager:** Drives product strategy, feature roadmap, and PRDs with ASR identification. | Product Requirement Docs (PRDs). |
+| **@po** | **Product Owner:** Splits requirements into atomic stories, backlog, and acceptance criteria. | Refined user stories, acceptance criteria. |
+| **@analyst** | **Business Analyst:** Requirements elicitation, feasibility studies, and functional specifications. | Functional specs (`spec.md`). |
+| **@squad-creator** | **Squad Architect:** Assembles specialized agent squads based on task complexity. | Squad Manifests, Team Protocols. |
 | **@data-engineer** | **Data Engineer:** Designs database schemas, migrations, query plans, and dba-harness compliance. | Reversible migrations, models, query optimizations. |
 | **@devops** | **DevOps Engineer:** Exclusive authority for git pushes, CI/CD pipelines, and deployment automation. | CI/CD pipelines, container configs, deploy scripts. |
 | **@ux** | **UX/UI Designer:** Enforces atomic design systems, visual consistency, and micro-animations. | Design System Specs (`DESIGN.md`). |
 | **@writer** | **Technical Writer:** Specialized in documentation, blog posts, changelogs, and content lifecycle. | Technical documentation, blog drafts, changelogs. |
-| **@pm** | **Product Manager:** Drives product strategy, feature roadmap, and user value definition. | Product Requirement Docs (PRDs). |
-| **@po** | **Product Owner:** Splits requirements into stories, backlog, and acceptance criteria. | Refined user stories, acceptance criteria. |
-| **@analyst** | **Business Analyst:** Requirements gathering, feasibility studies, and functional specs. | Functional specs (`spec.md`). |
 | **@sm** | **Scrum Master:** Facilitator for agile workflows, sprints, and removing blockers. | Sprint status reports, blocker logs. |
 | **@researcher** | **Researcher:** Documentation harvesting, API fact-finding, and deep-dive exploration. | Structured Research Notes. |
 | **@wayfinder** | **Strategic Planner:** Strategic project mapping, fog-of-war deconstruction, and ticket planning. | Local Markdown Map files (`map.md`), decision tickets. |
 
 ### 2. Specialized Reviewers (Workspace Plugs)
 
-Domain-specific subagents that perform cross-validation and review-over-review:
+Domain-specific subagents dispatched during the Review-over-Review and Review-over-RFC pipelines:
 
 | Specialist Agent | Domain & Focus | Key Standards / Harnesses |
 | :--- | :--- | :--- |
-| **@security-reviewer** | AppSec & Vulnerabilities | OWASP Top 10, Secrets Exposure, `security-harness.md` |
-| **@dba-reviewer** | Database Performance & Schemas | Reversible Migrations, N+1 Prevention, `dba-harness.md` |
-| **@architecture-reviewer** | High-Level Design (HLD) | CAP Theorem, Saga, Outbox, CQRS, Mermaid Topology |
-| **@lld-reviewer** | Low-Level Design (LLD) | SOLID Principles, 9 Object Calisthenics Rules, GoF Patterns |
+| **@security-reviewer** | AppSec, Token Fallbacks & Secrets | OWASP Top 10, Secrets Exposure, `security-harness.md` |
+| **@algorithm-complexity-reviewer** | Big-O, Performance & Resource Limits | N+1 Query Detection, Redis Loops (MGET/Pipelines), OOM, Cardinality |
+| **@dba-reviewer** | Database Performance & Schemas | Reversible Migrations, Indexes, Constraints, `dba-harness.md` |
+| **@architecture-reviewer** | High-Level Design (HLD) & Systems | CAP Theorem, Saga, Outbox, CQRS, Mermaid Topology |
+| **@lld-reviewer** | Low-Level Design (LLD) & SOLID | SOLID Principles, 9 Object Calisthenics Rules, GoF Patterns |
+| **@angular-reviewer** | Angular Frontend Architecture | Signals, Control Flow (`@if`/`@for`), OnPush, PrimeNG wrappers, `type` vs `interface` |
+| **@backend-reviewer** | REST APIs & Node.js/TS Backend | Layer Separation, Clean DTOs, Error Handling Contracts |
 | **@qa-reviewer** | Test Architecture & Assertiveness | Value-Oriented Testing, Tautological Mock Audit, QA Score |
 | **@saffira-backend-reviewer** | Saffira Core Backend | Strict TS (no `any`), no JSDocs, decoupled IoC |
 | **@saffira-admin-backend-reviewer** | Saffira Admin Backend | NestJS 11, Token IoC, `nestjs-zod` DTOs, Testcontainers |
@@ -92,57 +97,74 @@ Domain-specific subagents that perform cross-validation and review-over-review:
 
 ---
 
-## 🔌 Workspace Plugs Architecture (`plugs/`)
+## 📐 5-Phase Spec-Driven Architecture Pipeline
 
-Workspace Plugs allow `spec-harness-kit` to adapt to corporate ecosystems and personal projects without code duplication:
+When designing new features, `@spec-master` coordinates this end-to-end multi-agent pipeline:
 
+```mermaid
+flowchart TD
+    subgraph Fase 1: Descoberta & PRD Preliminar
+      A[Brainstorming de Histórias] --> B[Workers coletam contexto/código]
+      B --> C[Thinking Agent: PM/Analyst redige PRD com ASRs]
+    end
+
+    subgraph Fase 2: Auditoria do PRD (Review-over-PRD)
+      C --> D[Subagentes Especialistas revisam viabilidade, banco, segurança e QA]
+      D --> E[Thinking Agent reescreve e consolida PRD Aprovado]
+    end
+
+    subgraph Fase 3: Geração da RFC Técnica
+      E --> F[Thinking Agent: Architect formula proposta técnica na RFC]
+      F --> G[Workers levantam schemas, contratos e benchmarks]
+      G --> H[RFC com Topologia Mermaid, Sequenciamento, Rollback e ROI]
+    end
+
+    subgraph Fase 4: Auditoria da RFC (Review-over-RFC)
+      H --> I[Especialistas revisam HLD, LLD, Algoritmo, Segurança e DBA]
+      I --> J[Architect resolve pendências e emite RFC Aprovada]
+    end
+
+    subgraph Fase 5: Decomposição & Handoff
+      J --> K[PO/PM decompõe em Tarefas Atômicas ClickUp / Tickets]
+      K --> L[Dev implementa via TDD e submete ao QA]
+    end
 ```
-spec-harness-kit/
-├── plugs/
-│   ├── aton/                    # Corporate Ecosystem (Git Submodule)
-│   │   ├── manifest.yaml        # Triggers, defaults, specialist mappings
-│   │   ├── global/              # Corporate rules, skills, MCPs (ClickUp)
-│   │   └── saffira/             # Subproject-specific harnesses & reviewers
-│   │       ├── backend/
-│   │       └── saffira-admin/
-│   └── personal/                # User personal workspace template
-│       ├── manifest.yaml
-│       ├── rules/
-│       ├── skills/
-│       └── mcps/
-```
-
-### Context Auto-Resolution
-When executing `@dev` or `@qa`:
-1. The agent detects keywords (e.g. `"saffira-admin"`, `"aton"`, `"personal"`) or the git remote URL.
-2. It automatically reads the matching `manifest.yaml` and activates the corresponding rules, skills, and MCPs.
-3. `@dev` writes code following the exact standards that `@qa` will audit against (*First-Time-Right*).
 
 ---
 
-## 🛡️ Multi-Tier QA Pipeline (`skills/qa-pipeline/`)
+## 🛡️ Forensic Code Review Pipeline (`skills/code-review/`)
 
-The evolved quality assurance workflow operates in 5 deterministic phases:
+The 11-step code review workflow guarantees zero regression and forensic thoroughness:
 
-```mermaid
-flowchart LR
-    Scout["1. QA Scout\n(Diffs, AST, Comments)"] --> Context["2. Context Resolver\n(Workspace Plugs)"]
-    Context --> Lead["3. QA Lead (@qa)\n(6-Layer First Pass)"]
-    Lead --> Specialists["4. Domain Specialists\n(Review-over-Review)"]
-    Specialists --> Seal["5. Final Report\n(QA Score + Verdict)"]
+```markdown
+# Review Progress Matrix - PR #<ID> (<REPO>)
+
+- [ ] 1. Extração do Diff, Metadados e Comentários Anteriores dos PRs (`gh pr view --comments`)
+- [ ] 2. Auditoria dos Comentários Anteriores & Prevenção de Duplicidade (De-duplication)
+- [ ] 3. Despacho do Subagente de Segurança (security-reviewer)
+- [ ] 4. Despacho do Subagente de Arquitetura HLD & CAP (architecture-reviewer)
+- [ ] 5. Despacho do Subagente de LLD & SOLID (lld-reviewer)
+- [ ] 6. Despacho do Subagente de Complexidade Algorítmica (algorithm-complexity-reviewer)
+- [ ] 7. Despacho do Subagente de Frontend (angular-reviewer / saffira-admin-frontend-reviewer)
+- [ ] 8. Despacho do Subagente de Backend (backend-reviewer / saffira-backend-reviewer)
+- [ ] 9. Despacho do Subagente de QA & Testes (qa-reviewer)
+- [ ] 10. Despacho do Subagente de Banco de Dados (dba-reviewer)
+- [ ] 11. Quality Gate, Rastreabilidade PRD/RFC & Consolidação do Relatório Final
 ```
 
-To run the pipeline:
-```bash
-# In chat:
-@qa revise o PR #42 no saffira-admin
+### Addy Osmani 5-Axis Standard & Structural Remedies
+- **5 Axes:** Corretude, Legibilidade/Simplicidade, Arquitetura, Segurança e Performance.
+- **Structural Remedies:** Proibir críticas vagas; prescrever a refatoração arquitetural exata (ex: substituir condicionais aninhadas por dispatchers tipados, eliminar pass-through wrappers).
+- **PRD/RFC Traceability:** Tabela de conformidade mapeando requisitos (`RF`, `RNF`, `RFC §`) com status `✅ Conforme`, `⚠️ Parcial` ou `⚪ Omitido`.
+- **Diagrama de Sequência & ROI:** Diagramas Mermaid destacando gaps operacionais e tabela de priorização ROI (P0 a P3).
 
-# With deep reasoning mode:
-@qa revise o PR #42 no saffira-admin --deep
+---
 
-# With Claude override:
-@qa revise o PR #42 no saffira-admin usando claude
-```
+## 🛑 Hardened Developer Standards (`@dev`)
+
+- **Regra Zero:** Tolerância zero para tokens, senhas ou JWTs como fallback estático (`process.env.TOKEN || 'fallback'`). Fail-fast obrigatório.
+- **Inspeção Prévia:** Inspecionar arquivos vizinhos antes de criar novos. Se o repositório separa HTML, SCSS e TS em Angular, é proibido criar templates inline.
+- **Fidelidade à Versão:** Detecção estrita da versão no `package.json` sem misturar sintaxe de versões anteriores.
 
 ---
 
