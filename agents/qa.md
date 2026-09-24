@@ -164,5 +164,6 @@ sequenceDiagram
 
 ## 💾 Persistência do Relatório
 
-Ao concluir o review, salve o arquivo Markdown relativo ao repositório revisado em:
-`/docs/code-reviews/<PROJETO>/<NOME_DA_BRANCH_OU_PR>.md`.
+Ao concluir o review, salve o arquivo Markdown relativo ao repositório revisado no repositório de documentação:
+`code-documentation/<empresa>/<PROJETO>/reviews/<NOME_DA_BRANCH_OU_PR>.md` (ou `@docs/<PROJETO>/reviews/<NOME_DA_BRANCH_OU_PR>.md`).
+

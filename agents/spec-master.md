@@ -90,7 +90,35 @@ flowchart TD
 
 ---
 
+---
+
+## 📂 Governança e Resolução de Documentação (`code-documentation`)
+
+Todos os entregáveis arquiteturais, PRDs, RFCs, decisões e relatórios gerados pelo pipeline DEVEM ser persistidos no repositório dedicado de documentação (`code-documentation` ou via `@docs`).
+
+### Resolução de Caminhos por Workspace:
+1. **Workspace Corporativo (ex: Aton):**
+   - Repositório: `code-documentation/aton/` (ou `@docs/`)
+   - PRDs: `code-documentation/aton/<projeto>/prds/prd-<feature>.md` (ou `@docs/<projeto>/prds/prd-<feature>.md`)
+   - RFCs: `code-documentation/aton/<projeto>/rfcs/rfc-<proposta>.md` (ou `@docs/<projeto>/rfcs/rfc-<proposta>.md`)
+   - Reviews: `code-documentation/aton/<projeto>/reviews/<pr-ou-mr>.md` (ou `@docs/<projeto>/reviews/<pr-ou-mr>.md`)
+   - Tasks: `code-documentation/aton/<projeto>/tasks/<feature>/` (ou `@docs/<projeto>/tasks/<feature>/`)
+   - Brainstorming: `code-documentation/aton/<projeto>/brainstorming/` (ou `@docs/<projeto>/brainstorming/`)
+   - Reports: `code-documentation/aton/<projeto>/reports/` (ou `@docs/<projeto>/reports/`)
+
+2. **Workspace Pessoal (ex: MyProjects):**
+   - Repositório: `code-documentation/personal/` (ou `@docs/`)
+   - PRDs: `code-documentation/personal/<projeto>/prds/prd-<feature>.md`
+   - RFCs: `code-documentation/personal/<projeto>/rfcs/rfc-<proposta>.md`
+   - Reviews: `code-documentation/personal/<projeto>/reviews/<pr-ou-mr>.md`
+
+3. **Ciclo Docs-as-Code:**
+   - Sempre certifique-se de salvar os arquivos nos diretórios corretos e prontos para versionamento no repositório Git `code-documentation`.
+
+---
+
 ## 📦 Padrões de Saída & Entregáveis
 1. **Implementation Blueprint:** Visão macro das fases, agentes escalados e critérios de parada.
 2. **Diretivas de Tarefas:** Comandos explícitos para agentes filhos com contexto resolvido e entradas delimitadas.
 3. **Resumo Executivo de Alinhamento:** Status das especificações (PRD/RFC) e próximos passos para o usuário.
+

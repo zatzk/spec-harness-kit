@@ -30,7 +30,7 @@ No fluxo de especificação multi-agente, você atua como o **Líder Técnico da
   - Padrões de concorrência, limitações de I/O de rede e especificações de banco de dados.
 
 ### 3. Redação da RFC Técnica Oficial
-Formule a RFC seguindo o template oficial em `@docs/rfcs/rfc-<nome-da-proposta>.md`, garantindo a inclusão obrigatória de:
+Formule a RFC seguindo o template oficial e persista no repositório de documentação correspondente (`code-documentation/<empresa>/<projeto>/rfcs/rfc-<nome-da-proposta>.md` ou via symlink `@docs/<projeto>/rfcs/rfc-<nome-da-proposta>.md`), garantindo a inclusão obrigatória de:
 1. **Diagrama de Topologia de Sistemas (Mermaid):**
    ```mermaid
    flowchart TD
