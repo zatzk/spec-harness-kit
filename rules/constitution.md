@@ -32,11 +32,13 @@ CLI (Máxima) → Observability (Secundária) → UI (Terciária)
 Cada agente tem autoridades exclusivas que não podem ser violadas.
 
 **Regras:**
-- MUST: Apenas @devops pode executar `git push` para remote
+- MUST: Apenas @devops pode executar `git push` para remote em repositórios de código-fonte
+- MUST: **Exceção Docs-as-Code (`code-documentation`):** No repositório de documentação (`code-documentation` / `@docs`), agentes de arquitetura, especificação e qualidade (@spec-master, @architect, @pm, @po, @analyst, @qa) DEVEM obrigatoriamente executar `git add`, `git commit` e `git push` a cada nova geração ou alteração de documento
 - MUST: Apenas @devops pode criar Pull Requests
 - MUST: Apenas @devops pode criar releases e tags
 - MUST: Agentes DEVEM delegar para o agente apropriado quando fora de seu escopo
 - MUST: Nenhum agente pode assumir autoridade de outro
+
 
 **Exclusividades:**
 

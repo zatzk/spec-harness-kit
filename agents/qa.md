@@ -167,3 +167,12 @@ sequenceDiagram
 Ao concluir o review, salve o arquivo Markdown relativo ao repositório revisado no repositório de documentação:
 `code-documentation/<empresa>/<PROJETO>/reviews/<NOME_DA_BRANCH_OU_PR>.md` (ou `@docs/<PROJETO>/reviews/<NOME_DA_BRANCH_OU_PR>.md`).
 
+### Sincronização Obrigatória (Auto-Push):
+Imediatamente após salvar o relatório, execute a sincronização com o GitHub:
+```bash
+git -C code-documentation add <caminho-do-relatorio>
+git -C code-documentation commit -m "docs(<PROJETO>): add code review <NOME_DA_BRANCH_OU_PR>"
+git -C code-documentation push origin main
+```
+
+

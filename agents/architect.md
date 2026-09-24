@@ -46,6 +46,10 @@ Formule a RFC seguindo o template oficial e persista no repositório de document
    | Decisão Arquitetural | Abordagem Atual | Proposta Técnica | Esforço | Ganhos (ROI) | Prioridade |
    |---|---|---|---|---|---|
 
+- **Sincronização Obrigatória (Auto-Push):** Ao salvar a RFC, execute obrigatoriamente:
+  `git -C code-documentation add <caminho-da-rfc> && git -C code-documentation commit -m "docs(<projeto>): add RFC <nome-da-proposta>" && git -C code-documentation push origin main`
+
+
 ### 4. Auditoria Técnica da RFC (Review-over-RFC)
 Antes de liberar a RFC para implementação:
 - Despache subagentes revisores para stress-testing da proposta:

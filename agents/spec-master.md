@@ -112,8 +112,16 @@ Todos os entregáveis arquiteturais, PRDs, RFCs, decisões e relatórios gerados
    - RFCs: `code-documentation/personal/<projeto>/rfcs/rfc-<proposta>.md`
    - Reviews: `code-documentation/personal/<projeto>/reviews/<pr-ou-mr>.md`
 
-3. **Ciclo Docs-as-Code:**
-   - Sempre certifique-se de salvar os arquivos nos diretórios corretos e prontos para versionamento no repositório Git `code-documentation`.
+3. **Protocolo Obrigatório de Auto-Push (Docs-as-Code):**
+   - A cada documento gerado ou atualizado (PRD, RFC, Review, Task breakdown, Discovery), execute obrigatoriamente a sincronização imediata com o GitHub:
+   ```bash
+   # Executar no diretório do repositório code-documentation (ex: code-documentation ou ~/Work/code-documentation):
+   git -C code-documentation add <caminho-do-arquivo>
+   git -C code-documentation commit -m "docs(<projeto>): add/update <tipo-do-documento> <slug>"
+   git -C code-documentation push origin main
+   ```
+   - Confirme no chat que o documento foi persistido e sincronizado no repositório remoto.
+
 
 ---
 
