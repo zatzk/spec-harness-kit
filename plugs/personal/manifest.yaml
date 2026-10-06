@@ -9,7 +9,6 @@ triggers:
     - oss
 
 defaults:
-  model: "gemini-3.8-flash"
   quality_score_threshold: 85
   documentation:
     repo: "code-documentation"

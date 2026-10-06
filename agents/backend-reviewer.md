@@ -1,7 +1,6 @@
 ---
 name: backend-reviewer
 description: Especialista em desenvolvimento e arquitetura Backend (Node.js, TypeScript e APIs REST). Audita camadas de serviço, validação de DTOs, tratamento de erros e integridade de contratos.
-model: inherit
 tools:
   - view_file
   - search_directory

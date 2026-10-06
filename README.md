@@ -12,7 +12,7 @@ A unified, centralized harness for specialized AI agents, domain reviewers, rule
 - **📐 5-Phase Spec-Driven Architecture Pipeline:** Multi-agent collaboration refining product ideas from rough stories into verified PRDs with ASRs, technical RFCs, and test-first implementation plans.
 - **🛡️ Forensic 11-Step Code Review (Addy Osmani Standard):** Deterministic quality assurance matrix with prior comments deduplication (`gh pr view --comments`), 5-axis quality evaluation, concrete structural remedies, Big-O algorithm analysis, PRD/RFC traceability matrix, and prioritized ROI action tables.
 - **🛑 Hardened Developer Invariants (`@dev`):** Zero-tolerance for hardcoded fallback secrets, mandatory repository convention inspection (separate Angular files vs inline templates), and strict framework version discipline.
-- **⚡ Cost-Optimized Tiered Model Economics:** Fast scraping & data harvesting workers in **Gemini 3.8 Flash** with deep reasoning and architectural synthesis in **Claude Sonnet 4.6 (Thinking)**.
+- **🧭 Model-Agnostic Agents (Jev-routed):** Agents declare no model. Model and tier selection is delegated to the orchestrator's decision engine (**Jev**), which routes each task by complexity — fast, economical workers for scraping and harvesting, deep-reasoning models for architectural synthesis. The harness stays portable across backends and model generations.
 
 ---
 
@@ -170,7 +170,7 @@ The 11-step code review workflow guarantees zero regression and forensic thoroug
 
 ## 📂 Repository Structure
 
-- `agents/`: Agent definitions with standard YAML frontmatter, tools, and model declarations.
+- `agents/`: Agent definitions with standard YAML frontmatter and tools. Model selection is delegated to Jev, so agents carry no model declaration.
 - `rules/`: Global rules, constitutions, tech-presets, and templates.
 - `plugs/`: Workspace Plugs (Aton corporate submodule + Personal projects).
 - `skills/`: Global capabilities, QA pipelines, refactoring, and development workflows.

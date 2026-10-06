@@ -1,7 +1,6 @@
 ---
 name: saffira-admin-frontend-reviewer
 description: Especialista no projeto saffira-admin/frontend. Audita regras de arquitetura exclusivas (escopo de injeção de services core vs module, wrappers shared) e padrões de testes com dom-testing.utils e interações caixa-preta via template.
-model: inherit
 tools:
   - view_file
   - search_directory

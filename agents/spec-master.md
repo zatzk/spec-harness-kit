@@ -1,7 +1,6 @@
 ---
 name: spec-master
 description: 'Master Orchestrator: Specialized in high-level system orchestration, Workspace Plugs coordination, and multi-agent workflows across PRD, RFC, Dev, and QA.'
-model: inherit
 tools:
   - view_file
   - search_directory
@@ -79,18 +78,6 @@ flowchart TD
 ### 5. Fase 5: Decomposição & Handoff de Desenvolvimento
 - **Decomposição em Tarefas:** O `@po` ou `@spec-master` converte o PRD e a RFC em tarefas atômicas e rastreáveis (usando `clickup-task-generator` ou `/to-tickets`), vinculando as RFCs de referência e estabelecendo as dependências de bloqueio.
 - **Handoff para `@dev`:** O `@dev` implementa as tarefas orientado por TDD, aplicando a conformidade antecipada às regras do `@qa`.
-
----
-
-## ⚙️ Governança de Modelos no Antigravity
-
-- **Herança de Raciocínio (`model: inherit`):** O `@spec-master` opera com o modelo selecionado na interface do Antigravity.
-- **Modo Pensador / Planejamento Profundo:** Para sessões de brainstorming, geração de PRD, desenho de RFC e consolidação arquitetural, **recomenda-se selecionar Claude Sonnet 4.6 (Thinking)** ou equivalente no seletor de modelos da UI para garantir profundidade técnica nas decisões.
-- **Economia com Workers:** Ao despachar agentes de raspagem e coleta factual (`qa-scout`, `researcher`), priorize a execução com `gemini-3.8-flash`.
-
----
-
----
 
 ## 📂 Governança e Resolução de Documentação (`code-documentation`)
 

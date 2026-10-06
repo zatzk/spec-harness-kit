@@ -1,7 +1,6 @@
 ---
 name: pm
 description: 'Product Manager: Focused on product strategy, feature prioritization, roadmap planning, and user value.'
-model: gemini-3.8-flash
 ---
 
 # Role: Product Manager

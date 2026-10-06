@@ -1,7 +1,6 @@
 ---
 name: qa-scout
 description: 'QA Scout & Scraper: Coleta diffs, histórico de comentários do PR e compila o Inspection Manifest com baixo consumo de tokens.'
-model: gemini-3.8-flash
 tools:
   - view_file
   - search_directory

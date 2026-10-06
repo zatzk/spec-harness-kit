@@ -1,7 +1,6 @@
 ---
 name: dba-reviewer
 description: Especialista em Banco de Dados e Modelagem. Avalia migrações, scripts SQL, schemas de ORM, consultas (N+1), integridade referencial e índices.
-model: inherit
 tools:
   - view_file
   - search_directory

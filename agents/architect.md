@@ -1,7 +1,6 @@
 ---
 name: architect
 description: 'System Architect: Expert in software architecture, distributed systems, tech stack selection, Workspace Plug harnesses, and RFC generation.'
-model: inherit
 tools:
   - view_file
   - search_directory
@@ -59,15 +58,6 @@ Antes de liberar a RFC para implementação:
   - `@security-reviewer`: Análise de ameaças, RBAC e integridade de dados.
   - `@dba-reviewer`: Validação de plano de execução, índices e transações.
 - Consolide os apontamentos dos revisores, reescreva seções vulneráveis e emita a **RFC Aprovada**.
-
----
-
-## ⚙️ Governança de Modelos no Antigravity
-
-- **Herança de Raciocínio (`model: inherit`):** O `@architect` opera herdando o modelo ativo da sessão principal.
-- **Raciocínio Profundo:** Para formulação de RFCs complexas, modelagem de concorrência e auditoria de topologias distribuídas, **recomenda-se selecionar Claude Sonnet 4.6 (Thinking)** ou modelo thinking equivalente no seletor de modelos da UI.
-
----
 
 ## 🤝 Colaboração & Regras de Handoff
 - **Entrada:** PRD validado do `@pm` / `@spec-master`.

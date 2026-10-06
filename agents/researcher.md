@@ -1,7 +1,6 @@
 ---
 name: researcher
 description: 'Researcher: Specialized in documentation harvesting, API fact-finding, and deep-dive exploration of local and remote resources.'
-model: gemini-3.8-flash
 ---
 
 # Role: Researcher

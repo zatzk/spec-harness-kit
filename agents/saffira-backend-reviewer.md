@@ -1,7 +1,6 @@
 ---
 name: saffira-backend-reviewer
 description: Especialista no backend do projeto Saffira. Aplica rigorosamente o saffira-backend-architect-harness (NodeJS + TS strict sem any, sem JSDocs, interfaces apenas para polimorfismo real e injeção de dependência desacoplada).
-model: inherit
 tools:
   - view_file
   - search_directory

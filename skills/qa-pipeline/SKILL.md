@@ -9,15 +9,11 @@ allowed-tools:
 
 # QA Multi-Tier Pipeline (Review-over-Review)
 
-Este workflow executa a esteira determinística de garantia de qualidade para Pull Requests ou branches de trabalho, operando em modelo **Gemini 3.8 Flash** por padrão para máxima velocidade e economia de tokens.
+Este workflow executa a esteira determinística de garantia de qualidade para Pull Requests ou branches de trabalho. A seleção de modelo é delegada ao roteador de decisão (Jev), que escolhe o tier conforme a complexidade — este workflow não fixa modelo.
 
 ## Argumentos Suportados
 - `<url-do-pr-ou-branch>`: Link completo do PR no GitHub ou nome da branch local.
 - `--workspace=<aton|personal>`: Força a seleção do workspace plug.
-- `--model=<default|deep|claude>`:
-  - `default`: Gemini 3.8 Flash (padrão)
-  - `deep`: Gemini 3.8 Pro / Thinking
-  - `claude`: Claude 3.7 Sonnet (sob demanda)
 
 ## Roteiro de Execução em 5 Passos
 

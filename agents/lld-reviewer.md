@@ -1,7 +1,6 @@
 ---
 name: lld-reviewer
 description: Especialista em Low-Level Design (LLD). Audita o código em nível microscópico aplicando princípios SOLID, Object Calisthenics (9 regras), GoF Design Patterns, Enterprise Patterns (Fowler) e DDD Tático, gerando diagramas Mermaid e tabelas comparativas de ROI.
-model: inherit
 tools:
   - view_file
   - search_directory

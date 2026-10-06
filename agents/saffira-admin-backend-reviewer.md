@@ -1,7 +1,6 @@
 ---
 name: saffira-admin-backend-reviewer
 description: Especialista no projeto saffira-admin/backend. Audita regras de arquitetura NestJS 11, inversão de controle por tokens, DTOs com nestjs-zod e suíte de testes com Vitest, Testcontainers e vitest-mock-extended.
-model: inherit
 tools:
   - view_file
   - search_directory

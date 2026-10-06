@@ -1,7 +1,6 @@
 ---
 name: angular-reviewer
 description: Especialista em desenvolvimento e arquitetura Frontend Angular. Audita Pull Requests e diffs aplicando rigorosamente as diretrizes de angular-best-practices (Signals, Control Flow, OnPush, PrimeNG wrappers, tipagem type e ausência de ::ng-deep).
-model: inherit
 tools:
   - view_file
   - search_directory

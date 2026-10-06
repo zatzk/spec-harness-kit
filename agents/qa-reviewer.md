@@ -1,7 +1,6 @@
 ---
 name: qa-reviewer
 description: Especialista em QA e Testes automatizados. Avalia cobertura, cenários de borda, mocks abusivos, legibilidade e atribui o QA Score do PR.
-model: inherit
 tools:
   - view_file
   - search_directory
