@@ -168,6 +168,21 @@ The 11-step code review workflow guarantees zero regression and forensic thoroug
 
 ---
 
+## 🧰 Global Skills & Architecture Engines
+
+The harness provides deterministic workflows and skills located in `skills/`:
+
+| Domain | Skills | Focus / Capabilities |
+| :--- | :--- | :--- |
+| **Architecture & Deepening** | `improve-codebase-architecture`, `codebase-design`, `setup-ts-deep-modules`, `project-analyze` | Visual HTML refactoring reports (Tailwind + Mermaid), Ousterhout's Deep Modules framework, Design It Twice parallel subagents, and automated `dependency-cruiser` boundary enforcement. |
+| **Execution & Worktrees** | `implement-spec`, `implement`, `tdd`, `chief-of-staff` | Multi-agent task-frontier execution in parallel `git worktrees`, integration branch merging, TDD seams, and long-running goal tracking with commit-cited wikis. |
+| **Specification & Discovery** | `brainstorming`, `grilling`, `grill-with-docs`, `domain-modeling`, `to-spec`, `to-tickets`, `wayfinder` | Decision trees, fog-of-war decomposition, ubiquitous language maintenance (`GLOSSARY.md`), and ADR generation. |
+| **Quality & Forensic Review** | `code-review`, `qa-pipeline`, `quality-gate`, `diagnosing-bugs`, `retro` | 11-step forensic code review with prior comment deduplication, mutation-verified bug diagnosis, and post-session environment retrospectives. |
+| **Release & Delivery** | `pr`, `setup-pre-commit`, `git-guardrails-claude-code` | Structured PR generation (blast radius & one-way/two-way door merge risks), Husky pre-commit hooks, and terminal git guardrails. |
+| **Documentation & Agent Writing** | `writing-for-agents`, `writing-fragments`, `writing-shape`, `writing-beats`, `blog-writer` | Progressive explore-then-exploit technical writing, context load optimization, and skill mechanics. |
+
+---
+
 ## 📂 Repository Structure
 
 - `agents/`: Agent definitions with standard YAML frontmatter and tools. Model selection is delegated to Jev, so agents carry no model declaration.
