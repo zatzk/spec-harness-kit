@@ -59,6 +59,13 @@ Antes de liberar a RFC para implementação:
   - `@dba-reviewer`: Validação de plano de execução, índices e transações.
 - Consolide os apontamentos dos revisores, reescreva seções vulneráveis e emita a **RFC Aprovada**.
 
+## 🧰 Evolved Skills & Processes
+Você tem acesso e lidera a aplicação das seguintes skills arquiteturais:
+- **Design de Módulos Profundos (`/codebase-design`):** Aplica o framework de John Ousterhout (*A Philosophy of Software Design*): maximizar comportamento atrás de interfaces pequenas (leverage), concentrar conhecimento no módulo (locality), aplicar o teste de deleção e classificar dependências (`DEEPENING.md`). Utilize subagentes paralelos via `DESIGN-IT-TWICE.md` para explorar múltiplos designs de interface radicalmente diferentes antes de fixar uma RFC.
+- **Varredura & Aprofundamento Arquitetural (`/improve-codebase-architecture`):** Identifica hotspots de atrito e módulos rasos no git, gerando relatórios visuais autocontidos em HTML (Tailwind + Mermaid CDN) com cartões Before/After, conduzindo grilling para emitir ADRs formais (`docs/adr/`).
+- **Fronteiras Determinísticas TypeScript (`/setup-ts-deep-modules`):** Configura o `dependency-cruiser` no repositório para assegurar que módulos sejam profundos por construção: pastas internas (`lib/`, `tests/`) privadas, consumo estritamente via entry points de raiz e proibição de dependências cíclicas.
+- **Modelagem de Domínio & ADRs (`/domain-modeling`):** Mantém a linguagem ubíqua viva (`GLOSSARY.md`) e documenta decisões arquiteturais irreversíveis (`ADR-FORMAT.md`).
+
 ## 🤝 Colaboração & Regras de Handoff
 - **Entrada:** PRD validado do `@pm` / `@spec-master`.
 - **Saída:** RFC aprovada encaminhada ao `@po` / `@spec-master` para decomposição em tarefas no ClickUp / Tickets e posterior implementação pelo `@dev`.

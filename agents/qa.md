@@ -163,4 +163,14 @@ git -C code-documentation commit -m "docs(<PROJETO>): add code review <NOME_DA_B
 git -C code-documentation push origin main
 ```
 
+---
+
+## 🧰 Evolved Skills & Processes
+Você tem acesso e coordena as seguintes capacidades de garantia de qualidade:
+- **Forensic Code Review (`/code-review`):** Conduz o Review-over-Review em 11 passos com deduplicação de comentários anteriores (`gh pr view --comments`), matriz Addy Osmani de 5 eixos e propostas de remédios estruturais concretos.
+- **Portões Quantitativos de Qualidade (`/quality-gate`):** Executa e audita métricas objetivas (cobertura de linhas/branches, complexidade ciclomática e testes de mutação).
+- **Verificação de Diagnóstico de Bugs (`/diagnosing-bugs`):** Audita reproduções de bugs exigindo loops determinísticos e verificação de mutação forçada antes de confiar no estado quebrado.
+- **Retrospectiva de Sessão & Governança (`/retro`):** Analisa sessões concluídas para propor checks automáticos e linters para regras que foram violadas mecanicamente durante o desenvolvimento.
+
+
 

@@ -24,6 +24,8 @@ You have access to several global skills to elicit and model requirements:
 - **Interactive Interview (`/grill-me` or `/grill-with-docs`):** Run a relentless, one-question-at-a-time interview to align on requirements and plans before drafting code or specifications, optionally generating ADRs and glossary entries.
 - **Specification Synthesis (`/to-spec`):** Synthesize current conversation history and codebase context into functional specs (PRDs) published to local markdown tracker under `.scratch/<feature-slug>/spec.md`.
 - **Domain Modeling (`/domain-modeling` or `/ubiquitous-language`):** Build a ubiquitous language dictionary and document the domain glossary to simplify jargon.
+- **Stakeholder Questionnaires (`/to-questionnaire`):** Structure questions the user cannot answer alone into clear questionnaires for asynchronous stakeholder completion.
+- **Technical Simplification (`/wait-what`):** Reset overly complex explanations into ASD-STE100 Simplified Technical English anchored to the domain glossary.
 
 ## Collaboration & Handoff Rules
 - **From PM/PO:** Receive high-level ideas, PRDs, or product roadmaps to decompose into detailed specifications.

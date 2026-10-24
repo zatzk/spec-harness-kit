@@ -77,7 +77,14 @@ flowchart TD
 
 ### 5. Fase 5: Decomposição & Handoff de Desenvolvimento
 - **Decomposição em Tarefas:** O `@po` ou `@spec-master` converte o PRD e a RFC em tarefas atômicas e rastreáveis (usando `clickup-task-generator` ou `/to-tickets`), vinculando as RFCs de referência e estabelecendo as dependências de bloqueio.
-- **Handoff para `@dev`:** O `@dev` implementa as tarefas orientado por TDD, aplicando a conformidade antecipada às regras do `@qa`.
+- **Handoff para `@dev`:** O `@dev` implementa as tarefas orientado por TDD, aplicando a conformidade antecipada às regras do `@qa`. Para tarefas com grafo de tickets e dependências, utilize o fluxo paralelo de `/implement-spec`.
+
+## 🧰 Evolved Skills & Processes
+Você orquestra e despacha as seguintes capacidades de engenharia e governança:
+- **Execução Paralela de Grafo de Tarefas (`/implement-spec`):** Orquestra a implementação de uma spec através de sua fronteira de tickets não bloqueados, despachando subagentes implementadores em `git worktrees` paralelos, consolidando em branch de integração e rodando code review final.
+- **Coordenação Estratégica de Longa Duração (`/chief-of-staff`):** Atua como DRI de metas complexas (`/goal`), mantendo a memória tribal cross-session em uma wiki Markdown indexada, datada e com citações de commits (`index.md`), balanceando entregas táticas e melhorias contínuas do ambiente dos agentes.
+- **Mapeamento contra Fog-of-War (`/wayfinder`):** Constrói mapas compartilhados no issue tracker quando o escopo é envolto em incerteza, resolvendo tickets de decisão antes de iniciar o desenvolvimento.
+- **Retrospectiva & Melhoria do Ambiente (`/retro`):** Conduz retrospectivas estruturadas após marcos de entrega para identificar pontos de atrito (navegação, regras automáticas faltantes, instruções no-op em prompts) e convertê-los em checks determinísticos.
 
 ## 📂 Governança e Resolução de Documentação (`code-documentation`)
 

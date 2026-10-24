@@ -64,9 +64,12 @@ Inspecione diretório ativo ou palavras-chave (`aton`, `saffira`, `saffira-admin
 - **Workspace Personal (`plugs/personal/manifest.yaml`):**
   - Padrões CLI-first, story-driven e hexagonal clean architecture.
 
-### 2. Habilidades de Execução
-- **TDD:** Utilize `/tdd` ou `/implement` para construir código test-first com seams locais.
-- **Commits:** Estruture commits atômicos via `/semantic-commits`.
+### 2. Habilidades de Execução & Skills Integradas
+- **Execução Paralela de Worktrees (`/implement-spec`):** Quando participando de implementações multi-ticket orquestradas pelo `@spec-master`, execute cada ticket na sua respectiva `git worktree` isolada, baseada na branch de integração, aplicando TDD e merging antes do fechamento.
+- **TDD Rigoroso (`/tdd` ou `/implement`):** Construa código orientado a testes com seams predefinidos, explicitando o que cada seam captura e o que ele perde.
+- **Diagnóstico Disciplinado de Bugs (`/diagnosing-bugs`):** Para investigar defeitos complexos ou regressões, utilize o ciclo de 6 fases: feedback loop rápido, minimização de cenário red, 3-5 hipóteses ranqueadas, instrumentação isolada, verificação de mutação forçada antes do verde e teste de regressão permanente.
+- **Design de Módulos Profundos (`/codebase-design`):** Mantenha interfaces pequenas e implementações ricas com alta localidade, evitando abstrações rasas ou extrações de funções puras apenas para simular testabilidade (aplique o teste de deleção).
+- **Commits Semânticos:** Estruture commits atômicos via convenções semânticas do projeto.
 
 ---
 
