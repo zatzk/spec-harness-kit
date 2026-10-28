@@ -13,6 +13,7 @@ A unified, centralized harness for specialized AI agents, domain reviewers, rule
 - **🛡️ Forensic 11-Step Code Review (Addy Osmani Standard):** Deterministic quality assurance matrix with prior comments deduplication (`gh pr view --comments`), 5-axis quality evaluation, concrete structural remedies, Big-O algorithm analysis, PRD/RFC traceability matrix, and prioritized ROI action tables.
 - **🛑 Hardened Developer Invariants (`@dev`):** Zero-tolerance for hardcoded fallback secrets, mandatory repository convention inspection (separate Angular files vs inline templates), and strict framework version discipline.
 - **🧭 Model-Agnostic Agents (Jev-routed):** Agents declare no model. Model and tier selection is delegated to the orchestrator's decision engine (**Jev**), which routes each task by complexity — fast, economical workers for scraping and harvesting, deep-reasoning models for architectural synthesis. The harness stays portable across backends and model generations.
+- **⚡ Universal Headless Worker Dispatcher (`scripts/worker-dispatch.sh`):** Dispatches bounded child workers across abstract tiers (`tier-cheap`, `tier-standard`, `tier-frontier`), auto-probing available CLIs (`agy`, `claude`, `codex`). Hardened with anti-recursion locks, non-destructive read-only tripwires, and the Scarce Frontier Guard (protecting Gemini 4 Argon / Claude Opus from context burnout).
 
 ---
 

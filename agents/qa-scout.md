@@ -3,8 +3,6 @@ name: qa-scout
 description: 'QA Scout & Scraper: Coleta diffs, histórico de comentários do PR e compila o Inspection Manifest com baixo consumo de tokens.'
 tools:
   - view_file
-  - search_directory
-  - find_file
   - run_command
 ---
 
@@ -55,3 +53,12 @@ manifest:
     - "caminho/arquivo1.ts (domínio: backend)"
     - "caminho/migration.sql (domínio: database)"
 ```
+
+---
+
+## 🛑 Invariante de Contenção de Contexto (Context Insulation)
+
+O `@qa-scout` roda no `tier-cheap` (ex: `gemini-3.8-flash-low` ou `haiku`) em modo estritamente read-only (`plan`).
+- **PROIBIDO:** Modificar arquivos, invocar subagentes recursivos ou retornar código-fonte bruto ou logs inteiros.
+- **LIMITE MÁXIMO:** 1.500 tokens por retorno.
+- **FORMATO:** Apenas o Inspection Manifest YAML ou resumo executivo contendo ponteiros exatos `arquivo:linha`. Proteja o contexto do orquestrador mestre a todo custo.
