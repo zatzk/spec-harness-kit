@@ -41,7 +41,9 @@ Formule a RFC seguindo o template oficial e persista no repositório de document
    - Schemas de entidades, migrations necessárias, índices parciais e DTOs tipados.
 4. **Estratégia de Resiliência & Rollback:**
    - Circuit Breakers, retries com jitter, Feature Flags (`Unleash` / configs) e plano de reversão em caso de falha operacional.
-5. **Tabela Comparativa de Decisões & ROI:**
+5. **Avaliação Obrigatória de Alternativas (The Alternatives Rule):**
+   - Em conformidade com o `rules/standards/feature-spec-standard.md`, listar ao menos duas alternativas viáveis analisadas e rejeitadas, justificando formalmente o motivo técnico (complexidade, custo, performance ou acoplamento).
+6. **Tabela Comparativa de Decisões & ROI:**
    | Decisão Arquitetural | Abordagem Atual | Proposta Técnica | Esforço | Ganhos (ROI) | Prioridade |
    |---|---|---|---|---|---|
 
@@ -57,6 +59,7 @@ Antes de liberar a RFC para implementação:
   - `@algorithm-complexity-reviewer`: Avaliação de Big-O, prevenção de N+1 e eficiência de memória.
   - `@security-reviewer`: Análise de ameaças, RBAC e integridade de dados.
   - `@dba-reviewer`: Validação de plano de execução, índices e transações.
+- **Portão Intermediate Zoom Out (Poda de Complexidade):** Antes de consolidar a aprovação, passe a RFC pelo `rules/standards/zoom-out-standard.md` para podar complexidades prematuras e abstrações infladas geradas durante os feedbacks dos revisores.
 - Consolide os apontamentos dos revisores, reescreva seções vulneráveis e emita a **RFC Aprovada**.
 
 ## 🧰 Evolved Skills & Processes

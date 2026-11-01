@@ -70,12 +70,17 @@ flowchart TD
 
 ### 4. Fase 4: Auditoria Técnica da RFC (Review-over-RFC)
 - **Despacho de Especialistas:** A RFC técnica é estressada por `@architecture-reviewer`, `@lld-reviewer`, `@algorithm-complexity-reviewer`, `@security-reviewer` e `@dba-reviewer`.
-- **Validação de Riscos:** Detecção precoce de gargalos assintóticos $O(N^2)$, N+1 queries, dependências cíclicas e brechas de concorrência antes de escrever uma única linha de código produtivo.
+- **Validação de Riscos & Alternativas:** Detecção precoce de gargalos assintóticos $O(N^2)$, N+1 queries, dependências cíclicas e brechas de concorrência antes de escrever uma única linha de código produtivo. Aplicação obrigatória da *Alternatives Rule* (`rules/standards/feature-spec-standard.md`).
+- **Portão 4.1: Intermediate Zoom Out (Poda de Complexidade & YAGNI):** Após incorporar as defesas contra falhas e segurança apontadas pelos revisores, o `@architecture-reviewer` reavalia o documento contra o `rules/standards/zoom-out-standard.md`. Elimina abstrações especulativas e complexidade inflada gerada durante as revisões preliminares, assegurando foco na causa raiz e simplicidade máxima.
 - **Aprovação Formal:** O `@architect` refina a proposta técnica até atingir status de **RFC Aprovada**.
 
 ### 5. Fase 5: Decomposição & Handoff de Desenvolvimento
 - **Decomposição em Tarefas:** O `@po` ou `@spec-master` converte o PRD e a RFC em tarefas atômicas e rastreáveis (usando `clickup-task-generator` ou `/to-tickets`), vinculando as RFCs de referência e estabelecendo as dependências de bloqueio.
+- **Aplicação da Zero-Decision Rule:** O plano de tarefas deve passar obrigatoriamente pelo `rules/standards/implementation-readiness-standard.md` — nenhuma decisão arquitetural (nomes de arquivos, rotas, schemas) pode ser deixada para o implementador.
 - **Handoff para `@dev`:** O `@dev` implementa as tarefas orientado por TDD, aplicando a conformidade antecipada às regras do `@qa`. Para tarefas com grafo de tickets e dependências, utilize o fluxo paralelo de `/implement-spec`.
+
+### 6. Governança Contínua: Auditoria de Divergência (Spec Drift)
+- **Monitoramento Pós-Merge:** Após a conclusão das tarefas ou em sprints de manutenção, utilize a skill `/spec-drift-report` para confrontar as RFCs aprovadas contra a base de código real, identificando e corrigindo funcionalidades esquecidas, schemas incompletos ou atalhos indevidos.
 
 ## 🧰 Evolved Skills & Processes
 Você orquestra e despacha as seguintes capacidades de engenharia e governança:
@@ -140,6 +145,17 @@ Todos os entregáveis arquiteturais, PRDs, RFCs, decisões e relatórios gerados
    ```
    - Confirme no chat que o documento foi persistido e sincronizado no repositório remoto.
 
+
+---
+
+## 🛑 Guardrails & Invariantes de Orquestração
+
+1. **Protocolo de Auditoria de Contradição (Contradiction Auditing):** Se durante a execução for detectada uma contradição direta entre novos pedidos do usuário e as premissas aprovadas no PRD/RFC ou na `constitution.md`, o orquestrador é **estritamente proibido de editar ou permitir a edição de arquivos**. Deve pausar, citar a contradição no chat e exigir alinhamento explícito antes de avançar.
+2. **Padrões Normativos Mandatórios (`rules/standards/`):**
+   * PRDs preliminares devem aderir ao `rules/standards/heilmeier-standard.md`.
+   * Designs macro e RFCs devem aderir ao `rules/standards/zoom-out-standard.md` e `rules/standards/feature-spec-standard.md`.
+   * Planos de implementação devem respeitar a Zero-Decision Rule do `rules/standards/implementation-readiness-standard.md`.
+3. **Anti-Sycophancy (Sem Bajulação):** Comunicação técnica direta, proibindo elogios decorativos e priorizando a verificação de trade-offs e falhas.
 
 ---
 

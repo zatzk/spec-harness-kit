@@ -9,11 +9,14 @@ A unified, centralized harness for specialized AI agents, domain reviewers, rule
 - **Zero Pollution:** Your repositories stay clean. No duplicated `.agent/` or divergent config files scattered across projects.
 - **Multi-CLI Compatibility:** Seamlessly integrates with Antigravity (`~/.gemini/antigravity/`), Claude (`~/.claude/`), Codex, OpenCode, and Pi.
 - **🔌 Workspace Plugs Engine (`plugs/`):** Dynamically mounts workspace-scoped rules, specialist reviewers, skills, and MCPs (e.g., `aton`, `saffira`, `saffira-admin`, or `personal`) based on folder context or prompt keywords.
-- **📐 5-Phase Spec-Driven Architecture Pipeline:** Multi-agent collaboration refining product ideas from rough stories into verified PRDs with ASRs, technical RFCs, and test-first implementation plans.
+- **📐 5-Phase Spec-Driven Architecture Pipeline:** Multi-agent collaboration refining product ideas from rough stories into verified PRDs with ASRs, technical RFCs, Intermediate Zoom Out (anti-weeds pruning), and test-first implementation plans.
+- **🏛️ Decoupled Normative Standards (`rules/standards/`):** Pass/Fail rubrics including Heilmeier Catechism (`heilmeier-standard.md`), Zoom-Out Anti-Weeds (`zoom-out-standard.md`), Zero-Decision Hand-off (`implementation-readiness-standard.md`), Mandatory Alternatives (`feature-spec-standard.md`), and Zero-Assumption contracts (`re-implementation-standard.md`).
+- **🔍 Spec-to-Code Drift Detection (`/spec-drift-report`):** Audits merged codebase implementations against approved RFCs and living documentation, flagging missing features, incomplete schemas, and architectural divergences.
 - **🛡️ Forensic 11-Step Code Review (Addy Osmani Standard):** Deterministic quality assurance matrix with prior comments deduplication (`gh pr view --comments`), 5-axis quality evaluation, concrete structural remedies, Big-O algorithm analysis, PRD/RFC traceability matrix, and prioritized ROI action tables.
 - **🛑 Hardened Developer Invariants (`@dev`):** Zero-tolerance for hardcoded fallback secrets, mandatory repository convention inspection (separate Angular files vs inline templates), and strict framework version discipline.
 - **🧭 Model-Agnostic Agents (Jev-routed):** Agents declare no model. Model and tier selection is delegated to the orchestrator's decision engine (**Jev**), which routes each task by complexity — fast, economical workers for scraping and harvesting, deep-reasoning models for architectural synthesis. The harness stays portable across backends and model generations.
 - **⚡ Universal Headless Worker Dispatcher (`scripts/worker-dispatch.sh`):** Dispatches bounded child workers across abstract tiers (`tier-cheap`, `tier-standard`, `tier-frontier`), auto-probing available CLIs (`agy`, `claude`, `codex`). Hardened with anti-recursion locks, non-destructive read-only tripwires, and the Scarce Frontier Guard (protecting Gemini 4 Argon / Claude Opus from context burnout).
+- **🧪 Offline Integrity & Agent Test Suite (`tests/unit/`):** Automated test suite running offline to ensure YAML frontmatter validity, script syntax, standards compliance, and link integrity across all agents and skills.
 
 ---
 
@@ -122,12 +125,17 @@ flowchart TD
 
     subgraph Fase 4: Auditoria da RFC (Review-over-RFC)
       H --> I[Especialistas revisam HLD, LLD, Algoritmo, Segurança e DBA]
-      I --> J[Architect resolve pendências e emite RFC Aprovada]
+      I --> J1[Portão 4.1: Intermediate Zoom Out - Poda de Complexidade & YAGNI]
+      J1 --> J[Architect resolve pendências e emite RFC Aprovada]
     end
 
     subgraph Fase 5: Decomposição & Handoff
-      J --> K[PO/PM decompõe em Tarefas Atômicas ClickUp / Tickets]
+      J --> K[PO/PM decompõe em Tarefas Atômicas com Zero-Decision Rule]
       K --> L[Dev implementa via TDD e submete ao QA]
+    end
+
+    subgraph Governança Contínua: Drift Monitor
+      L --> M[spec-drift-report audita codebase vs RFCs periodicamente]
     end
 ```
 

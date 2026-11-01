@@ -77,6 +77,7 @@ mkdir -p "$HOME/.antigravity"
 mkdir -p "$HOME/.pi/agent"
 ln -sf "$REPO_ROOT/rules/rules.md" "$HOME/.gemini/rules/global-rules.md"
 ln -sf "$REPO_ROOT/rules/constitution.md" "$HOME/.gemini/rules/constitution.md"
+ln -sfn "$REPO_ROOT/rules/standards" "$HOME/.gemini/rules/standards"
 ln -sf "$REPO_ROOT/rules/rules.md" "$HOME/.antigravity/rules.md"
 ln -sf "$REPO_ROOT/rules/rules.md" "$HOME/.pi/agent/append-system.md"
 
