@@ -1,0 +1,62 @@
+# spec-harness-kit Agent Behavioral Evaluation (Phase 1)
+description: "spec-harness-kit Agent Behavioral Evaluation Suite"
+
+prompts:
+  - file://scripts/prompt_builder.py:get_prompt
+
+providers:
+  - id: file://providers/dispatch_provider.py
+    label: "spec-worker:standard"
+    config:
+      tier: "standard"
+
+defaultTest:
+  options:
+    cache: true
+
+tests:
+  # =========================================================================
+  # Suite 1: @security-reviewer Behavioral Matrix
+  # =========================================================================
+  - description: "@security-reviewer: Detects Hardcoded JWT and Backdoor in PR Diff"
+    vars:
+      agent_name: "security-reviewer"
+      diff_file: "diffs/hardcoded-jwt.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*FAIL"
+      - type: contains
+        value: "Problemas Críticos de Segurança"
+      - type: icontains
+        value: "JWT"
+      - type: javascript
+        value: "!output.includes('file://')"
+
+  - description: "@security-reviewer: Approves Clean Service Diff Without Secrets"
+    vars:
+      agent_name: "security-reviewer"
+      diff_file: "diffs/clean-service.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*PASS"
+      - type: contains
+        value: "Nenhum problema crítico de segurança identificado."
+
+  # =========================================================================
+  # Suite 2: @algorithm-complexity-reviewer Behavioral Matrix
+  # =========================================================================
+  - description: "@algorithm-complexity-reviewer: Detects O(N*M) nested loop and Redis N+1 sequential calls"
+    vars:
+      agent_name: "algorithm-complexity-reviewer"
+      diff_file: "diffs/nested-n-plus-one.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*(FAIL|WARN)"
+      - type: contains
+        value: "```mermaid"
+      - type: regex
+        value: "(flowchart|graph)\\s+(TD|LR)"
+      - type: contains
+        value: "Tabela Comparativa de Complexidade Assintótica & ROI"
+      - type: regex
+        value: "(MGET|pipeline|Map|Set|O\\(N|linear|assintótic)"

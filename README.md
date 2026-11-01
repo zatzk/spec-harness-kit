@@ -17,6 +17,7 @@ A unified, centralized harness for specialized AI agents, domain reviewers, rule
 - **🧭 Model-Agnostic Agents (Jev-routed):** Agents declare no model. Model and tier selection is delegated to the orchestrator's decision engine (**Jev**), which routes each task by complexity — fast, economical workers for scraping and harvesting, deep-reasoning models for architectural synthesis. The harness stays portable across backends and model generations.
 - **⚡ Universal Headless Worker Dispatcher (`scripts/worker-dispatch.sh`):** Dispatches bounded child workers across abstract tiers (`tier-cheap`, `tier-standard`, `tier-frontier`), auto-probing available CLIs (`agy`, `claude`, `codex`). Hardened with anti-recursion locks, non-destructive read-only tripwires, and the Scarce Frontier Guard (protecting Gemini 4 Argon / Claude Opus from context burnout).
 - **🧪 Offline Integrity & Agent Test Suite (`tests/unit/`):** Automated test suite running offline to ensure YAML frontmatter validity, script syntax, standards compliance, and link integrity across all agents and skills.
+- **🎯 Behavioral Evaluation Suite (`tests/eval/`):** Automated agent regression and behavioral benchmark suite powered by Promptfoo, validating schema contracts, OWASP detections, and Big-O audits via `worker-dispatch.sh` and offline mock verification.
 
 ---
 
@@ -198,4 +199,7 @@ The harness provides deterministic workflows and skills located in `skills/`:
 - `rules/`: Global rules, constitutions, tech-presets, and templates.
 - `plugs/`: Workspace Plugs (Aton corporate submodule + Personal projects).
 - `skills/`: Global capabilities, QA pipelines, refactoring, and development workflows.
+- `tests/`: Automated test harnesses:
+  - `tests/unit/`: Fast, offline integrity and standards compliance tests (`unittest`).
+  - `tests/eval/`: Behavioral evaluation and prompt regression tests (`promptfoo`).
 - `scripts/`: Automation scripts for global (`install.sh`) and project-local (`install-project.sh`) setups.

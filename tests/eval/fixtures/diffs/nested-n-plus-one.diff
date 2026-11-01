@@ -1,0 +1,30 @@
+diff --git a/src/orders/order-enricher.service.ts b/src/orders/order-enricher.service.ts
+index c3d4e5f..g6h7i8j 100644
+--- a/src/orders/order-enricher.service.ts
++++ b/src/orders/order-enricher.service.ts
+@@ -14,10 +14,21 @@ export class OrderEnricherService {
+   constructor(
+     private readonly redisClient: RedisClient,
+   ) {}
+
+-  async enrichOrders(orders: Order[]): Promise<EnrichedOrder[]> {
+-    return orders.map(o => ({ ...o, enriched: false }));
+-  }
++  async enrichOrders(orders: Order[], catalogItems: CatalogItem[]): Promise<EnrichedOrder[]> {
++    const enriched: EnrichedOrder[] = [];
++    
++    // Nested O(N * M) lookup and sequential Redis N+1 calls
++    for (const order of orders) {
++      const item = catalogItems.find(c => c.id === order.catalogItemId); // O(M) inside O(N)
++      const cacheKey = `user:profile:${order.userId}`;
++      const userCache = await this.redisClient.get(cacheKey); // Sequential Redis get in loop
++      
++      enriched.push({
++        ...order,
++        item,
++        userCache: userCache ? JSON.parse(userCache) : null,
++      });
++    }
++    return enriched;
++  }
+ }

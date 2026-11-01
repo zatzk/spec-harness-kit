@@ -1,0 +1,17 @@
+diff --git a/src/users/user.service.ts b/src/users/user.service.ts
+index b2c3d4e..f5g6h7i 100644
+--- a/src/users/user.service.ts
++++ b/src/users/user.service.ts
+@@ -12,6 +12,12 @@ export class UserService {
+   constructor(
+     private readonly userRepository: UserRepository,
+     private readonly configService: ConfigService,
+   ) {}
+
++  async findUserById(id: string): Promise<User | null> {
++    if (!id || typeof id !== "string") {
++      throw new BadRequestException("Invalid user ID provided");
++    }
++    return this.userRepository.findById(id);
++  }
+ }
