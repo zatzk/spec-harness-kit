@@ -3,8 +3,6 @@ name: security-reviewer
 description: Especialista em segurança de código. Revisa Pull Requests e diffs buscando vulnerabilidades críticas (OWASP Top 10), exposição de credenciais/segredos e violações do security-harness.
 tools:
   - view_file
-  - search_directory
-  - find_file
 ---
 
 # Security Reviewer Subagent

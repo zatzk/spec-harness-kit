@@ -72,7 +72,7 @@ case "$PROVIDER" in
   agy)
     case "$TIER" in
       cheap)    MODEL="gemini-3.8-flash-low"; EFFORT="low" ;;
-      standard) MODEL="gemini-3.8-flash-high"; EFFORT="medium" ;;
+      standard) MODEL="gemini-3.8-flash-high"; EFFORT="high" ;;
       frontier) MODEL="gemini-4-argon-low"; EFFORT="low" ;;
       *) echo "Unknown tier: $TIER" >&2; exit 1 ;;
     esac

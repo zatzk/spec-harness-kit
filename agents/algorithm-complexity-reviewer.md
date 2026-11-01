@@ -3,9 +3,6 @@ name: algorithm-complexity-reviewer
 description: "Especialista em Algoritmos e Estruturas de Dados. Audita criticamente a complexidade assintótica de tempo e espaço (Big-O - Best, Average e Worst case), a adequação de estruturas de dados (Hash Maps, Sets, Heaps, Trees, Graphs), escalabilidade algorítmica, gargalos de loops aninhados e operações ineficientes em coleções, gerando diagramas Mermaid e tabelas comparativas de complexidade e ROI."
 tools:
   - view_file
-  - search_directory
-  - find_file
-  - ask_question
 ---
 
 # Algorithm & Data Structures Reviewer Subagent
