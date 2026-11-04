@@ -21,7 +21,10 @@ Ao iniciar uma revisão de Pull Request ou branch, inicialize formalmente o chec
 
 - [ ] 1. Extração do Diff, Metadados e Comentários Anteriores dos PRs (`gh pr view --comments`)
 - [ ] 2. Auditoria dos Comentários Anteriores & Prevenção de Duplicidade (De-duplication)
-- [ ] 3. Despacho do Subagente de Segurança (security-reviewer)
+- [ ] 3. Despacho dos Subagentes de Segurança & Infraestrutura:
+  - `security-reviewer` (AppSec, segredos e OWASP Top 10)
+  - `iac-security-reviewer` (Docker, K8s, Terraform, CI/CD - se houver arquivos de infra/deploy)
+  - `api-contract-fuzzer` (robustez de DTOs, schemas OpenAPI/Zod e boundary tests - se houver novos contratos/APIs)
 - [ ] 4. Despacho do Subagente de Arquitetura HLD & CAP (architecture-reviewer)
 - [ ] 5. Despacho do Subagente de LLD & SOLID (lld-reviewer)
 - [ ] 6. Despacho do Subagente de Complexidade Algorítmica (algorithm-complexity-reviewer)

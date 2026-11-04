@@ -15,6 +15,7 @@ class TestDocumentStandards(unittest.TestCase):
         "implementation-readiness-standard.md",
         "feature-spec-standard.md",
         "re-implementation-standard.md",
+        "threat-modeling-standard.md",
     ]
 
     def test_standards_directory_and_files_exist(self):

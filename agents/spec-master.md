@@ -53,6 +53,7 @@ flowchart TD
 ### 2. Fase 2: Auditoria do PRD (Review-over-PRD)
 - **Despacho de Revisores:** O `@spec-master` despacha subagentes para auditar o PRD rascunhado:
   - `@architecture-reviewer`: Avalia viabilidade de integração, limites distribuídos e riscos macro.
+  - `@threat-modeling-reviewer`: Avalia fronteiras de confiança (Trust Boundaries), riscos STRIDE preliminares e casos de abuso.
   - `@security-reviewer`: Avalia privacidade, conformidade regulatória, dados sensíveis e autenticação/RBAC.
   - `@dba-reviewer`: Avalia volume de dados, escalabilidade e consistência transacional.
   - `@qa-reviewer`: Avalia clareza dos critérios de aceitação e testabilidade.
@@ -69,15 +70,15 @@ flowchart TD
   - Tabela Comparativa de Decisões e ROI (Esforço x Impacto).
 
 ### 4. Fase 4: Auditoria Técnica da RFC (Review-over-RFC)
-- **Despacho de Especialistas:** A RFC técnica é estressada por `@architecture-reviewer`, `@lld-reviewer`, `@algorithm-complexity-reviewer`, `@security-reviewer` e `@dba-reviewer`.
-- **Validação de Riscos & Alternativas:** Detecção precoce de gargalos assintóticos $O(N^2)$, N+1 queries, dependências cíclicas e brechas de concorrência antes de escrever uma única linha de código produtivo. Aplicação obrigatória da *Alternatives Rule* (`rules/standards/feature-spec-standard.md`).
+- **Despacho de Especialistas:** A RFC técnica é estressada por `@architecture-reviewer`, `@lld-reviewer`, `@algorithm-complexity-reviewer`, `@threat-modeling-reviewer`, `@security-reviewer` e `@dba-reviewer`.
+- **Validação de Riscos & Alternativas:** Detecção precoce de gargalos assintóticos $O(N^2)$, N+1 queries, dependências cíclicas, quebras de Trust Boundaries (conforme `rules/standards/threat-modeling-standard.md`) e brechas de concorrência antes de escrever uma única linha de código produtivo. Aplicação obrigatória da *Alternatives Rule* (`rules/standards/feature-spec-standard.md`).
 - **Portão 4.1: Intermediate Zoom Out (Poda de Complexidade & YAGNI):** Após incorporar as defesas contra falhas e segurança apontadas pelos revisores, o `@architecture-reviewer` reavalia o documento contra o `rules/standards/zoom-out-standard.md`. Elimina abstrações especulativas e complexidade inflada gerada durante as revisões preliminares, assegurando foco na causa raiz e simplicidade máxima.
 - **Aprovação Formal:** O `@architect` refina a proposta técnica até atingir status de **RFC Aprovada**.
 
 ### 5. Fase 5: Decomposição & Handoff de Desenvolvimento
 - **Decomposição em Tarefas:** O `@po` ou `@spec-master` converte o PRD e a RFC em tarefas atômicas e rastreáveis (usando `clickup-task-generator` ou `/to-tickets`), vinculando as RFCs de referência e estabelecendo as dependências de bloqueio.
 - **Aplicação da Zero-Decision Rule:** O plano de tarefas deve passar obrigatoriamente pelo `rules/standards/implementation-readiness-standard.md` — nenhuma decisão arquitetural (nomes de arquivos, rotas, schemas) pode ser deixada para o implementador.
-- **Handoff para `@dev`:** O `@dev` implementa as tarefas orientado por TDD, aplicando a conformidade antecipada às regras do `@qa`. Para tarefas com grafo de tickets e dependências, utilize o fluxo paralelo de `/implement-spec`.
+- **Handoff para `@dev`:** O `@dev` implementa as tarefas orientado por TDD, aplicando a conformidade antecipada às regras do `@qa` e dos verificadores de segurança (validando DTOs com `@api-contract-fuzzer` e infra com `@iac-security-reviewer`). Para tarefas com grafo de tickets e dependências, utilize o fluxo paralelo de `/implement-spec`.
 
 ### 6. Governança Contínua: Auditoria de Divergência (Spec Drift)
 - **Monitoramento Pós-Merge:** Após a conclusão das tarefas ou em sprints de manutenção, utilize a skill `/spec-drift-report` para confrontar as RFCs aprovadas contra a base de código real, identificando e corrigindo funcionalidades esquecidas, schemas incompletos ou atalhos indevidos.

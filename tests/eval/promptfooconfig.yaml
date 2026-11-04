@@ -60,3 +60,35 @@ tests:
         value: "Tabela Comparativa de Complexidade Assintótica & ROI"
       - type: regex
         value: "(MGET|pipeline|Map|Set|O\\(N|linear|assintótic)"
+
+  # =========================================================================
+  # Suite 3: @iac-security-reviewer Behavioral Matrix
+  # =========================================================================
+  - description: "@iac-security-reviewer: Flags Root User, Latest Tag, and Secret in Build Args"
+    vars:
+      agent_name: "iac-security-reviewer"
+      diff_file: "diffs/insecure-dockerfile.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*FAIL"
+      - type: contains
+        value: "Inconformidades Críticas de IaC & Containers"
+      - type: icontains
+        value: "root"
+      - type: javascript
+        value: "!output.includes('file://')"
+
+  # =========================================================================
+  # Suite 4: @api-contract-fuzzer Behavioral Matrix
+  # =========================================================================
+  - description: "@api-contract-fuzzer: Flags Unbounded Strings and Unbounded Array in DTO"
+    vars:
+      agent_name: "api-contract-fuzzer"
+      diff_file: "diffs/unbounded-dto.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*(FAIL|WARN)"
+      - type: contains
+        value: "Auditoria de Schemas & DTOs Identificados"
+      - type: icontains
+        value: "MaxLength"

@@ -1,0 +1,19 @@
+diff --git a/src/modules/users/dto/create-user.dto.ts b/src/modules/users/dto/create-user.dto.ts
+new file mode 100644
+index 0000000..2222222
+--- /dev/null
++++ b/src/modules/users/dto/create-user.dto.ts
+@@ -0,0 +1,14 @@
++import { IsString, IsArray, IsOptional } from 'class-validator';
++
++export class CreateUserDto {
++  @IsString()
++  public name: string;
++
++  @IsString()
++  public bio: string;
++
++  @IsArray()
++  @IsOptional()
++  public tags: string[];
++}

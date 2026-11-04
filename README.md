@@ -88,6 +88,9 @@ Domain-specific subagents dispatched during the Review-over-Review and Review-ov
 
 | Specialist Agent | Domain & Focus | Key Standards / Harnesses |
 | :--- | :--- | :--- |
+| **@threat-modeling-reviewer** | Threat Modeling & Trust Boundaries (STRIDE) | STRIDE Framework, DFD, `threat-modeling-standard.md` |
+| **@api-contract-fuzzer** | API Schema Robustness & Property-Based Tests | OpenAPI, Zod/NestJS DTOs, `fast-check`/`hypothesis` (Local only) |
+| **@iac-security-reviewer** | Infrastructure as Code & Container Hardening | CIS Benchmarks, Non-root containers, K8s SecurityContext, CI/CD |
 | **@security-reviewer** | AppSec, Token Fallbacks & Secrets | OWASP Top 10, Secrets Exposure, `security-harness.md` |
 | **@algorithm-complexity-reviewer** | Big-O, Performance & Resource Limits | N+1 Query Detection, Redis Loops (MGET/Pipelines), OOM, Cardinality |
 | **@dba-reviewer** | Database Performance & Schemas | Reversible Migrations, Indexes, Constraints, `dba-harness.md` |

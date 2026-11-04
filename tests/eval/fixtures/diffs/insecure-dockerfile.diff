@@ -1,0 +1,21 @@
+diff --git a/Dockerfile b/Dockerfile
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/Dockerfile
+@@ -0,0 +1,15 @@
++FROM node:latest
++
++WORKDIR /app
++
++ARG DB_PASSWORD="super-secret-build-password"
++ENV DATABASE_URL="postgres://admin:${DB_PASSWORD}@db.internal:5432/main"
++
++COPY package*.json ./
++RUN npm install
++
++COPY . .
++RUN npm run build
++
++EXPOSE 3000
++CMD ["node", "dist/main.js"]
