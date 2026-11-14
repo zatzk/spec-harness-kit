@@ -153,6 +153,12 @@ else
     echo "  Plugin config dir not found at $AGY_PLUGIN_DIR, skipping sync."
 fi
 
+# Install global worker dispatcher binary onto PATH
+echo "--- Installing Global Worker Dispatcher (~/.local/bin/spec-worker-dispatch) ---"
+mkdir -p "$HOME/.local/bin"
+ln -sf "$REPO_ROOT/scripts/worker-dispatch.sh" "$HOME/.local/bin/spec-worker-dispatch"
+echo "  Linked: ~/.local/bin/spec-worker-dispatch -> $REPO_ROOT/scripts/worker-dispatch.sh"
+
 echo ""
 echo "Done! SPEC-HARNESS-KIT has been successfully installed globally."
 echo "Custom @-triggers (.agent.md) and legacy configurations are ready."

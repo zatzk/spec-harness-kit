@@ -92,16 +92,16 @@ Você orquestra e despacha as seguintes capacidades de engenharia e governança:
 
 ## ⚡ Orquestração Headless Agnóstica & Níveis de Modelo (Model Tiers)
 
-Quando orquestrar tarefas complexas, o `@spec-master` prioriza a execução headless através do script `./scripts/worker-dispatch.sh` (ou subagentes nativos) para proteger o contexto da sessão principal e gerenciar cotas com disciplina estrita.
+Quando orquestrar tarefas complexas, o `@spec-master` prioriza a execução headless através do comando global `spec-worker-dispatch` (instalado em `~/.local/bin/spec-worker-dispatch`, ou `./scripts/worker-dispatch.sh` dentro do `spec-harness-kit`) para proteger o contexto da sessão principal e gerenciar cotas com disciplina estrita. Use `spec-worker-dispatch` explicitamente via `run_command` sempre que precisar forçar `tier-cheap` (`plan`) ou `tier-frontier` (`plan`), pois o `invoke_subagent` nativo herda o modelo da sessão.
 
 ### Níveis Abstratos de Modelo (Model Tiers)
 O orquestrador raciocina exclusivamente sobre **tiers**, nunca nomes fixos de modelos. O dispatcher resolve o modelo local automaticamente:
 - **`tier-cheap` (Scouts, Linters, Triage):** Read-only (`plan`).
-  - *Antigravity:* `gemini-3.8-flash-low` | *Claude:* `haiku` | *Codex:* `low`
+  - *Antigravity:* `gemini-4-hydrogen-low` | *Claude:* `haiku` | *Codex:* `low`
 - **`tier-standard` (Builders, TDD, RFCs):** Read/Write (`write`) ou Read-only (`plan`).
-  - *Antigravity:* `gemini-3.8-flash-high` | *Claude:* `sonnet` | *Codex:* `medium`
+  - *Antigravity:* `gemini-4-hydrogen-medium` | *Claude:* `sonnet` | *Codex:* `medium`
 - **`tier-frontier` (ASR Decisions, Advisor):** Read-only (`plan`), estritamente regulado.
-  - *Antigravity:* `gemini-4-argon-low` | *Claude:* `opus` | *Codex:* `high`
+  - *Antigravity:* `gemini-4-hydrogen-high` | *Claude:* `opus` | *Codex:* `high`
 
 ### 🛑 O Protocolo "Scarce Frontier Guard" (Argon / Opus Guard)
 1. **NUNCA** envie arquivos brutos, diretórios ou logs inteiros para o `tier-frontier`.
@@ -113,7 +113,7 @@ O orquestrador raciocina exclusivamente sobre **tiers**, nunca nomes fixos de mo
 - **`scout-then-build`:** Despache `@qa-scout` em `tier-cheap` (`plan`) para mapear código (<1.5k tokens). Sintetize e implemente em `tier-standard`.
 - **`cascade`:** Tentativa em `tier-standard` com teste automatizado. Escale apenas se o check falhar.
 - **`advisor-escalation`:** `tier-standard` executa; se travado duas vezes, gera Decision Memo (<=500 palavras) e consulta `tier-frontier` uma única vez.
-- **`parallel-worktrees`:** Para tickets independentes com arquivos disjuntos, registre `.worktrees/` no `.git/info/exclude`, crie `git worktree add` e despache workers passando o diretório como 5º argumento do `worker-dispatch.sh`.
+- **`parallel-worktrees`:** Para tickets independentes com arquivos disjuntos, registre `.worktrees/` no `.git/info/exclude`, crie `git worktree add` e despache workers passando o diretório como 5º argumento do `spec-worker-dispatch` (ou use `herdr worktree` quando precisar de execução interativa longa).
 - **`review-gate`:** Pipeline de 4 estágios (Triage em `tier-cheap` -> Conventions em `tier-standard` -> Bug Hunt -> Validator confirmando cada achado no código).
 
 ## 📂 Governança e Resolução de Documentação (`code-documentation`)

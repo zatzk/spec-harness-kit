@@ -71,9 +71,9 @@ fi
 case "$PROVIDER" in
   agy)
     case "$TIER" in
-      cheap)    MODEL="gemini-3.8-flash-low"; EFFORT="low" ;;
-      standard) MODEL="gemini-3.8-flash-high"; EFFORT="high" ;;
-      frontier) MODEL="gemini-4-argon-low"; EFFORT="low" ;;
+      cheap)    MODEL="gemini-4-hydrogen-low"; EFFORT="low" ;;
+      standard) MODEL="gemini-4-hydrogen-medium"; EFFORT="medium" ;;
+      frontier) MODEL="gemini-4-hydrogen-high"; EFFORT="high" ;;
       *) echo "Unknown tier: $TIER" >&2; exit 1 ;;
     esac
     AGY_MODE=$([[ "$MODE" == "plan" ]] && echo "plan" || echo "accept-edits")
