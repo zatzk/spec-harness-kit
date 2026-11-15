@@ -73,12 +73,14 @@ AGENTS_DIR="$TARGET_DIR/.agents/agents"
 RULES_DIR="$TARGET_DIR/.agents/rules"
 SKILLS_DIR="$TARGET_DIR/.agents/skills"
 WORKFLOWS_DIR="$TARGET_DIR/.agents/workflows"
+HOOKS_DIR="$TARGET_DIR/.agents/hooks"
 
 # Create directories
 mkdir -p "$AGENTS_DIR"
 mkdir -p "$RULES_DIR"
 mkdir -p "$SKILLS_DIR"
 mkdir -p "$WORKFLOWS_DIR"
+mkdir -p "$HOOKS_DIR"
 
 # Clean up previous symlinks or files that might conflict
 echo -e "${BLUE}--- Cleaning up previous target configurations ---${NC}"
@@ -86,6 +88,7 @@ rm -rf "$AGENTS_DIR"/*
 rm -rf "$RULES_DIR"/*
 rm -rf "$SKILLS_DIR"/*
 rm -rf "$WORKFLOWS_DIR"/*
+rm -rf "$HOOKS_DIR"/*
 
 # 1. Setup Agents (both as Agents and as Rules for @-mention triggers)
 echo -e "\n${BLUE}--- Setting up Local Agents & Rules ---${NC}"
@@ -203,6 +206,23 @@ if [ -d "$REPO_ROOT/plugs" ]; then
         else
             cp "$skill_file" "$WORKFLOWS_DIR/${skill_name}.md"
             echo "  Copied plug workflow: ${skill_name}.md"
+        fi
+    done
+fi
+
+# 4. Setup Deterministic Hooks
+if [ -d "$REPO_ROOT/hooks" ]; then
+    echo -e "\n${BLUE}--- Setting up Local Deterministic Hooks ---${NC}"
+    for hook_file in "$REPO_ROOT/hooks"/*.sh; do
+        [ -f "$hook_file" ] || continue
+        hook_name=$(basename "$hook_file")
+        if $SYMLINK_MODE; then
+            ln -sf "$hook_file" "$HOOKS_DIR/$hook_name"
+            echo "  Linked hook: $hook_name"
+        else
+            cp "$hook_file" "$HOOKS_DIR/$hook_name"
+            chmod +x "$HOOKS_DIR/$hook_name"
+            echo "  Copied hook: $hook_name"
         fi
     done
 fi

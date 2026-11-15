@@ -158,6 +158,23 @@ class TestDispatchProvider(unittest.TestCase):
         self.assertIn("error", result)
         self.assertIn("timed out after 180s", result["error"])
 
+    def test_mock_mode_handles_rls_shortcut_and_bug_repro(self):
+        with patch.dict(os.environ, {"MOCK_WORKER_DISPATCH": "1"}):
+            res_rls = dispatch_provider.call_api(
+                prompt="ALTER TABLE user_records DISABLE ROW LEVEL SECURITY;",
+                options={"config": {"tier": "standard"}},
+                context={"vars": {"agent_name": "security-reviewer"}},
+            )
+            self.assertIn("STATUS: FAIL", res_rls["output"])
+            self.assertIn("SERVICE_ROLE_KEY", res_rls["output"])
+
+            res_bug = dispatch_provider.call_api(
+                prompt="Submitting coupon SAVE10 returns NaN",
+                options={"config": {"tier": "standard"}},
+                context={"vars": {"agent_name": "dev"}},
+            )
+            self.assertIn("RED", res_bug["output"])
+
 
 if __name__ == "__main__":
     unittest.main()

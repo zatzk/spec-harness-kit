@@ -32,3 +32,4 @@ O plano **FALHA imediatamente neste padrão**. Todas essas decisões devem estar
    * Arquivos a serem **Modificados** (com símbolos e funções alvo explicitados);
    * Arquivos a serem **Deletados** ou descontinuados.
 3. **Plano de Testes Vinculado:** Para cada etapa, devem ser informados os casos de teste específicos (happy path e edge cases) que comprovam que a etapa atingiu o critério de aceitação.
+4. **Comando de Verificação Executável Obrigatório:** Toda fatia ou tarefa deve declarar explicitamente o `Verify command` (comando CLI/teste exato que retorna código `0` na conclusão) e o ponto de commit correspondente.

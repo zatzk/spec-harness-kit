@@ -51,6 +51,8 @@ detect_provider() {
     echo "claude"
   elif command -v codex >/dev/null 2>&1; then
     echo "codex"
+  elif command -v hermes >/dev/null 2>&1; then
+    echo "hermes"
   else
     echo "unknown"
   fi
@@ -67,7 +69,13 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   PRE_STATUS=$(git status --porcelain; git diff --binary HEAD 2>/dev/null | sha256sum)
 fi
 
+now_ms() {
+  date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))"
+}
+START_MS=$(now_ms)
+
 # 5. Execute provider with timeout and stripped MCP/subagent overhead
+set +e
 case "$PROVIDER" in
   agy)
     case "$TIER" in
@@ -123,14 +131,50 @@ case "$PROVIDER" in
       -
     ;;
 
+  hermes)
+    case "$TIER" in
+      cheap)    EFFORT="low" ;;
+      standard) EFFORT="medium" ;;
+      frontier) EFFORT="high" ;;
+      *) echo "Unknown tier: $TIER" >&2; exit 1 ;;
+    esac
+    HERMES_EXTRA=()
+    if [[ "$MODE" == "write" ]]; then
+      HERMES_EXTRA+=(--yolo)
+    fi
+    printf '%s' "$PROMPT" | timeout "${TIMEOUT_SEC}s" hermes chat \
+      --oneshot -Q \
+      --ignore-rules \
+      --in "$TARGET_CWD" \
+      --reasoning "$EFFORT" \
+      --run-budget "$TIMEOUT_SEC" \
+      --source tool \
+      "${HERMES_EXTRA[@]}" \
+      --query-file -
+    ;;
+
   *)
-    echo "Error: No supported AI CLI detected (agy, claude, codex)." >&2
+    echo "Error: No supported AI CLI detected (agy, claude, codex, hermes)." >&2
     echo "Export SPEC_ORCHESTRATOR_PROVIDER or install a supported CLI." >&2
     exit 1
     ;;
 esac
+WORKER_EXIT=$?
+set -e
 
-# 6. Non-Destructive Read-Only Verification Tripwire
+END_MS=$(now_ms)
+DURATION_MS=$(( END_MS - START_MS ))
+
+# 6. Structured JSONL Telemetry (disable with SPEC_DISABLE_TELEMETRY=1)
+if [[ "${SPEC_DISABLE_TELEMETRY:-0}" != "1" ]]; then
+  TELEMETRY_LOG="${SPEC_TELEMETRY_LOG:-$HOME/.cache/spec-harness-kit/telemetry.jsonl}"
+  mkdir -p "$(dirname "$TELEMETRY_LOG")" 2>/dev/null || true
+  TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  printf '{"timestamp":"%s","provider":"%s","tier":"%s","mode":"%s","agent":"%s","prompt_chars":%d,"duration_ms":%d,"exit_code":%d}\n' \
+    "$TS" "$PROVIDER" "$TIER" "$MODE" "$AGENT" "${#PROMPT}" "$DURATION_MS" "$WORKER_EXIT" >> "$TELEMETRY_LOG" 2>/dev/null || true
+fi
+
+# 7. Non-Destructive Read-Only Verification Tripwire
 if [[ "$MODE" == "plan" ]] && [[ "$IN_GIT_REPO" -eq 1 ]]; then
   POST_STATUS=$(git status --porcelain; git diff --binary HEAD 2>/dev/null | sha256sum)
   if [[ "$PRE_STATUS" != "$POST_STATUS" ]]; then
@@ -139,3 +183,5 @@ if [[ "$MODE" == "plan" ]] && [[ "$IN_GIT_REPO" -eq 1 ]]; then
     exit 2
   fi
 fi
+
+exit "$WORKER_EXIT"

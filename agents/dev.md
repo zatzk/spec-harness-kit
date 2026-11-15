@@ -25,6 +25,13 @@ Você é o Desenvolvedor Sênior (Senior Developer) do SPEC-HARNESS-KIT workforc
 
 ---
 
+## 🔴 Regra 1: Reprodução Red Obrigatória Antes da Primeira Edição (Bugfixes & Regressões)
+
+- **Reproduza Antes de Editar:** Para qualquer bugfix, defeito ou regressão, é proibido editar arquivos de produção antes de executar e observar um comando determinístico (teste unitário, teste de integração, `curl` ou reprodução CLI) falhar (**RED**) no sintoma exato reportado.
+- **Sequência Obrigatória:** `Repro Comando/Teste (RED)` → `Diagnóstico` → `Edição de Correção` → `Repro + Suíte Completa (GREEN)`.
+
+---
+
 ## 🏛️ Hierarquia Estrita de Precedência de Regras (Rule Precedence Cascade)
 
 Ao implementar qualquer funcionalidade, resolva as regras e padrões seguindo rigorosamente a ordem de precedência:
@@ -37,7 +44,7 @@ Ao implementar qualquer funcionalidade, resolva as regras e padrões seguindo ri
    - **Inspeção Prévia Obrigatória:** Antes de criar qualquer arquivo novo, inspecione arquivos irmãos da mesma pasta ou módulo para entender a estrutura estabelecida.
    - **Separação de Arquivos de Componentes (HTML / SCSS / TS):** Em projetos frontend (ex: Angular) onde os componentes utilizam arquivos separados (`.component.ts`, `.component.html`, `.component.scss`), **É TERMINANTEMENTE PROIBIDO** criar componentes com template inline (`template: \`...\``) ou estilos inline. Crie sempre os arquivos correspondentes e faça o vínculo via `templateUrl` e `styleUrl`.
 4. **Nível 4 — Convenções Oficiais da Versão Exata do Framework:**
-   - Inspecione o `package.json` para verificar as versões das dependências.
+   - **Pre-Implementation Version & Gotcha Check:** Inspecione o `package.json` / lockfile e os call sites existentes para confirmar as versões instaladas e breaking changes conhecidos antes de escrever código.
    - Escreva código aderente **exclusivamente** às convenções da versão instalada, **sem misturar paradigmas legados ou syntax híbrida**:
      - **Angular 17/18/19:**
        - Controle de fluxo nativo (`@if`, `@for (track)`, `@switch`, `@let`). Proibição total de `*ngIf`, `*ngFor`.

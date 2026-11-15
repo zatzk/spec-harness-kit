@@ -64,6 +64,47 @@ class TestFrontmatter(unittest.TestCase):
                 self.assertIn("name", data, f"{skill_file} missing 'name' in frontmatter")
                 self.assertIn("description", data, f"{skill_file} missing 'description' in frontmatter")
 
+    def test_rules_md_context_budget(self):
+        rules_path = REPO_ROOT / "rules" / "rules.md"
+        self.assertTrue(rules_path.exists(), "rules/rules.md missing")
+        content = rules_path.read_text(encoding="utf-8")
+        self.assertLessEqual(
+            len(content), 2200,
+            f"rules/rules.md exceeds 2200 char always-loaded budget ({len(content)} chars)"
+        )
+        for stale in ("spec-harness-kit-core/", "require('fs-extra')", "docs/stories/"):
+            self.assertNotIn(stale, content, f"Stale boilerplate found in rules/rules.md: {stale}")
+
+    def test_skill_descriptions_context_budget(self):
+        skills_dir = REPO_ROOT / "skills"
+        total_chars = 0
+        for skill_file in skills_dir.glob("*/SKILL.md"):
+            parts = skill_file.read_text(encoding="utf-8").split("---", 2)
+            data = yaml.safe_load(parts[1]) or {}
+            desc = str(data.get("description", ""))
+            total_chars += len(desc)
+            self.assertLessEqual(
+                len(desc), 450,
+                f"Skill {skill_file.parent.name} description exceeds 450 chars ({len(desc)})"
+            )
+        self.assertLessEqual(
+            total_chars, 12000,
+            f"Combined skill description budget exceeded: {total_chars} > 12000 chars"
+        )
+
+    def test_agent_rule_mirror_parity(self):
+        agents_dir = REPO_ROOT / "agents"
+        rules_dir = REPO_ROOT / "rules"
+        for agent_file in agents_dir.glob("*.md"):
+            mirrored_rule = rules_dir / agent_file.name
+            if mirrored_rule.exists():
+                with self.subTest(mirror=agent_file.name):
+                    self.assertEqual(
+                        agent_file.read_text(encoding="utf-8"),
+                        mirrored_rule.read_text(encoding="utf-8"),
+                        f"Drift detected between agents/{agent_file.name} and rules/{agent_file.name}"
+                    )
+
 
 if __name__ == "__main__":
     unittest.main()

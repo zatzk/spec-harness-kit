@@ -137,7 +137,7 @@ fi
 echo ""
 echo "--- Syncing Antigravity IDE Plugin Config (~/.gemini/config/plugins/spec-harness-kit) ---"
 AGY_PLUGIN_DIR="$HOME/.gemini/config/plugins/spec-harness-kit"
-if [ -d "$AGY_PLUGIN_DIR" ]; then
+if [ -d "$AGY_PLUGIN_DIR" ] && [ "$(readlink -f "$AGY_PLUGIN_DIR")" != "$(readlink -f "$REPO_ROOT")" ]; then
     # Sync agents
     cp "$REPO_ROOT/agents/"*.md "$AGY_PLUGIN_DIR/agents/" 2>/dev/null && echo "  Synced agents"
     # Sync plug agents
@@ -149,6 +149,8 @@ if [ -d "$AGY_PLUGIN_DIR" ]; then
     fi
     # Sync skills
     cp -r "$REPO_ROOT/skills/"* "$AGY_PLUGIN_DIR/skills/" 2>/dev/null && echo "  Synced skills"
+elif [ -d "$AGY_PLUGIN_DIR" ]; then
+    echo "  Plugin dir is symlinked directly to repo root, skipping self-overwrite sync."
 else
     echo "  Plugin config dir not found at $AGY_PLUGIN_DIR, skipping sync."
 fi
@@ -158,6 +160,20 @@ echo "--- Installing Global Worker Dispatcher (~/.local/bin/spec-worker-dispatch
 mkdir -p "$HOME/.local/bin"
 ln -sf "$REPO_ROOT/scripts/worker-dispatch.sh" "$HOME/.local/bin/spec-worker-dispatch"
 echo "  Linked: ~/.local/bin/spec-worker-dispatch -> $REPO_ROOT/scripts/worker-dispatch.sh"
+
+# Install deterministic harness hooks
+if [ -d "$REPO_ROOT/hooks" ]; then
+    echo "--- Installing Deterministic Harness Hooks ---"
+    for hook_dir in "$HOME/.gemini/hooks" "$HOME/.claude/hooks"; do
+        mkdir -p "$hook_dir"
+        for hook_file in "$REPO_ROOT/hooks"/*.sh; do
+            [ -f "$hook_file" ] || continue
+            hook_name=$(basename "$hook_file")
+            ln -sf "$hook_file" "$hook_dir/$hook_name"
+            echo "  Linked hook: $hook_dir/$hook_name"
+        done
+    done
+fi
 
 echo ""
 echo "Done! SPEC-HARNESS-KIT has been successfully installed globally."

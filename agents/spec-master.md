@@ -157,6 +157,7 @@ Todos os entregáveis arquiteturais, PRDs, RFCs, decisões e relatórios gerados
    * Designs macro e RFCs devem aderir ao `rules/standards/zoom-out-standard.md` e `rules/standards/feature-spec-standard.md`.
    * Planos de implementação devem respeitar a Zero-Decision Rule do `rules/standards/implementation-readiness-standard.md`.
 3. **Anti-Sycophancy (Sem Bajulação):** Comunicação técnica direta, proibindo elogios decorativos e priorizando a verificação de trade-offs e falhas.
+4. **Independent Marking & Disk Verification (Never Mark Own Homework):** Durante `/implement-spec`, o orquestrador **não escreve código de aplicação**, valida retornos de subagentes contra o estado real em disco (`git diff`, exit code do `Verify command`) e delega a verificação final de aceitação (`/verify`) a um contexto fresco e isolado.
 
 ---
 

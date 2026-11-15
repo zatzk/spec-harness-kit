@@ -14,6 +14,11 @@ The tickets are not a list of steps. They are a **task graph** with blocking rel
 
 Communication to and from subagents should be sparse. Communicate primarily through **context pointers**: to the spec, tickets, research notes, and previous commits. Don't duplicate information already available via pointers.
 
+**Orchestrator Integrity Rules:**
+- **Orchestrator Writes No Code:** The orchestrator coordinates, dispatches, merges, and verifies; it never writes application code directly during `/implement-spec`.
+- **Disk-Truth Verification:** Never accept a subagent's completion claim on trust. After each implementer returns, verify actual disk state (`git status`, `git diff --stat`) and run the ticket's `Verify command` before merging.
+- **Never Mark Your Own Homework:** Final acceptance grading runs in a fresh isolated grader context with no builder history.
+
 **Implementer subagents** should be run in the background where possible for maximum concurrency.
 
 ## Steps
@@ -35,6 +40,8 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 7. Once all tickets are complete, call the Skill tool with `code-review` on the integration branch. Fix all issues raised by the code review in a single **implementer subagent**.
 
-8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch.
+8. Run `/verify` via a **fresh grader subagent** (passing only the spec, acceptance criteria, and integration branch—no builder conversation history) to verify runtime behavior end-to-end.
 
-9. Clean up all **implementer subagent** worktrees.
+9. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch.
+
+10. Clean up all **implementer subagent** worktrees.

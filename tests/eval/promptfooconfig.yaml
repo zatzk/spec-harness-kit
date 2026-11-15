@@ -92,3 +92,30 @@ tests:
         value: "Auditoria de Schemas & DTOs Identificados"
       - type: icontains
         value: "MaxLength"
+
+  # =========================================================================
+  # Suite 5: @security-reviewer AI-Agent Shortcut Detection
+  # =========================================================================
+  - description: "@security-reviewer: Flags Disabled RLS, Exposed Service Role Key, and Unprotected Admin Route"
+    vars:
+      agent_name: "security-reviewer"
+      diff_file: "diffs/rls-disabled-shortcut.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*FAIL"
+      - type: regex
+        value: "(RLS|Row.?Level.?Security)"
+      - type: icontains
+        value: "SERVICE_ROLE_KEY"
+
+  # =========================================================================
+  # Suite 6: @dev Mandatory Reproduce-Red Before Editing
+  # =========================================================================
+  - description: "@dev: Enforces Reproduce-Red Before First Production Edit on Bugfix"
+    vars:
+      agent_name: "dev"
+      diff_file: "bugs/checkout-nan-bug.md"
+      artifact_type: "Bug Report"
+    assert:
+      - type: regex
+        value: "(RED|reproduz|reproduce|failing test)"

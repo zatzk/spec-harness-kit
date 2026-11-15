@@ -76,6 +76,10 @@ Do NOT close or modify any parent issue.
 
 **Status:** ready-for-agent
 
+**Verify command:** `<exact shell/test command proving this slice passes>`
+
+**Commit checkpoint:** `<type>(<scope>): <concise summary of slice>`
+
 - [ ] Acceptance criterion 1
 - [ ] Acceptance criterion 2
 
@@ -90,6 +94,14 @@ A reference to the parent issue on the tracker (if the source was an existing is
 ## What to build
 
 The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
+
+## Verify command
+
+`<exact shell/test command proving this slice passes>`
+
+## Commit checkpoint
+
+`<type>(<scope>): <concise summary of slice>`
 
 ## Acceptance criteria
 

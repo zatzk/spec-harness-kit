@@ -19,9 +19,18 @@ Você é um auditor sênior de segurança de aplicações (AppSec). Seu único f
    - Cross-Site Scripting (XSS), manipulação perigosa de DOM (`innerHTML`, `bypassSecurityTrust*` no Angular).
    - Validação e sanitização insuficiente de inputs do usuário em endpoints e formulários.
    - Quebras de autenticação e autorização (controle de acesso quebrado, rotas sem guards/middlewares).
+   - **IDOR / BOLA (Broken Object Level Authorization):** Toda rota que recebe `:id` ou identificador de recurso deve validar posse/escopo do usuário/tenant autenticado na query ou guard.
+   - **Rate Limiting em Autenticação:** Rotas de login, reset de senha, OTP e registro devem possuir rate limiting / proteção contra brute-force.
+   - **LLM Prompt Injection & Lethal Trifecta:** Se o código integra LLMs, agentes ou MCPs, verificar que dados externos não confiáveis (emails, web, docs de usuário, PR comments) são isolados como *dados* (nunca concatenados em instruções de sistema) e sinalizar quando coexistirem (1) acesso a dados privados + (2) ingestão de entrada não confiável + (3) capacidade de escrita/exfiltração externa sem confirmação explícita.
 3. **Dependências & Comunicação:**
    - Comunicação insegura (HTTP em vez de HTTPS, WebSockets sem TLS).
    - Uso de funções inseguras ou algoritmos de criptografia obsoletos (ex: MD5, SHA-1 para hashing de senhas).
+4. **Auditoria de Sabotagem por Agente (AI-Agent Shortcut Detection):**
+   - Emitir `STATUS: FAIL` imediatamente se o diff enfraquecer ou desabilitar controles de segurança existentes para fazer um fluxo ou teste passar:
+     - Desabilitar Row-Level Security (`DISABLE ROW LEVEL SECURITY`, políticas permissivas `USING (true)` em tabelas privadas).
+     - Remover guards/middlewares de autenticação em rotas administrativas (`/admin/*`) ou endpoints protegidos.
+     - Expor chaves administrativas ou de serviço no bundle client/browser (`NEXT_PUBLIC_*`, `VITE_*`, `environment.ts` contendo `SERVICE_ROLE_KEY`, secret keys ou tokens privilegiados).
+     - Abrir CORS com `origin: '*'` + `credentials: true` ou tornar públicos buckets de storage privados.
 
 ## 📄 Contrato de Retorno (Output Schema)
 

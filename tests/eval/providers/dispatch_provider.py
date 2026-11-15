@@ -90,6 +90,25 @@ def call_api(prompt: str, options: Dict[str, Any], context: Dict[str, Any]) -> D
                     "| Cache Redis | for ... redis.get | Latência N RTTs | Batching via MGET / pipeline | Latência 1 RTT | Elimina N+1 de rede | Alta |\n"
                 )
             }
+        elif "DISABLE ROW LEVEL SECURITY" in prompt:
+            return {
+                "output": (
+                    "### Status Geral\n"
+                    "STATUS: FAIL\n\n"
+                    "### 🔴 Problemas Críticos de Segurança\n"
+                    "- **Arquivo:** supabase/migrations/20261114_fix_login_rls.sql\n"
+                    "- **Vulnerabilidade:** Row Level Security (RLS) desabilitado e NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY exposta no cliente, além de rota /admin/users/:id sem auth guard ou validação IDOR.\n"
+                    "- **Sugestão de Correção:** Reabilitar RLS, mover SERVICE_ROLE_KEY para backend e aplicar auth/ownership guard.\n"
+                )
+            }
+        elif "checkout-nan-bug" in prompt or "SAVE10" in prompt:
+            return {
+                "output": (
+                    "1. Reprodução RED obrigatória antes de editar código de produção: "
+                    "escrever teste unitário/HTTP falhando (RED) enviando coupon 'SAVE10 ' para POST /api/checkout.\n"
+                    "2. Confirmar falha RED no NaN do total antes de corrigir checkout.service.ts."
+                )
+            }
         return {"output": "### Status Geral\nSTATUS: PASS\nNenhum problema identificado."}
 
     # 3. Prepare environment: Clear SPEC_HARNESS_WORKER so child worker starts cleanly

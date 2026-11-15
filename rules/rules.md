@@ -1,126 +1,19 @@
-# SPEC-HARNESS-KIT Development Rules for AntiGravity
+# SPEC-HARNESS-KIT Global Rules
 
-You are working with SPEC-HARNESS-KIT, an AI-Orchestrated System for Full Stack Development.
+AI-orchestrated engineering harness. Keep always-loaded rules minimal; consult disclosed references and enforce mechanical invariants via `hooks/`.
 
-## Core Development Rules
+## Caveman Mode (Native to All Agents)
+- Communicate in terse, direct, token-efficient prose (no preambles, postambles, or filler).
+- Drop articles ("the", "a", "an") and decorative adjectives where clarity holds; prefer bullets and shorthand (`→`, `=`, `vs`).
+- Retain 100% technical accuracy and complete code blocks.
+- **Exception:** Relax to full prose when user explicitly asks to "elaborate", "explain in detail", or "why".
 
-### Agent Integration
-- Recognize SPEC-HARNESS-KIT agent activations: @dev, @qa, @architect, @pm, @po, @sm, @analyst
-- Agent commands use * prefix: *help, *create-story, *task, *exit
-- Follow agent-specific workflows and patterns
+## Rules vs. Hooks Split
+- **Rules (`rules/`, `constitution.md`):** Project facts, authority boundaries, navigation pointers, and judgment calls.
+- **Hooks (`hooks/`):** Mechanical invariants (`PreToolUse` `.env`/git guards, `PostToolUse` secret-fallback/`any`/`::ng-deep`/`[DEBUG-` scan, `Stop` test gate). Never rely on prose alone for mechanical checks.
 
-### Caveman Mode / Cave Mode (NATIVE TO ALL AGENTS)
-- **Token Compression & Direct Communication**: Always communicate in extremely terse, direct, token-efficient, primitive prose (caveman-style).
-- **Core Rules**:
-  - Eliminate politeness, preambles, and postambles (e.g., NO "Certainly!", "I'd be happy to...", "Here is...", "Let me know if...").
-  - Eliminate articles ("the", "a", "an") and unnecessary verbs/adjectives where the meaning remains clear.
-  - Use short, punchy sentence fragments, keywords, bullet points, and shorthand arrows/symbols (e.g., `→`, `=`, `vs`).
-  - Retain 100% technical accuracy and complete code blocks. Never compress code blocks, syntax, or essential technical details.
-- **Elaboration Exception**:
-  - If explicitly asked by the user to "elaborate", "explain in detail", "explain", "why", or "provide full context", relax the Caveman mode rules for that response only to provide a comprehensive, detailed, grammatical explanation. Otherwise, default strictly to Caveman Mode.
-
-### Story-Driven Development
-1. **Always work from a story file** in docs/stories/
-2. **Update story checkboxes** as you complete tasks: [ ] → [x]
-3. **Maintain the File List** section with all created/modified files
-4. **Follow acceptance criteria** exactly as written
-
-### Code Quality Standards
-- Write clean, maintainable code following project conventions
-- Include comprehensive error handling
-- Add unit tests for all new functionality
-- Follow existing patterns in the codebase
-
-### Testing Protocol
-- Run all tests and the project's quality gates command (e.g. `npm run quality` or `quality-gate.sh`) before marking tasks complete
-- Ensure linting passes without warnings, and type checks are error-free
-- Add unit/integration tests for all new functions, aiming for 95% line coverage and 90% branch coverage
-- Run mutation testing (e.g., Stryker, Mutant) to verify test suite quality and check that no mutants survive
-- **Report the final gate metrics table** in your response so regressions are visible and tracked under the ratchet policy
-
-## SPEC-HARNESS-KIT Framework Structure
-
-```
-spec-harness-kit-core/
-├── agents/       # Agent persona definitions
-├── tasks/        # Executable task workflows
-├── workflows/    # Multi-step workflows
-├── templates/    # Document templates
-└── checklists/   # Validation checklists
-
-docs/
-├── stories/      # Development stories
-├── prd/          # Sharded PRD sections
-└── architecture/ # Sharded architecture
-```
-
-## Development Workflow
-
-1. **Read the story** - Understand requirements fully
-2. **Implement sequentially** - Follow task order
-3. **Test thoroughly** - Validate each step
-4. **Update story** - Mark completed items
-5. **Document changes** - Update File List
-
-## Best Practices
-
-### When implementing:
-- Check existing patterns first
-- Reuse components and utilities
-- Follow naming conventions
-- Keep functions focused and small
-
-### When testing:
-- Write tests alongside implementation
-- Test edge cases
-- Verify error handling
-- Run full test suite
-
-### When documenting:
-- Update README for new features
-- Document API changes
-- Add inline comments for complex logic
-- Keep story File List current
-
-## Git & GitHub
-
-- Use conventional commits: `feat:`, `fix:`, `docs:`, etc.
-- Reference story ID in commits: `feat: implement IDE detection [Story 2.1]`
-- Ensure GitHub CLI is configured: `gh auth status`
-- Push regularly to avoid conflicts
-
-## Common Patterns
-
-### Error Handling
-```javascript
-try {
-  // Operation
-} catch (error) {
-  console.error(`Error in ${operation}:`, error);
-  throw new Error(`Failed to ${operation}: ${error.message}`);
-}
-```
-
-### File Operations
-```javascript
-const fs = require('fs-extra');
-const path = require('path');
-
-// Always use absolute paths
-const filePath = path.join(__dirname, 'relative/path');
-```
-
-### Async/Await
-```javascript
-async function operation() {
-  try {
-    const result = await asyncOperation();
-    return result;
-  } catch (error) {
-    // Handle error appropriately
-  }
-}
-```
-
----
-*SPEC-HARNESS-KIT AntiGravity Configuration v1.0*
+## Core Execution & Quality Protocol
+1. **Align → Plan → Implement → Verify:** Clarify scope (`grilling`), slice vertically with explicit `Verify command` (`to-tickets`), implement via TDD, verify runtime behavior (`verify`) in a fresh grader context.
+2. **Reproduce Red First:** Before editing any source file for a bugfix or regression, run a command or failing test that reproduces the exact symptom (`RED`).
+3. **Quality Gates:** Obey `rules/constitution.md` Principle V (lint, typecheck, test, coverage, mutation ratchet). Report gate metrics before completion.
+4. **Conventional Commits:** `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`. Only `@devops` pushes source repos (exception: `code-documentation` docs-as-code auto-push).

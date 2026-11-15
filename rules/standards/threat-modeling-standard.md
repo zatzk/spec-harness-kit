@@ -16,7 +16,8 @@ Toda RFC ou PRD que introduza ou modifique serviços, endpoints ou modelos de da
 
 ### 1. Mapeamento Explícito de Trust Boundaries (Fronteiras de Confiança)
 * **Requisito:** O documento deve conter um diagrama (Mermaid) identificando claramente as fronteiras de confiança entre zonas de privilégio distintas (cliente público, gateway de API, serviços internos, filas assíncronas e bancos de dados).
-* **Critério de Falha:** Considerar todo o tráfego interno como "implicitamente confiável" (*perimeter-only security*) ou omitir autenticação/autorização em chamadas inter-serviços que transportam dados sensíveis.
+* **Lethal Trifecta & AI Boundary Check:** Quando o sistema integrar LLMs, agentes ou MCPs, o diagrama e os controles DEVEM isolar entradas externas não confiáveis como **dados** (nunca instruções) e impedir a combinação sem aprovação humana de: *(a)* leitura de dados privados, *(b)* ingestão de conteúdo não confiável e *(c)* capacidade de escrita/exfiltração externa.
+* **Critério de Falha:** Considerar todo o tráfego interno como "implicitamente confiável" (*perimeter-only security*), omitir autenticação/autorização em chamadas inter-serviços que transportam dados sensíveis, ou permitir a Lethal Trifecta em fluxos com IA.
 
 ### 2. Análise e Cobertura STRIDE Completa
 * **Requisito:** A proposta técnica deve explicitar como cada vetor do framework STRIDE foi considerado e mitigado:

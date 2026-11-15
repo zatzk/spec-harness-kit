@@ -37,3 +37,7 @@ Os subagentes especialistas avaliam o parecer preliminar do Lead juntamente com 
 ### 5. Consolidação e Emissão do Relatório
 O `@qa` consolida todos os apontamentos, desduplica itens já comentados no PR e gera o relatório final com `QA_SCORE` (0-100), salvando em:
 `docs/code-reviews/<projeto>/<branch-ou-pr>.md`.
+
+### 6. Anti-Death-Loop Gate (Convergence Rule)
+- **Limite de Ciclos:** Máximo de **2 ciclos** de revisão → correção por PR/branch.
+- **Critério de Convergência:** Assim que `P0 = 0` e `P1 = 0`, apontamentos estilísticos ou menores (`P2`/`P3`) devem ser registrados como follow-ups não-bloqueantes e o pipeline **DEVE** emitir aprovação (`PASS`), evitando loops infinitos de nitpicking adversarial.
