@@ -45,10 +45,13 @@ copy_agents() {
         echo "  Copied agent: $filename"
     done
 
-    # Copy Plug Agents
+    # Copy Plug Agents (skip if superseded by core agents/)
     if [ -d "$REPO_ROOT/plugs" ]; then
         find "$REPO_ROOT/plugs" -path "*/agents/*.md" 2>/dev/null | while read -r agent_file; do
             basename_no_ext=$(basename "$agent_file" .md)
+            if [ -f "$REPO_ROOT/agents/${basename_no_ext}.md" ]; then
+                continue
+            fi
             filename="${basename_no_ext}${suffix}"
             target_path="$target_dir/$filename"
             rm -f "$target_path"
@@ -140,9 +143,12 @@ AGY_PLUGIN_DIR="$HOME/.gemini/config/plugins/spec-harness-kit"
 if [ -d "$AGY_PLUGIN_DIR" ] && [ "$(readlink -f "$AGY_PLUGIN_DIR")" != "$(readlink -f "$REPO_ROOT")" ]; then
     # Sync agents
     cp "$REPO_ROOT/agents/"*.md "$AGY_PLUGIN_DIR/agents/" 2>/dev/null && echo "  Synced agents"
-    # Sync plug agents
+    # Sync plug agents (skip if superseded by core agents/)
     if [ -d "$REPO_ROOT/plugs" ]; then
         find "$REPO_ROOT/plugs" -path "*/agents/*.md" 2>/dev/null | while read -r agent_file; do
+            if [ -f "$REPO_ROOT/agents/$(basename "$agent_file")" ]; then
+                continue
+            fi
             cp "$agent_file" "$AGY_PLUGIN_DIR/agents/" 2>/dev/null
         done
         echo "  Synced plug agents"

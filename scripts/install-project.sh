@@ -114,10 +114,13 @@ for agent_file in "$REPO_ROOT/agents"/*.md; do
     fi
 done
 
-# Setup Plug Agents
+# Setup Plug Agents (skip if superseded by core agents/)
 if [ -d "$REPO_ROOT/plugs" ]; then
     find "$REPO_ROOT/plugs" -path "*/agents/*.md" 2>/dev/null | while read -r agent_file; do
         basename_no_ext=$(basename "$agent_file" .md)
+        if [ -f "$REPO_ROOT/agents/${basename_no_ext}.md" ]; then
+            continue
+        fi
         target_md="$AGENTS_DIR/${basename_no_ext}.md"
         target_agent_md="$AGENTS_DIR/${basename_no_ext}.agent.md"
         target_rule_md="$RULES_DIR/${basename_no_ext}.md"
