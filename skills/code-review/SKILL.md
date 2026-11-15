@@ -15,7 +15,7 @@ The approval standard: **Approve a change when it definitely improves overall co
 
 ### The Five Axes:
 1. **Correctness:** Does the code match PRD/RFC requirements? Are edge cases handled (null, empty, boundary, disconnects)? Are tests validating true domain invariants?
-2. **Readability & Simplicity:** Can another engineer understand this without author explanation? Are control flows direct? Could this be done with less complexity?
+2. **Readability & Simplicity:** Can another engineer understand this without author explanation? Are control flows direct? Could this be done with less complexity? Flag **comment slop** (chatty inline narration explaining the obvious "what" instead of non-obvious "why", and redundant JSDocs duplicating explicit types).
 3. **Architecture:** Clean module boundaries, explicit DIP, no circular dependencies. Does this refactor reduce complexity or merely relocate it?
 4. **Security:** Zero secrets or hardcoded token fallbacks. Input validation and sanitization at system boundaries. RBAC authorization and OWASP compliance.
 5. **Performance & Algorithm:** No $N+1$ query patterns, sequential cache/database loops, unconstrained pagination, memory leaks, or metric cardinality explosion.
@@ -62,6 +62,9 @@ When flagging an architectural or design issue, **always propose the structural 
 
 ### 4. Dispatch Specialist Subagents
 Dispatch the available subagents (`security-reviewer`, `architecture-reviewer`, `lld-reviewer`, `algorithm-complexity-reviewer`, `angular-reviewer`, `backend-reviewer`, `qa-reviewer`, `dba-reviewer`) providing the full diff, project context, and prior comments summary.
+
+#### Prove-the-Bug Gate (Adversarial Repro Rule)
+Every **P0/P1 functional, concurrency, or security finding** MUST include a concrete reproduction test, curl/CLI command, or minimal script demonstrating the failure. If a reviewer cannot execute a repro in the current sandbox, the finding MUST be explicitly tagged `[UNVERIFIED-STATIC]` so downstream triage separates proven bugs from static speculation.
 
 ### 5. Check PRD & RFC Traceability
 Look for originating PRD or RFC in the commit messages, `docs/prds/`, `docs/rfcs/`, or ClickUp links. Produce a requirements compliance matrix (`✅ Conforme`, `⚠️ Parcial`, `⚪ Omitido`).

@@ -862,6 +862,20 @@ export { [feature]Service } from './services/[feature].service'
 
 ---
 
+## Slop-Prone API Bans & Deterministic Lint Enforcement
+
+Enforce these bans via ESLint / CI rather than prose reminders alone:
+
+1. **Ban `useEffect` for Derived State, Event Handling, or Ad-Hoc Fetching:**
+   - Compute derived values during render; handle user actions in event handlers; use React Query / Server Components for data fetching.
+   - Enforce with ESLint `no-restricted-imports` / `no-restricted-syntax` (or `eslint-plugin-react-you-might-not-need-an-effect`), allowing explicit escape hatches only with a `// EFFECT-ALLOW: <why>` justification.
+2. **No Barrel Re-Exports (`export * from ...`):**
+   - Keep entry points explicit and pair with `dependency-cruiser` (`setup-ts-deep-modules`) so internal subfolders stay private.
+3. **No Comment Slop:**
+   - Do not add narration comments restating types or JSX structure; reserve comments strictly for non-obvious invariants or browser/API quirks.
+
+---
+
 ## Integration with SPEC-HARNESS-KIT
 
 ### Recommended Workflow

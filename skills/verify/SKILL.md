@@ -19,10 +19,11 @@ Run levels in order; stop and report on first blocking failure:
 
 1. **Level 1 — Static & Type Boundaries:** Run project lint, typecheck, and build commands.
 2. **Level 2 — Unit & Mutation Assertions:** Run unit test suite (plus mutation testing ratchet via `quality-gate` where configured).
-3. **Level 3 — Integration & Contract Boundaries:** Run integration/DB/DTO schema tests (Testcontainers, OpenAPI/Zod checks).
-4. **Level 4 — Runtime User-Perspective Execution:**
+3. **Level 3 — Integration & Contract Boundaries:** Run integration/DB/DTO schema tests (Testcontainers, OpenAPI/Zod checks) plus stateful property/model checks (e.g., `fast-check`, TLA+/Quint) when the spec involves state machines, locks, or concurrent workflows.
+4. **Level 4 — Runtime User-Perspective Execution & Artifact Bundle:**
    - Identify the real entrypoint (CLI binary, local HTTP server, or UI dev server).
-   - Drive the feature as a user would (CLI fixture run, `curl`/HTTP assertions, or headless Playwright/browser script).
-   - Inspect live stdout/stderr, server logs, and persisted DB/file state directly.
+   - Drive the feature as a user would (CLI fixture run, `curl`/HTTP assertions, or headless Playwright/Chrome DevTools Protocol script).
+   - Assert **zero uncaught browser console errors** and **zero unexpected HTTP 5xx responses** alongside live stdout/stderr, server logs, and persisted DB/file state.
+   - Emit a **Verification Artifact Bundle** (e.g., `.verify-artifacts/` containing before/after screenshots, sanitized runtime logs, and test/mutation metrics) so human reviewers can verify proof artifacts via `/pr` instead of reading raw diffs line-by-line.
 5. **Level 5 — Pre-Live Security & Backup Gate (when `--pre-live` or releasing):**
    - Read and execute [`PRE-LIVE-CHECKLIST.md`](PRE-LIVE-CHECKLIST.md).

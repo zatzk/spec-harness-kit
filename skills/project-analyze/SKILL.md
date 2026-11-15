@@ -17,6 +17,18 @@ agent-foreman init --analyze
 
 Output: `docs/ARCHITECTURE.md`
 
+## Feature Map (`docs/FEATURE_MAP.md`)
+
+When analyzing a user-facing app, also generate or refresh `docs/FEATURE_MAP.md` so agents share a canonical vocabulary instead of guessing UI names:
+
+```markdown
+| Feature / Route | Entry Points | Related PRD / RFC |
+| :--- | :--- | :--- |
+| `/checkout` (Checkout Flow) | `src/app/checkout/page.tsx`, `src/features/checkout/` | `PRD-012`, `RFC-014` |
+```
+
+Link `docs/FEATURE_MAP.md` from `AGENTS.md` / `CLAUDE.md` as a single-line navigation pointer.
+
 ## Options
 
 | Flag | Effect |

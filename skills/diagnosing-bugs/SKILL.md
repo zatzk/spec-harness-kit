@@ -89,9 +89,9 @@ Do not proceed until you have reproduced **and** minimised.
 
 Generate **3–5 ranked hypotheses** before testing any of them. Single-hypothesis generation anchors on the first plausible idea.
 
-Each hypothesis must be **falsifiable**: state the prediction it makes.
+Each hypothesis must be **falsifiable**: state the prediction it makes and tag its basis as `[measured]` (observed tool/log output), `[inferred]` (deduced from read code), or `[guess]` (unverified intuition).
 
-> Format: "If <X> is the cause, then <changing Y> will make the bug disappear / <changing Z> will make it worse."
+> Format: "[inferred] If <X> is the cause, then <changing Y> will make the bug disappear / <changing Z> will make it worse."
 
 If you cannot state the prediction, the hypothesis is a vibe: discard or sharpen it.
 

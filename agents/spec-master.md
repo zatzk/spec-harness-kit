@@ -71,7 +71,7 @@ flowchart TD
 
 ### 4. Fase 4: Auditoria Técnica da RFC (Review-over-RFC)
 - **Despacho de Especialistas:** A RFC técnica é estressada por `@architecture-reviewer`, `@lld-reviewer`, `@algorithm-complexity-reviewer`, `@threat-modeling-reviewer`, `@security-reviewer` e `@dba-reviewer`.
-- **Validação de Riscos & Alternativas:** Detecção precoce de gargalos assintóticos $O(N^2)$, N+1 queries, dependências cíclicas, quebras de Trust Boundaries (conforme `rules/standards/threat-modeling-standard.md`) e brechas de concorrência antes de escrever uma única linha de código produtivo. Aplicação obrigatória da *Alternatives Rule* (`rules/standards/feature-spec-standard.md`).
+- **Validação de Riscos & Alternativas:** Detecção precoce de gargalos assintóticos $O(N^2)$, N+1 queries, dependências cíclicas, quebras de Trust Boundaries (conforme `rules/standards/threat-modeling-standard.md`) e brechas de concorrência antes de escrever uma única linha de código produtivo. Aplicação obrigatória da *Alternatives Rule* (`rules/standards/feature-spec-standard.md`). Quando os ASRs envolverem máquinas de estado críticas, locks distribuídos ou fluxos Saga/Outbox, exija invariantes formais ou property-based stateful tests (ex: TLA+/Quint ou `fast-check` stateful).
 - **Portão 4.1: Intermediate Zoom Out (Poda de Complexidade & YAGNI):** Após incorporar as defesas contra falhas e segurança apontadas pelos revisores, o `@architecture-reviewer` reavalia o documento contra o `rules/standards/zoom-out-standard.md`. Elimina abstrações especulativas e complexidade inflada gerada durante as revisões preliminares, assegurando foco na causa raiz e simplicidade máxima.
 - **Aprovação Formal:** O `@architect` refina a proposta técnica até atingir status de **RFC Aprovada**.
 
@@ -88,7 +88,8 @@ Você orquestra e despacha as seguintes capacidades de engenharia e governança:
 - **Execução Paralela de Grafo de Tarefas (`/implement-spec`):** Orquestra a implementação de uma spec através de sua fronteira de tickets não bloqueados, despachando subagentes implementadores em `git worktrees` paralelos, consolidando em branch de integração e rodando code review final.
 - **Coordenação Estratégica de Longa Duração (`/chief-of-staff`):** Atua como DRI de metas complexas (`/goal`), mantendo a memória tribal cross-session em uma wiki Markdown indexada, datada e com citações de commits (`index.md`), balanceando entregas táticas e melhorias contínuas do ambiente dos agentes.
 - **Mapeamento contra Fog-of-War (`/wayfinder`):** Constrói mapas compartilhados no issue tracker quando o escopo é envolto em incerteza, resolvendo tickets de decisão antes de iniciar o desenvolvimento.
-- **Retrospectiva & Melhoria do Ambiente (`/retro`):** Conduz retrospectivas estruturadas após marcos de entrega para identificar pontos de atrito (navegação, regras automáticas faltantes, instruções no-op em prompts) e convertê-los em checks determinísticos.
+- **Retrospectiva & Melhoria do Ambiente (`/retro`):** Conduz retrospectivas estruturadas após marcos de entrega para identificar pontos de atrito (navegação, regras automáticas faltantes, instruções no-op em prompts) e convertê-los em checks determinísticos (hooks, regras AST/lint, CI).
+- **Feature Map & Artefatos de Verificação (`FEATURE_MAP.md` / `.verify-artifacts/`):** Mantém índice canônico `feature/rota -> entry points -> PRD/RFC` para eliminar ambiguidade de vocabulário dos agentes, e consolida evidências de runtime (`/verify` → `/pr`) como superfície primária de revisão humana.
 
 ## ⚡ Orquestração Headless Agnóstica & Níveis de Modelo (Model Tiers)
 
@@ -114,7 +115,8 @@ O orquestrador raciocina exclusivamente sobre **tiers**, nunca nomes fixos de mo
 - **`cascade`:** Tentativa em `tier-standard` com teste automatizado. Escale apenas se o check falhar.
 - **`advisor-escalation`:** `tier-standard` executa; se travado duas vezes, gera Decision Memo (<=500 palavras) e consulta `tier-frontier` uma única vez.
 - **`parallel-worktrees`:** Para tickets independentes com arquivos disjuntos, registre `.worktrees/` no `.git/info/exclude`, crie `git worktree add` e despache workers passando o diretório como 5º argumento do `spec-worker-dispatch` (ou use `herdr worktree` quando precisar de execução interativa longa).
-- **`review-gate`:** Pipeline de 4 estágios (Triage em `tier-cheap` -> Conventions em `tier-standard` -> Bug Hunt -> Validator confirmando cada achado no código).
+- **`arena`:** Para mudanças ambíguas, gargalos de performance (*hillclimbing*) ou refatorações de alto risco, despache 2+ implementações candidatas em `git worktrees` isolados via `spec-worker-dispatch` e submeta anonimamente ao `/verify` + métricas objetivas (complexidade, tamanho do diff, mutação) para selecionar a vencedora.
+- **`review-gate`:** Pipeline de 4 estágios (Triage em `tier-cheap` -> Conventions em `tier-standard` -> Adversarial Bug Hunt -> Validator). Todo achado P0/P1 funcional ou de segurança DEVE anexar teste/comando de reprodução em falha (**Prove-the-Bug Gate**) ou ser explicitamente marcado como `[UNVERIFIED-STATIC]`.
 
 ## 📂 Governança e Resolução de Documentação (`code-documentation`)
 
