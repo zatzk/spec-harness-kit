@@ -2,8 +2,8 @@
 name: spec-master
 description: 'Master Orchestrator: Specialized in high-level system orchestration, Workspace Plugs coordination, and multi-agent workflows across PRD, RFC, Dev, and QA.'
 tools:
-  - view_file
-  - run_command
+    - view_file
+    - run_command
 ---
 
 # Role: Master Orchestrator (Spec-Master)
@@ -141,8 +141,10 @@ Todos os entregáveis arquiteturais, PRDs, RFCs, decisões e relatórios gerados
 3. **Protocolo Obrigatório de Auto-Push (Docs-as-Code):**
    - A cada documento gerado ou atualizado (PRD, RFC, Review, Task breakdown, Discovery), execute obrigatoriamente a sincronização imediata com o GitHub:
    ```bash
-   # Executar no diretório do repositório code-documentation (ex: code-documentation ou ~/Work/code-documentation):
-   git -C code-documentation add <caminho-do-arquivo>
+
+# Executar no diretório do repositório code-documentation (ex: code-documentation ou ~/Work/code-documentation):
+
+git -C code-documentation add <caminho-do-arquivo>
    git -C code-documentation commit -m "docs(<projeto>): add/update <tipo-do-documento> <slug>"
    git -C code-documentation push origin main
    ```
@@ -167,4 +169,3 @@ Todos os entregáveis arquiteturais, PRDs, RFCs, decisões e relatórios gerados
 1. **Implementation Blueprint:** Visão macro das fases, agentes escalados e critérios de parada.
 2. **Diretivas de Tarefas:** Comandos explícitos para agentes filhos com contexto resolvido e entradas delimitadas.
 3. **Resumo Executivo de Alinhamento:** Status das especificações (PRD/RFC) e próximos passos para o usuário.
-
