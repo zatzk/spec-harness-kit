@@ -114,6 +114,8 @@ def call_api(prompt: str, options: Dict[str, Any], context: Dict[str, Any]) -> D
     # 3. Prepare environment: Clear SPEC_HARNESS_WORKER so child worker starts cleanly
     env = os.environ.copy()
     env.pop("SPEC_HARNESS_WORKER", None)
+    if "sandbox" in options_config:
+        env["SPEC_SANDBOX"] = str(options_config["sandbox"])
 
     cmd = [
         str(DISPATCH_SCRIPT),
@@ -141,6 +143,11 @@ def call_api(prompt: str, options: Dict[str, Any], context: Dict[str, Any]) -> D
         if proc.returncode == 2:
             return {
                 "error": "⚠️ Security Alert: Read-only worker violated plan mode and modified working tree state!"
+            }
+
+        if proc.returncode == 78:
+            return {
+                "error": f"🛑 Sandbox Configuration Error (exit 78): {proc.stderr.strip()}"
             }
 
         return {

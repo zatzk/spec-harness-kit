@@ -69,12 +69,97 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   PRE_STATUS=$(git status --porcelain; git diff --binary HEAD 2>/dev/null | sha256sum)
 fi
 
+# 5. Configure OS-level sandbox wrapper (ai-jail v3.0.1+ contract)
+SPEC_SANDBOX="${SPEC_SANDBOX:-auto}"
+case "$SPEC_SANDBOX" in
+  off|auto|require) ;;
+  *)
+    echo "Error: Invalid SPEC_SANDBOX value '$SPEC_SANDBOX' (expected: off|auto|require)." >&2
+    exit 1
+    ;;
+esac
+
+SANDBOX_MODE="off"
+SANDBOX_STATUS="disabled"
+EGRESS_LOG_PATH=""
+SANDBOX_PREFIX=()
+
+has_preflight_blockers() {
+  local json_out="$1"
+  [[ -z "$json_out" ]] && return 0
+  if command -v jq >/dev/null 2>&1; then
+    local count
+    count="$(printf '%s' "$json_out" | jq -r '(.blockers // []) | length' 2>/dev/null || echo "1")"
+    [[ "$count" != "0" ]] && return 0
+    return 1
+  else
+    python3 -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if not d.get("blockers") else 1)' <<< "$json_out" 2>/dev/null && return 1 || return 0
+  fi
+}
+
+if [[ "$SPEC_SANDBOX" != "off" ]]; then
+  case "$PROVIDER" in
+    agy|claude|codex)
+      if ! command -v ai-jail >/dev/null 2>&1; then
+        if [[ "$SPEC_SANDBOX" == "require" ]]; then
+          echo "🛑 Sandbox Error: 'ai-jail' binary not found on PATH (SPEC_SANDBOX=require)." >&2
+          exit 78
+        fi
+        SANDBOX_STATUS="fallback-missing-binary"
+      else
+        set +e
+        PREFLIGHT_JSON="$(ai-jail --harness "$PROVIDER" status --json -- "$PROVIDER" 2>/dev/null)"
+        PREFLIGHT_EXIT=$?
+        set -e
+        if [[ "$PREFLIGHT_EXIT" -ne 0 ]] || has_preflight_blockers "$PREFLIGHT_JSON"; then
+          if [[ "$SPEC_SANDBOX" == "require" ]]; then
+            echo "🛑 Sandbox Error: ai-jail preflight reported blockers for '$PROVIDER' in '$TARGET_CWD' (exit $PREFLIGHT_EXIT). Run: ai-jail configure $PROVIDER" >&2
+            exit 78
+          fi
+          echo "⚠️ Sandbox Notice: ai-jail profile not configured for '$PROVIDER' in '$TARGET_CWD'; falling back to unjailed run." >&2
+          SANDBOX_STATUS="fallback-unconfigured"
+        else
+          SANDBOX_MODE="ai-jail"
+          SANDBOX_STATUS="enforced"
+          SANDBOX_PREFIX=(ai-jail --harness "$PROVIDER" --no-save-config --mask '.env' --mask '.env.*')
+          if [[ -f ".git" ]]; then
+            SANDBOX_PREFIX+=(--worktree)
+          fi
+          if [[ "$MODE" == "plan" ]]; then
+            SANDBOX_PREFIX+=(--no-toolchains)
+          fi
+          if [[ -n "${SPEC_SANDBOX_EXTRA_HOSTS:-}" ]]; then
+            IFS=',' read -ra EXTRA_HOSTS_ARR <<< "$SPEC_SANDBOX_EXTRA_HOSTS"
+            for h in "${EXTRA_HOSTS_ARR[@]}"; do
+              [[ -n "$h" ]] && SANDBOX_PREFIX+=(--allow-host "$h")
+            done
+          fi
+          if [[ "${SPEC_SANDBOX_EGRESS_LOG:-1}" == "1" ]] && [[ "$(uname -s)" == "Linux" ]]; then
+            EGRESS_DIR="${SPEC_EGRESS_LOG_DIR:-$HOME/.cache/spec-harness-kit/egress}"
+            mkdir -p "$EGRESS_DIR" 2>/dev/null || true
+            EGRESS_LOG_PATH="$EGRESS_DIR/$(date -u +%Y%m%dT%H%M%SZ)-$$.jsonl"
+            SANDBOX_PREFIX+=(--egress-log "$EGRESS_LOG_PATH")
+          fi
+          SANDBOX_PREFIX+=(--)
+        fi
+      fi
+      ;;
+    *)
+      if [[ "$SPEC_SANDBOX" == "require" ]]; then
+        echo "🛑 Sandbox Error: Provider '$PROVIDER' is not supported by ai-jail --harness (SPEC_SANDBOX=require)." >&2
+        exit 78
+      fi
+      SANDBOX_STATUS="fallback-unsupported-provider"
+      ;;
+  esac
+fi
+
 now_ms() {
   date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))"
 }
 START_MS=$(now_ms)
 
-# 5. Execute provider with timeout and stripped MCP/subagent overhead
+# 6. Execute provider with timeout and stripped MCP/subagent overhead
 set +e
 case "$PROVIDER" in
   agy)
@@ -86,7 +171,7 @@ case "$PROVIDER" in
     esac
     AGY_MODE=$([[ "$MODE" == "plan" ]] && echo "plan" || echo "accept-edits")
     # CRITICAL: --print="$PROMPT" must be attached and placed last so agy does not swallow flags
-    timeout "${TIMEOUT_SEC}s" agy \
+    timeout "${TIMEOUT_SEC}s" "${SANDBOX_PREFIX[@]}" agy \
       --print-timeout "${TIMEOUT_SEC}s" \
       --mode "$AGY_MODE" \
       --model "$MODEL" \
@@ -104,7 +189,7 @@ case "$PROVIDER" in
       *) echo "Unknown tier: $TIER" >&2; exit 1 ;;
     esac
     CLAUDE_PERM=$([[ "$MODE" == "plan" ]] && echo "plan" || echo "acceptEdits")
-    printf '%s' "$PROMPT" | timeout "${TIMEOUT_SEC}s" claude \
+    printf '%s' "$PROMPT" | timeout "${TIMEOUT_SEC}s" "${SANDBOX_PREFIX[@]}" claude \
       --print \
       --disable-slash-commands \
       --disallowedTools "Agent,Workflow" \
@@ -121,7 +206,7 @@ case "$PROVIDER" in
       frontier) SANDBOX="read-only"; EFFORT="high" ;;
       *) echo "Unknown tier: $TIER" >&2; exit 1 ;;
     esac
-    printf '%s' "$PROMPT" | timeout "${TIMEOUT_SEC}s" codex \
+    printf '%s' "$PROMPT" | timeout "${TIMEOUT_SEC}s" "${SANDBOX_PREFIX[@]}" codex \
       --disable multi_agent \
       exec \
       --sandbox "$SANDBOX" \
@@ -142,7 +227,7 @@ case "$PROVIDER" in
     if [[ "$MODE" == "write" ]]; then
       HERMES_EXTRA+=(--yolo)
     fi
-    printf '%s' "$PROMPT" | timeout "${TIMEOUT_SEC}s" hermes chat \
+    printf '%s' "$PROMPT" | timeout "${TIMEOUT_SEC}s" "${SANDBOX_PREFIX[@]}" hermes chat \
       --oneshot -Q \
       --ignore-rules \
       --in "$TARGET_CWD" \
@@ -165,16 +250,16 @@ set -e
 END_MS=$(now_ms)
 DURATION_MS=$(( END_MS - START_MS ))
 
-# 6. Structured JSONL Telemetry (disable with SPEC_DISABLE_TELEMETRY=1)
+# 7. Structured JSONL Telemetry (disable with SPEC_DISABLE_TELEMETRY=1)
 if [[ "${SPEC_DISABLE_TELEMETRY:-0}" != "1" ]]; then
   TELEMETRY_LOG="${SPEC_TELEMETRY_LOG:-$HOME/.cache/spec-harness-kit/telemetry.jsonl}"
   mkdir -p "$(dirname "$TELEMETRY_LOG")" 2>/dev/null || true
   TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  printf '{"timestamp":"%s","provider":"%s","tier":"%s","mode":"%s","agent":"%s","prompt_chars":%d,"duration_ms":%d,"exit_code":%d}\n' \
-    "$TS" "$PROVIDER" "$TIER" "$MODE" "$AGENT" "${#PROMPT}" "$DURATION_MS" "$WORKER_EXIT" >> "$TELEMETRY_LOG" 2>/dev/null || true
+  printf '{"timestamp":"%s","provider":"%s","tier":"%s","mode":"%s","agent":"%s","prompt_chars":%d,"duration_ms":%d,"exit_code":%d,"sandbox_mode":"%s","sandbox_status":"%s","egress_log":"%s"}\n' \
+    "$TS" "$PROVIDER" "$TIER" "$MODE" "$AGENT" "${#PROMPT}" "$DURATION_MS" "$WORKER_EXIT" "$SANDBOX_MODE" "$SANDBOX_STATUS" "$EGRESS_LOG_PATH" >> "$TELEMETRY_LOG" 2>/dev/null || true
 fi
 
-# 7. Non-Destructive Read-Only Verification Tripwire
+# 8. Non-Destructive Read-Only Verification Tripwire
 if [[ "$MODE" == "plan" ]] && [[ "$IN_GIT_REPO" -eq 1 ]]; then
   POST_STATUS=$(git status --porcelain; git diff --binary HEAD 2>/dev/null | sha256sum)
   if [[ "$PRE_STATUS" != "$POST_STATUS" ]]; then

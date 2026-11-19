@@ -4,9 +4,12 @@
 Tests prompt_builder.py and dispatch_provider.py without requiring active LLM inference.
 """
 
+import json
 import os
 from pathlib import Path
+import stat
 import subprocess
+import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -174,6 +177,165 @@ class TestDispatchProvider(unittest.TestCase):
                 context={"vars": {"agent_name": "dev"}},
             )
             self.assertIn("RED", res_bug["output"])
+
+    @patch("subprocess.run")
+    def test_sandbox_exit_code_78(self, mock_run):
+        mock_run.return_value = MagicMock(
+            returncode=78,
+            stdout="",
+            stderr="🛑 Sandbox Error: ai-jail preflight reported blockers",
+        )
+
+        result = dispatch_provider.call_api(
+            prompt="Valid prompt",
+            options={"config": {"tier": "standard", "sandbox": "require"}},
+            context={"vars": {"agent_name": "dev"}},
+        )
+        self.assertIn("error", result)
+        self.assertIn("Sandbox Configuration Error (exit 78)", result["error"])
+
+
+class TestWorkerDispatchSandboxIntegration(unittest.TestCase):
+    """End-to-end execution tests for scripts/worker-dispatch.sh ai-jail integration."""
+
+    DISPATCH_SCRIPT = REPO_ROOT / "scripts" / "worker-dispatch.sh"
+
+    def _write_executable(self, path: Path, content: str) -> None:
+        path.write_text(content, encoding="utf-8")
+        path.chmod(path.stat().st_mode | stat.S_IEXEC)
+
+    def test_auto_sandbox_enforces_ai_jail_when_preflight_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            bin_dir = tmp_path / "bin"
+            bin_dir.mkdir()
+            worktree_dir = tmp_path / "worktree"
+            worktree_dir.mkdir()
+            # Simulate a linked git worktree (.git as a file)
+            (worktree_dir / ".git").write_text("gitdir: /tmp/fake-main/.git/worktrees/wt1\n", encoding="utf-8")
+            telemetry_file = tmp_path / "telemetry.jsonl"
+            egress_dir = tmp_path / "egress"
+
+            self._write_executable(
+                bin_dir / "ai-jail",
+                "#!/usr/bin/env bash\n"
+                "for arg in \"$@\"; do\n"
+                "  if [[ \"$arg\" == \"status\" ]]; then\n"
+                "    echo '{\"version\":\"3.0.1\",\"schema_version\":1,\"blockers\":[]}'\n"
+                "    exit 0\n"
+                "  fi\n"
+                "done\n"
+                "echo \"JAILED_ARGS:$*\"\n"
+                "while [[ $# -gt 0 ]]; do\n"
+                "  if [[ \"$1\" == \"--\" ]]; then shift; break; fi\n"
+                "  shift\n"
+                "done\n"
+                "exec \"$@\"\n",
+            )
+            self._write_executable(
+                bin_dir / "claude",
+                "#!/usr/bin/env bash\n"
+                "echo \"CLAUDE_OK:$*\"\n",
+            )
+
+            env = os.environ.copy()
+            env.pop("SPEC_HARNESS_WORKER", None)
+            env["PATH"] = f"{bin_dir}:{env.get('PATH', '')}"
+            env["SPEC_ORCHESTRATOR_PROVIDER"] = "claude"
+            env["SPEC_TELEMETRY_LOG"] = str(telemetry_file)
+            env["SPEC_EGRESS_LOG_DIR"] = str(egress_dir)
+            env["SPEC_SANDBOX_EXTRA_HOSTS"] = "gitlab.internal.local"
+            # Leave SPEC_SANDBOX unset to verify default is 'auto'
+            env.pop("SPEC_SANDBOX", None)
+
+            res = subprocess.run(
+                [str(self.DISPATCH_SCRIPT), "standard", "plan", "dev", "Audit auth module", str(worktree_dir)],
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(res.returncode, 0, f"Unexpected failure: {res.stderr}")
+            self.assertIn("JAILED_ARGS:--harness claude --no-save-config --mask .env --mask .env.* --worktree --no-toolchains --allow-host gitlab.internal.local", res.stdout)
+            self.assertIn("CLAUDE_OK:", res.stdout)
+
+            telemetry = json.loads(telemetry_file.read_text(encoding="utf-8").strip())
+            self.assertEqual(telemetry["sandbox_mode"], "ai-jail")
+            self.assertEqual(telemetry["sandbox_status"], "enforced")
+            self.assertTrue(telemetry["egress_log"].startswith(str(egress_dir)))
+
+    def test_auto_sandbox_falls_back_when_preflight_reports_blockers(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            bin_dir = tmp_path / "bin"
+            bin_dir.mkdir()
+            telemetry_file = tmp_path / "telemetry.jsonl"
+
+            self._write_executable(
+                bin_dir / "ai-jail",
+                "#!/usr/bin/env bash\n"
+                "echo '{\"version\":\"3.0.1\",\"schema_version\":1,\"blockers\":[\"onboarding_required\"]}'\n"
+                "exit 3\n",
+            )
+            self._write_executable(
+                bin_dir / "claude",
+                "#!/usr/bin/env bash\n"
+                "echo \"UNJAILED_CLAUDE_OK\"\n",
+            )
+
+            env = os.environ.copy()
+            env.pop("SPEC_HARNESS_WORKER", None)
+            env["PATH"] = f"{bin_dir}:{env.get('PATH', '')}"
+            env["SPEC_ORCHESTRATOR_PROVIDER"] = "claude"
+            env["SPEC_TELEMETRY_LOG"] = str(telemetry_file)
+            env["SPEC_SANDBOX"] = "auto"
+
+            res = subprocess.run(
+                [str(self.DISPATCH_SCRIPT), "standard", "write", "dev", "Implement fix", str(tmp_path)],
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(res.returncode, 0)
+            self.assertIn("UNJAILED_CLAUDE_OK", res.stdout)
+            self.assertIn("falling back to unjailed run", res.stderr)
+
+            telemetry = json.loads(telemetry_file.read_text(encoding="utf-8").strip())
+            self.assertEqual(telemetry["sandbox_mode"], "off")
+            self.assertEqual(telemetry["sandbox_status"], "fallback-unconfigured")
+
+    def test_require_sandbox_fails_closed_with_exit_78_on_preflight_blocker(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            bin_dir = tmp_path / "bin"
+            bin_dir.mkdir()
+
+            self._write_executable(
+                bin_dir / "ai-jail",
+                "#!/usr/bin/env bash\n"
+                "echo '{\"version\":\"3.0.1\",\"schema_version\":1,\"blockers\":[\"onboarding_required\"]}'\n"
+                "exit 3\n",
+            )
+            self._write_executable(
+                bin_dir / "claude",
+                "#!/usr/bin/env bash\n"
+                "echo \"SHOULD_NOT_RUN\"\n",
+            )
+
+            env = os.environ.copy()
+            env.pop("SPEC_HARNESS_WORKER", None)
+            env["PATH"] = f"{bin_dir}:{env.get('PATH', '')}"
+            env["SPEC_ORCHESTRATOR_PROVIDER"] = "claude"
+            env["SPEC_SANDBOX"] = "require"
+
+            res = subprocess.run(
+                [str(self.DISPATCH_SCRIPT), "standard", "write", "dev", "Implement fix", str(tmp_path)],
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(res.returncode, 78)
+            self.assertNotIn("SHOULD_NOT_RUN", res.stdout)
+            self.assertIn("ai-jail configure claude", res.stderr)
 
 
 if __name__ == "__main__":
