@@ -353,6 +353,8 @@ class TestWorkerDispatchSandboxIntegration(unittest.TestCase):
                 "  printf 'gemini-4-neon-medium            Gemini 4 Neon (Medium)\\n'\n"
                 "  printf 'gemini-4-neon-low               Gemini 4 Neon (Low)\\n'\n"
                 "  printf 'gemini-4-hydrogen-high          Gemini 4 Hydrogen (High)\\n'\n"
+                "  printf 'gemini-4-hydrogen-medium        Gemini 4 Hydrogen (Medium)\\n'\n"
+                "  printf 'gemini-4-hydrogen-low           Gemini 4 Hydrogen (Low)\\n'\n"
                 "  exit 0\n"
                 "fi\n"
                 "echo \"AGY_ARGS:$*\"\n",
@@ -361,7 +363,9 @@ class TestWorkerDispatchSandboxIntegration(unittest.TestCase):
             env = os.environ.copy()
             env.pop("SPEC_HARNESS_WORKER", None)
             env.pop("SPEC_AGY_MODEL_CHEAP", None)
+            env.pop("SPEC_AGY_MODEL_STANDARD", None)
             env.pop("SPEC_AGY_MODEL_FRONTIER", None)
+            env.pop("SPEC_AGY_FRONTIER_FAMILY", None)
             env["PATH"] = f"{bin_dir}:{env.get('PATH', '')}"
             env["SPEC_ORCHESTRATOR_PROVIDER"] = "agy"
             env["SPEC_SANDBOX"] = "off"
@@ -375,7 +379,16 @@ class TestWorkerDispatchSandboxIntegration(unittest.TestCase):
                 env=env,
             )
             self.assertEqual(res_cheap.returncode, 0, res_cheap.stderr)
-            self.assertIn("--model gemini-4-neon-low --effort low", res_cheap.stdout)
+            self.assertIn("--model gemini-4-hydrogen-low --effort low", res_cheap.stdout)
+
+            res_std = subprocess.run(
+                [str(self.DISPATCH_SCRIPT), "standard", "plan", "dev", "Check code", str(tmp_path)],
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(res_std.returncode, 0, res_std.stderr)
+            self.assertIn("--model gemini-4-hydrogen-medium --effort medium", res_std.stdout)
 
             res_frontier = subprocess.run(
                 [str(self.DISPATCH_SCRIPT), "frontier", "plan", "architect", "Short memo", str(tmp_path)],
@@ -384,7 +397,18 @@ class TestWorkerDispatchSandboxIntegration(unittest.TestCase):
                 env=env,
             )
             self.assertEqual(res_frontier.returncode, 0, res_frontier.stderr)
-            self.assertIn("--model gemini-4-neon-high --effort high", res_frontier.stdout)
+            self.assertIn("--model gemini-4-hydrogen-high --effort high", res_frontier.stdout)
+
+            # Opt-in to neon for frontier family
+            env["SPEC_AGY_FRONTIER_FAMILY"] = "neon"
+            res_neon = subprocess.run(
+                [str(self.DISPATCH_SCRIPT), "frontier", "plan", "architect", "Short memo", str(tmp_path)],
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(res_neon.returncode, 0, res_neon.stderr)
+            self.assertIn("--model gemini-4-neon-high --effort high", res_neon.stdout)
 
 
 if __name__ == "__main__":

@@ -116,6 +116,8 @@ def call_api(prompt: str, options: Dict[str, Any], context: Dict[str, Any]) -> D
     env.pop("SPEC_HARNESS_WORKER", None)
     if "sandbox" in options_config:
         env["SPEC_SANDBOX"] = str(options_config["sandbox"])
+    if "model" in options_config and tier in ("cheap", "standard", "frontier"):
+        env[f"SPEC_AGY_MODEL_{tier.upper()}"] = str(options_config["model"])
 
     cmd = [
         str(DISPATCH_SCRIPT),

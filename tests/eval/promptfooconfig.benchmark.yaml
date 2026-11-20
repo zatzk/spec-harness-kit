@@ -1,0 +1,129 @@
+# spec-harness-kit Multi-Model Benchmark Matrix (Promptfoo)
+# Run with: npx promptfoo eval -c tests/eval/promptfooconfig.benchmark.yaml
+description: "Compare Gemini 4 Hydrogen, Gemini 3.8 Flash, and Gemini 4 Neon across spec-harness-kit tasks"
+
+prompts:
+  - file://scripts/prompt_builder.py:get_prompt
+
+providers:
+  - id: file://providers/dispatch_provider.py
+    label: "gemini-3.8-flash-low (cheap)"
+    config:
+      tier: "cheap"
+      model: "gemini-3.8-flash-low"
+
+  - id: file://providers/dispatch_provider.py
+    label: "gemini-4-hydrogen-low (cheap)"
+    config:
+      tier: "cheap"
+      model: "gemini-4-hydrogen-low"
+
+  - id: file://providers/dispatch_provider.py
+    label: "gemini-4-hydrogen-medium (standard)"
+    config:
+      tier: "standard"
+      model: "gemini-4-hydrogen-medium"
+
+  - id: file://providers/dispatch_provider.py
+    label: "gemini-4-hydrogen-high (frontier-value)"
+    config:
+      tier: "frontier"
+      model: "gemini-4-hydrogen-high"
+
+  - id: file://providers/dispatch_provider.py
+    label: "gemini-4-neon-medium (frontier-mid)"
+    config:
+      tier: "standard"
+      model: "gemini-4-neon-medium"
+
+defaultTest:
+  options:
+    cache: true
+
+tests:
+  - description: "@security-reviewer: Detects Hardcoded JWT and Backdoor in PR Diff"
+    vars:
+      agent_name: "security-reviewer"
+      diff_file: "diffs/hardcoded-jwt.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*FAIL"
+      - type: contains
+        value: "Problemas Críticos de Segurança"
+      - type: icontains
+        value: "JWT"
+      - type: javascript
+        value: "!output.includes('file://')"
+
+  - description: "@security-reviewer: Approves Clean Service Diff Without Secrets"
+    vars:
+      agent_name: "security-reviewer"
+      diff_file: "diffs/clean-service.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*PASS"
+      - type: contains
+        value: "Nenhum problema crítico de segurança identificado."
+
+  - description: "@algorithm-complexity-reviewer: Detects O(N*M) nested loop and Redis N+1 sequential calls"
+    vars:
+      agent_name: "algorithm-complexity-reviewer"
+      diff_file: "diffs/nested-n-plus-one.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*(FAIL|WARN)"
+      - type: contains
+        value: "```mermaid"
+      - type: regex
+        value: "(flowchart|graph)\\s+(TD|LR)"
+      - type: contains
+        value: "Tabela Comparativa de Complexidade Assintótica & ROI"
+      - type: regex
+        value: "(MGET|pipeline|Map|Set|O\\(N|linear|assintótic)"
+
+  - description: "@iac-security-reviewer: Flags Root User, Latest Tag, and Secret in Build Args"
+    vars:
+      agent_name: "iac-security-reviewer"
+      diff_file: "diffs/insecure-dockerfile.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*FAIL"
+      - type: contains
+        value: "Inconformidades Críticas de IaC & Containers"
+      - type: icontains
+        value: "root"
+      - type: javascript
+        value: "!output.includes('file://')"
+
+  - description: "@api-contract-fuzzer: Flags Unbounded Strings and Unbounded Array in DTO"
+    vars:
+      agent_name: "api-contract-fuzzer"
+      diff_file: "diffs/unbounded-dto.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*(FAIL|WARN)"
+      - type: contains
+        value: "Auditoria de Schemas & DTOs Identificados"
+      - type: icontains
+        value: "MaxLength"
+
+  - description: "@security-reviewer: Flags Disabled RLS, Exposed Service Role Key, and Unprotected Admin Route"
+    vars:
+      agent_name: "security-reviewer"
+      diff_file: "diffs/rls-disabled-shortcut.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*FAIL"
+      - type: regex
+        value: "(RLS|Row.?Level.?Security)"
+      - type: icontains
+        value: "SERVICE_ROLE_KEY"
+
+  - description: "@dev: Enforces Reproduce-Red Before First Production Edit on Bugfix"
+    vars:
+      agent_name: "dev"
+      diff_file: "bugs/checkout-nan-bug.md"
+      artifact_type: "Bug Report"
+    assert:
+      - type: regex
+        value: "(RED|reproduz|reproduce|failing test)"

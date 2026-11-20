@@ -196,7 +196,22 @@ resolve_agy_model() {
 
   local picked=""
   if [[ -s "$cache_file" ]]; then
-    picked="$(grep -E "^gemini-.*-${suffix}$" "$cache_file" | grep -v "orchestrator" | head -n 1 || true)"
+    local -a prefs=()
+    if [[ "$tier" == "frontier" ]]; then
+      prefs=("${SPEC_AGY_FRONTIER_FAMILY:-hydrogen}" "neon" "argon")
+    else
+      prefs=("hydrogen" "flash")
+    fi
+
+    local fam
+    for fam in "${prefs[@]}"; do
+      picked="$(grep -E "^gemini-.*${fam}.*-${suffix}$" "$cache_file" | grep -v "orchestrator" | head -n 1 || true)"
+      [[ -n "$picked" ]] && break
+    done
+
+    if [[ -z "$picked" ]]; then
+      picked="$(grep -E "^gemini-.*-${suffix}$" "$cache_file" | grep -v "orchestrator" | head -n 1 || true)"
+    fi
   fi
   printf '%s' "${picked:-$fallback}"
 }
