@@ -61,7 +61,10 @@ When flagging an architectural or design issue, **always propose the structural 
 ```
 
 ### 4. Dispatch Specialist Subagents
-Dispatch the available subagents (`security-reviewer`, `architecture-reviewer`, `lld-reviewer`, `algorithm-complexity-reviewer`, `angular-reviewer`, `backend-reviewer`, `qa-reviewer`, `dba-reviewer`) providing the full diff, project context, and prior comments summary.
+Dispatch the available subagents (`security-reviewer`, `architecture-reviewer`, `lld-reviewer`, `algorithm-complexity-reviewer`, `angular-reviewer`, `backend-reviewer`, `qa-reviewer`, `dba-reviewer`) providing the full diff, project context, and prior comments summary. Set `Model` explicitly on `invoke_subagent` instead of leaving it at `inherit`:
+- **Triage / Diff Scraping (`qa-scout`, `researcher`):** `Model: "flash_lite"` or `"flash"`.
+- **Stack / Test / Schema Reviewers (`angular-reviewer`, `backend-reviewer`, `qa-reviewer`, `dba-reviewer`, `lld-reviewer`):** `Model: "flash"` or `"inherit"`.
+- **Security / HLD / Big-O Reviewers (`security-reviewer`, `architecture-reviewer`, `algorithm-complexity-reviewer`, `threat-modeling-reviewer`):** `Model: "pro"`.
 
 #### Prove-the-Bug Gate (Adversarial Repro Rule)
 Every **P0/P1 functional, concurrency, or security finding** MUST include a concrete reproduction test, curl/CLI command, or minimal script demonstrating the failure. If a reviewer cannot execute a repro in the current sandbox, the finding MUST be explicitly tagged `[UNVERIFIED-STATIC]` so downstream triage separates proven bugs from static speculation.

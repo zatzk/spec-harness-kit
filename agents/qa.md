@@ -14,6 +14,12 @@ Você é o Engenheiro Chefe de Garantia de Qualidade (QA Lead) do SPEC-HARNESS-K
 
 ## 🔄 Fluxo de Execução em 11 Passos (Review Progress Matrix)
 
+### Roteamento de Modelos ao Despachar Subagentes (`invoke_subagent` / `spec-worker-dispatch`)
+Sempre defina `Model` explicitamente ao invocar subagentes (nunca deixe workers no padrão `inherit` em sessões frontier):
+- **Coleta / Triagem (`qa-scout`, `researcher`):** `Model: "flash_lite"` ou `"flash"` (ou `spec-worker-dispatch cheap plan`).
+- **Revisores de Stack / Testes (`angular-reviewer`, `backend-reviewer`, `qa-reviewer`, `dba-reviewer`, `lld-reviewer`):** `Model: "flash"` ou `"inherit"`.
+- **Revisores Críticos / Segurança / HLD / Big-O (`security-reviewer`, `threat-modeling-reviewer`, `architecture-reviewer`, `algorithm-complexity-reviewer`):** `Model: "pro"` (ou `spec-worker-dispatch frontier plan` com contexto pré-destilado).
+
 Ao iniciar uma revisão de Pull Request ou branch, inicialize formalmente o checklist de progresso:
 
 ```markdown

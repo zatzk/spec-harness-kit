@@ -159,16 +159,59 @@ now_ms() {
 }
 START_MS=$(now_ms)
 
+resolve_agy_model() {
+  local tier="$1"
+  local suffix override fallback
+  case "$tier" in
+    cheap)    suffix="low";    override="${SPEC_AGY_MODEL_CHEAP:-}";    fallback="gemini-4-hydrogen-low" ;;
+    standard) suffix="medium"; override="${SPEC_AGY_MODEL_STANDARD:-}"; fallback="gemini-4-hydrogen-medium" ;;
+    frontier) suffix="high";   override="${SPEC_AGY_MODEL_FRONTIER:-}"; fallback="gemini-4-hydrogen-high" ;;
+    *) echo "Unknown tier: $tier" >&2; return 1 ;;
+  esac
+
+  if [[ -n "$override" ]]; then
+    printf '%s' "$override"
+    return 0
+  fi
+
+  local cache_dir="${SPEC_MODEL_CACHE_DIR:-$HOME/.cache/spec-harness-kit}"
+  local cache_file="$cache_dir/agy-models.txt"
+  local ttl="${SPEC_MODEL_CACHE_TTL_SEC:-3600}"
+  local now_sec mtime age=999999
+
+  if [[ -f "$cache_file" ]]; then
+    now_sec="$(date +%s)"
+    mtime="$(stat -c %Y "$cache_file" 2>/dev/null || stat -f %m "$cache_file" 2>/dev/null || echo 0)"
+    age=$(( now_sec - mtime ))
+  fi
+
+  if [[ ! -s "$cache_file" ]] || [[ "$age" -ge "$ttl" ]]; then
+    mkdir -p "$cache_dir" 2>/dev/null || true
+    local raw_models
+    raw_models="$(timeout 8s agy models 2>/dev/null | tr '\r' '\n' | awk '/^[a-z0-9][a-z0-9.-]+[[:space:]]+/ { print $1 }' || true)"
+    if [[ -n "$raw_models" ]]; then
+      printf '%s\n' "$raw_models" > "$cache_file" 2>/dev/null || true
+    fi
+  fi
+
+  local picked=""
+  if [[ -s "$cache_file" ]]; then
+    picked="$(grep -E "^gemini-.*-${suffix}$" "$cache_file" | grep -v "orchestrator" | head -n 1 || true)"
+  fi
+  printf '%s' "${picked:-$fallback}"
+}
+
 # 6. Execute provider with timeout and stripped MCP/subagent overhead
 set +e
 case "$PROVIDER" in
   agy)
     case "$TIER" in
-      cheap)    MODEL="gemini-4-hydrogen-low"; EFFORT="low" ;;
-      standard) MODEL="gemini-4-hydrogen-medium"; EFFORT="medium" ;;
-      frontier) MODEL="gemini-4-hydrogen-high"; EFFORT="high" ;;
+      cheap)    EFFORT="low" ;;
+      standard) EFFORT="medium" ;;
+      frontier) EFFORT="high" ;;
       *) echo "Unknown tier: $TIER" >&2; exit 1 ;;
     esac
+    MODEL="$(resolve_agy_model "$TIER")"
     AGY_MODE=$([[ "$MODE" == "plan" ]] && echo "plan" || echo "accept-edits")
     # CRITICAL: --print="$PROMPT" must be attached and placed last so agy does not swallow flags
     timeout "${TIMEOUT_SEC}s" "${SANDBOX_PREFIX[@]}" agy \

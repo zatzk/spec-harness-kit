@@ -58,7 +58,7 @@ manifest:
 
 ## 🛑 Invariante de Contenção de Contexto (Context Insulation)
 
-O `@qa-scout` roda no `tier-cheap` (ex: `gemini-3.8-flash-low` ou `haiku`) em modo estritamente read-only (`plan`).
+O `@qa-scout` roda no `tier-cheap` (`invoke_subagent` com `Model: "flash_lite"`/`"flash"`, ou `spec-worker-dispatch cheap plan`, resolvendo dinamicamente o modelo `*-low` ativo via `agy models` ou `haiku`) em modo estritamente read-only (`plan`).
 - **PROIBIDO:** Modificar arquivos, invocar subagentes recursivos ou retornar código-fonte bruto ou logs inteiros.
 - **LIMITE MÁXIMO:** 1.500 tokens por retorno.
 - **FORMATO:** Apenas o Inspection Manifest YAML ou resumo executivo contendo ponteiros exatos `arquivo:linha`. Proteja o contexto do orquestrador mestre a todo custo.

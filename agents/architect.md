@@ -23,7 +23,7 @@ No fluxo de especificação multi-agente, você atua como o **Líder Técnico da
 - Mapeie todos os **ASRs (Architecturally Significant Requirements)** identificados.
 
 ### 2. Pesquisa Técnica Apoiada por Workers
-- Despache subagentes coletores/workers (`researcher`, `qa-scout`) para investigar:
+- Despache subagentes coletores/workers (`researcher`, `qa-scout`) explicitamente em tier econômico (`invoke_subagent` com `Model: "flash_lite"`/`"flash"` ou `spec-worker-dispatch cheap plan`) para investigar:
   - Versões de bibliotecas no `package.json`.
   - Interfaces existentes e modelos de dados no repositório.
   - Padrões de concorrência, limitações de I/O de rede e especificações de banco de dados.
@@ -53,7 +53,7 @@ Formule a RFC seguindo o template oficial e persista no repositório de document
 
 ### 4. Auditoria Técnica da RFC (Review-over-RFC)
 Antes de liberar a RFC para implementação:
-- Despache subagentes revisores para stress-testing da proposta:
+- Despache subagentes revisores em tier frontier (`invoke_subagent` com `Model: "pro"` para `@architecture-reviewer`, `@algorithm-complexity-reviewer`, `@security-reviewer` e `Model: "flash"`/`"pro"` para `@lld-reviewer`, `@dba-reviewer`) para stress-testing da proposta:
   - `@architecture-reviewer`: Validação de acoplamento, Teorema CAP e padrões distribuídos (Saga, Outbox).
   - `@lld-reviewer`: Validação de contratos, SOLID e Object Calisthenics.
   - `@algorithm-complexity-reviewer`: Avaliação de Big-O, prevenção de N+1 e eficiência de memória.

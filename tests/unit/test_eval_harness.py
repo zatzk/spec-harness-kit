@@ -337,6 +337,55 @@ class TestWorkerDispatchSandboxIntegration(unittest.TestCase):
             self.assertNotIn("SHOULD_NOT_RUN", res.stdout)
             self.assertIn("ai-jail configure claude", res.stderr)
 
+    def test_agy_resolves_latest_active_models_from_agy_models(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            bin_dir = tmp_path / "bin"
+            bin_dir.mkdir()
+            cache_dir = tmp_path / "cache"
+
+            self._write_executable(
+                bin_dir / "agy",
+                "#!/usr/bin/env bash\n"
+                "if [[ \"$1\" == \"models\" ]]; then\n"
+                "  printf '\\r⠋ Fetching available models...\\r'\n"
+                "  printf 'gemini-4-neon-high              Gemini 4 Neon (High)\\n'\n"
+                "  printf 'gemini-4-neon-medium            Gemini 4 Neon (Medium)\\n'\n"
+                "  printf 'gemini-4-neon-low               Gemini 4 Neon (Low)\\n'\n"
+                "  printf 'gemini-4-hydrogen-high          Gemini 4 Hydrogen (High)\\n'\n"
+                "  exit 0\n"
+                "fi\n"
+                "echo \"AGY_ARGS:$*\"\n",
+            )
+
+            env = os.environ.copy()
+            env.pop("SPEC_HARNESS_WORKER", None)
+            env.pop("SPEC_AGY_MODEL_CHEAP", None)
+            env.pop("SPEC_AGY_MODEL_FRONTIER", None)
+            env["PATH"] = f"{bin_dir}:{env.get('PATH', '')}"
+            env["SPEC_ORCHESTRATOR_PROVIDER"] = "agy"
+            env["SPEC_SANDBOX"] = "off"
+            env["SPEC_MODEL_CACHE_DIR"] = str(cache_dir)
+            env["SPEC_DISABLE_TELEMETRY"] = "1"
+
+            res_cheap = subprocess.run(
+                [str(self.DISPATCH_SCRIPT), "cheap", "plan", "qa-scout", "Scan repo", str(tmp_path)],
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(res_cheap.returncode, 0, res_cheap.stderr)
+            self.assertIn("--model gemini-4-neon-low --effort low", res_cheap.stdout)
+
+            res_frontier = subprocess.run(
+                [str(self.DISPATCH_SCRIPT), "frontier", "plan", "architect", "Short memo", str(tmp_path)],
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            self.assertEqual(res_frontier.returncode, 0, res_frontier.stderr)
+            self.assertIn("--model gemini-4-neon-high --effort high", res_frontier.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

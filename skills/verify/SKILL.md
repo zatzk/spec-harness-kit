@@ -10,7 +10,7 @@ Verify completed work against real execution and user behavior—never rely sole
 ## Rules
 
 1. **Deterministic Checks First:** Run code-based checks (lint, typecheck, unit, integration, mutation) before invoking any LLM grading.
-2. **Independent Grader:** When grading acceptance criteria that code cannot check alone (UX, end-to-end behavior, runtime logs), dispatch a **fresh grader context** (`spec-worker-dispatch standard plan qa ...` or an isolated subagent) given only the spec/acceptance criteria and disk/runtime artifacts—never the builder's conversation history.
+2. **Independent Grader:** When grading acceptance criteria that code cannot check alone (UX, end-to-end behavior, runtime logs), dispatch a **fresh grader context** (`invoke_subagent` with `Model: "pro"`, or `spec-worker-dispatch standard plan qa ...`) given only the spec/acceptance criteria and disk/runtime artifacts—never the builder's conversation history.
 3. **No Ad-Hoc Patching:** If verification fails due to a spec/design mismatch, record the exact failing artifact/output and route back to Align/Plan rather than applying blind workarounds.
 4. **OS-Sandboxed Execution (`ai-jail` when available):** When `ai-jail` is installed on the host, execute untrusted project test suites, build scripts, and property-based fuzzers inside a credential-free, network-fenced jail (`ai-jail --no-agent-state --no-network --no-save-config --mask '.env' --mask '.env.*' [--forward-port <PORT>] -- <verify_cmd>`). This guarantees zero access to host LLM credentials (`~/.claude`, `~/.gemini`, `~/.codex`) or external network endpoints during verification.
 
