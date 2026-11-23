@@ -16,6 +16,7 @@ class TestDocumentStandards(unittest.TestCase):
         "feature-spec-standard.md",
         "re-implementation-standard.md",
         "threat-modeling-standard.md",
+        "ui-craft-standard.md",
     ]
 
     def test_standards_directory_and_files_exist(self):

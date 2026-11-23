@@ -119,3 +119,20 @@ tests:
     assert:
       - type: regex
         value: "(RED|reproduz|reproduce|failing test)"
+
+  # =========================================================================
+  # Suite 7: @ui Visual Craft, Anti-Slop & Contrast Audit
+  # =========================================================================
+  - description: "@ui: Flags AI-slop patterns, nested cards, low-contrast tokens, and missing states"
+    vars:
+      agent_name: "ui"
+      diff_file: "diffs/sloppy-ui-component.diff"
+    assert:
+      - type: regex
+        value: "STATUS:\\s*FAIL"
+      - type: icontains
+        value: "AA"
+      - type: regex
+        value: "(L0|L1|L2)"
+      - type: javascript
+        value: "!output.includes('file://')"

@@ -97,7 +97,7 @@ O `@spec-master` NUNCA deve deixar `invoke_subagent` no padrão `inherit` indist
 
 1. **`invoke_subagent` (Preferido para paralelismo assíncrono, `/agents` e `Workspace: "branch"`):** Sempre passe `Model` explicitamente:
    - **Workers / Scouts (`qa-scout`, `researcher`, `research`):** `Model: "flash_lite"` ou `"flash"` (leitura, triage, mapeamento).
-   - **Builders / Revisores de Stack (`dev`, `backend-reviewer`, `angular-reviewer`, `qa-reviewer`, `dba-reviewer`, `lld-reviewer`):** `Model: "flash"` ou `"inherit"`.
+   - **Builders / Revisores de Stack (`dev`, `ui`, `backend-reviewer`, `angular-reviewer`, `qa-reviewer`, `dba-reviewer`, `lld-reviewer`):** `Model: "flash"` ou `"inherit"` (escale `ui` para `Model: "pro"` em replicação visual comp-led complexa ou direção visual de alta precisão).
    - **Thinkers / Portões Críticos (`architect`, `security-reviewer`, `threat-modeling-reviewer`, `architecture-reviewer`, `algorithm-complexity-reviewer`):** `Model: "pro"` (aplicando o Scarce Frontier Guard abaixo).
 2. **`spec-worker-dispatch` (`~/.local/bin/spec-worker-dispatch` ou `./scripts/worker-dispatch.sh`):** Use via `run_command` quando precisar de isolamento OS (`ai-jail` / `SPEC_SANDBOX=auto|require`), telemetria JSONL, tripwire git read-only ou travar exatamente `tier-cheap` (`plan`) / `tier-frontier` (`plan`).
 
@@ -166,6 +166,7 @@ git -C code-documentation add <caminho-do-arquivo>
    * PRDs preliminares devem aderir ao `rules/standards/heilmeier-standard.md`.
    * Designs macro e RFCs devem aderir ao `rules/standards/zoom-out-standard.md` e `rules/standards/feature-spec-standard.md`.
    * Planos de implementação devem respeitar a Zero-Decision Rule do `rules/standards/implementation-readiness-standard.md`.
+   * Designs visuais, design systems (`DESIGN.md`) e replicações de UI devem aderir ao `rules/standards/ui-craft-standard.md` (sob responsabilidade do `@ui`, em parceria com `@ux` para fluxos e IA).
 3. **Anti-Sycophancy (Sem Bajulação):** Comunicação técnica direta, proibindo elogios decorativos e priorizando a verificação de trade-offs e falhas.
 4. **Independent Marking & Disk Verification (Never Mark Own Homework):** Durante `/implement-spec`, o orquestrador **não escreve código de aplicação**, valida retornos de subagentes contra o estado real em disco (`git diff`, exit code do `Verify command`) e delega a verificação final de aceitação (`/verify`) a um contexto fresco e isolado.
 

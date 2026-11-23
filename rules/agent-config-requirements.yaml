@@ -48,10 +48,17 @@ agents:
       - rules/technical-preferences.md
 
   ux:
-    description: "UX/UI Designer: Expert in user experience design, atomic design systems, and prototyping."
+    description: "UX & Experience Designer: User journeys, information architecture, structural wireframes, and UX copy."
     performance_target: "<50ms"
     dependencies:
       - rules/rules.md
+
+  ui:
+    description: "UI Engineer & Visual Design Director: Faithful design replication, perception-first visual hierarchy, AA tokens, and anti-slop UI audits."
+    performance_target: "<50ms"
+    dependencies:
+      - rules/rules.md
+      - rules/standards/ui-craft-standard.md
 
   writer:
     description: "Senior Writer: Specialized in technical documentation, blog posts, changelogs, and content lifecycle."
