@@ -34,9 +34,16 @@ Ao analisar os diffs e arquivos de frontend, valide **obrigatoriamente** os segu
 7. **Estilização e Design System:**
    - **Proibição Absoluta de `::ng-deep`:** Nenhuma regra CSS/SCSS deve conter `::ng-deep`.
    - **Sem Cores Hardcoded:** Proibido hexadecimais (`#fff`, `#1a73e8`) ou RGB literais. Usar sempre as variáveis CSS e classes utilitárias do Design System.
+   - **Two-Tier CSS Custom Properties:** Componentes reutilizáveis devem expor `--<component>-<prop>` com fallback para tokens globais do tema, evitando fallbacks arbitrários e `width: 100%` não sobrescrevível em primitivos básicos.
+   - **Sem Layout Imperativo via `style`:** Manter layout estático em `.scss`; reservar mutação imperativa de `style.*` apenas para coordenadas dinâmicas em runtime.
 8. **Fluxos Reativos sem Conversão para Promise:**
    - Proibido converter observables em promises no ciclo de UI (`firstValueFrom()`, `lastValueFrom()`, `.toPromise()`) para usar com `async/await`.
    - Manter fluxos reativos puros via operadores RxJS ou convertendo para signals via `toSignal()`.
+9. **Acessibilidade Semântica (a11y):**
+   - `role="region"` obrigatório em `<div>` genéricos que recebem `aria-label`/`aria-labelledby`.
+   - `aria-describedby` deve referenciar IDs reais no DOM (nunca texto cru; sem IDs duplicados em `@for`).
+   - Usar `??` (nunca `||`) ao resolver `alt` e atributos ARIA para preservar `alt=""` decorativo.
+   - Proteger restauração de foco em modais/drawers no mount inicial para não roubar foco ao carregar a página.
 
 ## 📄 Contrato de Retorno (Output Schema)
 

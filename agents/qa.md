@@ -66,6 +66,7 @@ Toda auditoria deve cobrir integralmente os 5 eixos fundamentais:
    - Fluxo de controle direto sem aninhamentos desnecessários.
    - Ausência de artefatos mortos (`_unused`, comentários de código deletado).
    - Detecção de antipadrões: condicionais remendadas em fluxos alheios exigem extração de políticas ou dispatchers dedicados.
+   - **Anti-Erosão Aditiva (Subtraction Check):** Sinalizar remendos puramente aditivos que contornam sintomas criando novos wrappers/ramificações sem remover caminhos mortos ou obsoletos; exigir simplificação e deleção de código substituído.
 3. **Arquitetura (Architecture):**
    - Respeito estrito aos limites de camadas (Inversão de Dependência, DTOs explícitos, sem vazamento de lógica de negócio para transporte ou apresentação).
    - Avaliação de complexidade: a refatoração realmente eliminou complexidade ou apenas a mudou de lugar?

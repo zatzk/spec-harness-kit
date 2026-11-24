@@ -16,6 +16,12 @@ Use this template for writing the PR body:
 
 <diagram, diff-sketch, or tree>
 
+## Human Focus Map
+
+- **Read first (high-risk intent):** `<path>` — <why>
+- **Mechanical / low-risk:** <tests/generated/renames>
+- **Removed / simplified:** <dead or superseded code deleted, or "None (additive only)">
+
 ## Evidence
 
 - **Before:** <screenshot/output/failing test run>
@@ -154,6 +160,10 @@ function expandSkill(command: string): string {
 Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to answer the user's current question or the options to resolve the current discussion point.
 
 You may use one of these, you may use several, it is unlikely you will use all of them. Use your judgement and don't overwhelm the user.
+
+### Human Focus Map
+
+Address review asymmetry: highlight the ~20% of files holding real risk or architectural intent so human reviewers spend attention where it matters. Call out deleted or superseded paths (anti-additive-erosion), and warn/recommend splitting the PR when logic diff exceeds ~400–500 LOC without clear justification.
 
 ### Evidence
 

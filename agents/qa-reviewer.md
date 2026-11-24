@@ -21,6 +21,10 @@ Você é um engenheiro sênior de QA (Quality Assurance) e testes automatizados.
    - Padrão AAA (Arrange, Act, Assert) bem delimitado.
    - Ausência de testes tautológicos (testes que sempre passam ou testam apenas a própria biblioteca de mock).
    - Mockings abusivos que escondem bugs reais na integração de módulos.
+   - **Asserções Fracas (Weak Assertions):** Sinalizar asserções genéricas (`expect(res).not.toBeNull()`, `toBeDefined()`, `toBeTruthy()`) em payloads/objetos complexos sem validar campos, estrutura, efeitos colaterais ou eventos emitidos.
+   - **Testes Vazios (Empty / No-Throw Smoke):** Sinalizar testes que executam código sem nenhuma asserção ou verificação de mock (exceto smoke tests explicitamente marcados).
+   - **Verificação de Argumentos em Mocks:** Exigir que mocks/spies validem os parâmetros exatos recebidos (`toHaveBeenCalledWith(...)`) em vez de apenas `toHaveBeenCalled()`.
+   - **Proibição de Module Mocking quando há DI/Seams:** Sinalizar `vi.mock()` / `jest.mock()` / `unstable_mockModule` quando a dependência pode ser injetada via construtor, token ou contrato (evita acoplar testes a caminhos de módulo e mascarar quebras reais de integração).
 3. **Auditoria e QA Score:**
    - Realizar o cálculo de **QA Score (0 a 100)** com base no [qa-test-harness.md](file:///home/lucasnsf/Aton/.agents/rules/qa-test-harness.md).
 

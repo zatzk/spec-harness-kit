@@ -226,6 +226,8 @@ Before finalizing updates:
 - ✓ Simplest accurate description?
 - ✓ Adds unique value?
 - ✓ Not duplicating content from elsewhere?
+- ✓ README setup/build/test commands cross-checked against actual manifests (`package.json`, `pyproject.toml`, `Makefile`) — no stale scripts or flags?
+- ✓ Terminology and exported public API signatures synced with `GLOSSARY.md` (if present) and actual entrypoints?
 
 **doc-lookup Compatibility**:
 - ✓ Major sections (## headings) have explicit anchors?

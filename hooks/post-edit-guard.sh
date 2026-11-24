@@ -2,7 +2,8 @@
 set -euo pipefail
 
 # PostToolUse hook: scans edited code files for mechanical rule violations
-# (hardcoded secret fallbacks, TypeScript 'any', ::ng-deep, leftover [DEBUG-*] logs)
+# (hardcoded secret fallbacks, TypeScript 'any', ::ng-deep, leftover [DEBUG-*] logs,
+# chained type assertions, silent empty catch blocks, and unjustified suppressions)
 # and records a workspace dirty marker for stop-verify-gate.sh.
 
 TARGET_FILE="${1:-}"
@@ -55,6 +56,33 @@ fi
 MATCHES="$(grep -nE "\[DEBUG-[a-zA-Z0-9_-]+\]" "$TARGET_FILE" || true)"
 if [[ -n "$MATCHES" ]]; then
   VIOLATIONS+=$'\n'"[Cleanup: leftover debug tag in $TARGET_FILE]"$'\n'"$MATCHES"
+fi
+
+# 5. Chained type assertions (as unknown as / as object as / as any as)
+if [[ "$EXT" == "ts" || "$EXT" == "tsx" ]]; then
+  MATCHES="$(grep -nE "\bas[[:space:]]+(unknown|object|any)[[:space:]]+as\b" "$TARGET_FILE" || true)"
+  if [[ -n "$MATCHES" ]]; then
+    VIOLATIONS+=$'\n'"[Anti-Slop: chained type assertion in $TARGET_FILE]"$'\n'"$MATCHES"
+  fi
+fi
+
+# 6. Silent empty catch blocks
+if [[ "$EXT" == "ts" || "$EXT" == "tsx" || "$EXT" == "js" || "$EXT" == "jsx" || "$EXT" == "mjs" || "$EXT" == "cjs" ]]; then
+  MATCHES="$(grep -nE "\bcatch[[:space:]]*(\([^)]*\))?[[:space:]]*\{[[:space:]]*\}" "$TARGET_FILE" || true)"
+  if [[ -n "$MATCHES" ]]; then
+    VIOLATIONS+=$'\n'"[Anti-Slop: silent empty catch block in $TARGET_FILE]"$'\n'"$MATCHES"
+  fi
+fi
+
+# 7. Unjustified compiler/linter suppressions without inline reason
+if [[ "$EXT" == "ts" || "$EXT" == "tsx" || "$EXT" == "js" || "$EXT" == "jsx" || "$EXT" == "mjs" || "$EXT" == "cjs" ]]; then
+  TS_SUPPRESS="$(grep -nE "@ts-(ignore|nocheck)[[:space:]]*($|\*/)" "$TARGET_FILE" || true)"
+  ESLINT_SUPPRESS="$( (grep -nE "eslint-disable(-next-line|-line)?" "$TARGET_FILE" || true) | grep -vE " --[[:space:]]+[A-Za-z0-9]" || true )"
+  if [[ -n "$TS_SUPPRESS" || -n "$ESLINT_SUPPRESS" ]]; then
+    VIOLATIONS+=$'\n'"[Anti-Slop: unjustified @ts-ignore/@ts-nocheck/eslint-disable (add inline reason or '-- <why>') in $TARGET_FILE]"
+    [[ -n "$TS_SUPPRESS" ]] && VIOLATIONS+=$'\n'"$TS_SUPPRESS"
+    [[ -n "$ESLINT_SUPPRESS" ]] && VIOLATIONS+=$'\n'"$ESLINT_SUPPRESS"
+  fi
 fi
 
 # Mark workspace dirty so stop-verify-gate.sh knows checks must run

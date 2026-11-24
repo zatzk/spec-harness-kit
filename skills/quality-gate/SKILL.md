@@ -87,6 +87,9 @@ Add to `.eslintrc.json`:
 }
 ```
 
+#### D. Oxlint Anti-Slop Rules (Recommended for Vite / Oxlint Repos)
+For TypeScript/JavaScript projects using Oxlint, prefer [`cloudflare/oxlint-config`](https://github.com/cloudflare/oxlint-config) (or selective vendored rules from [`dmmulroy/anti-slop`](https://github.com/dmmulroy/anti-slop) such as `no-chained-type-assertions`, `no-reduce-accumulator-copy`, `no-module-mocking`, `require-safety-comment-for-type-assertion`).
+
 ---
 
 ### 2. Go (Golang)

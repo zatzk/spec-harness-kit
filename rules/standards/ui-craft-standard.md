@@ -30,6 +30,8 @@ Fix perceptual gates **bottom-up** (upstream failures block everything downstrea
 - Every `(foreground-token × declared-background)` pair MUST meet **WCAG 2.1 AA** by construction: ≥ 4.5:1 for normal text & placeholders, ≥ 3:1 for large text & UI controls (aim for AAA 7:1 on medical, financial, government, or educational surfaces).
 - **12px Minimum Text Floor** for readable UI copy; never rely on opacity-faded mid-grey tokens (e.g., `#6b7380` on white) or low-contrast brand colors on tinted backgrounds (ship dedicated AA text variants, reserving display brand color for non-text surfaces).
 - On colored surfaces, tint secondary text from that surface's hue/foreground — never flat grey.
+- **Two-Tier CSS Custom Property Overrides:** Reusable components expose component-scoped variables falling back to global theme tokens (`var(--<component>-<prop>, var(--<theme-token>))`) instead of hardcoding arbitrary dimension/color fallbacks.
+- **Static Layout Styles & Container Sizing:** Keep static layout styles in stylesheets (never mutate `element.style.display` / `gap` imperatively in render/lifecycle hooks except for runtime-computed coordinates), and avoid un-overridable `width: 100%` on basic reusable components so callers can compose them in flex/grid layouts.
 
 ## Gate 4: Hard Craft Floor & AI-Slop Bans
 Automatic **Fail** unless explicitly demanded by a pinned brief or incumbent design:
@@ -39,6 +41,11 @@ Automatic **Fail** unless explicitly demanded by a pinned brief or incumbent des
 - Emoji/Unicode glyphs substituting for an icon library; monospace used as "tech" costume outside code/data/metrics; unstyled browser defaults on custom surfaces (missing `tabular-nums` on aligned numbers, clashing default focus rings/selection).
 - Hardcoded hex colors bypassing project tokens/CSS variables or raw third-party primitives bypassing project wrappers (e.g., PrimeNG wrappers in Angular projects).
 
-## Gate 5: 9-State Resilience & Ethical UI Gate
+## Gate 5: 9-State Resilience, Semantic A11y & Ethical UI Gate
 - **9-State Visual Coverage:** Every interactive screen/component accounts visually for `default`, `hover`, `focus-visible`, `active`, `disabled`, `loading/skeleton`, `empty`, `error/recovery`, and `stress/overflow` (long text truncation/wrapping, narrow mobile viewport, dark/light theme, `prefers-reduced-motion`).
+- **Semantic A11y Traps:**
+  - Attach `role="region"` whenever `aria-label` or `aria-labelledby` is applied to a generic `<div>` container.
+  - Bind `aria-describedby` strictly to rendered DOM element IDs (never raw text strings; place error wrapper IDs outside loops so IDs are never duplicated).
+  - Use nullish coalescing (`??`) instead of `||` for `alt` and ARIA text attributes so explicit decorative `alt=""` is preserved; omit absent ARIA attributes (`null`/unbound) rather than emitting empty attributes.
+  - Guard modal/dialog/dropdown focus restoration on initial mount (`isMounted`/`hasInteracted`) so initially closed overlays never steal focus on page load.
 - **Ethical UI Gate (Alignment, Sincerity, Golden Rule):** Refuse deceptive visual asymmetry (e.g., bright primary "Accept All" vs. low-contrast hidden "Reject/Cancel", fake urgency/scarcity badges).

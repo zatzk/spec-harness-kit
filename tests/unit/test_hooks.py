@@ -72,6 +72,32 @@ class TestHarnessHooks(unittest.TestCase):
             res_clean = run_hook("post-edit-guard.sh", {"tool_input": {"file_path": str(clean_ts)}}, cwd=tmp)
             self.assertEqual(res_clean.returncode, 0)
 
+    def test_post_edit_flags_chained_casts_empty_catch_and_bare_suppressions(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bad_ts = Path(tmp) / "slop.ts"
+            bad_ts.write_text(
+                "const user = input as unknown as User;\n"
+                "try { run(); } catch (e) {}\n"
+                "// @ts-ignore\n"
+                "// eslint-disable-next-line no-console\n",
+                encoding="utf-8",
+            )
+            res = run_hook("post-edit-guard.sh", {"tool_input": {"file_path": str(bad_ts)}}, cwd=tmp)
+            self.assertEqual(res.returncode, 2)
+            self.assertIn("chained type assertion", res.stderr)
+            self.assertIn("silent empty catch block", res.stderr)
+            self.assertIn("unjustified @ts-ignore/@ts-nocheck/eslint-disable", res.stderr)
+
+            justified_ts = Path(tmp) / "justified.ts"
+            justified_ts.write_text(
+                "// @ts-ignore: upstream type bug\n"
+                "// eslint-disable-next-line no-console -- CLI output\n"
+                "try { run(); } catch (e) { logger.error(e); }\n",
+                encoding="utf-8",
+            )
+            res_ok = run_hook("post-edit-guard.sh", {"tool_input": {"file_path": str(justified_ts)}}, cwd=tmp)
+            self.assertEqual(res_ok.returncode, 0)
+
     def test_stop_verify_gate_blocks_failing_check_and_clears_on_pass(self):
         with tempfile.TemporaryDirectory() as tmp:
             code_file = Path(tmp) / "app.ts"
